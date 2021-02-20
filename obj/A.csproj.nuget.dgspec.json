@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jacob\\source\\repos\\A\\A\\A.csproj": {}
+    "C:\\Coding-Projects\\RPG\\Code\\RPG-Engine\\A.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jacob\\source\\repos\\A\\A\\A.csproj": {
+    "C:\\Coding-Projects\\RPG\\Code\\RPG-Engine\\A.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jacob\\source\\repos\\A\\A\\A.csproj",
+        "projectUniqueName": "C:\\Coding-Projects\\RPG\\Code\\RPG-Engine\\A.csproj",
         "projectName": "A",
-        "projectPath": "C:\\Users\\jacob\\source\\repos\\A\\A\\A.csproj",
+        "projectPath": "C:\\Coding-Projects\\RPG\\Code\\RPG-Engine\\A.csproj",
         "packagesPath": "C:\\Users\\jacob\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jacob\\source\\repos\\A\\A\\obj\\",
+        "outputPath": "C:\\Coding-Projects\\RPG\\Code\\RPG-Engine\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jacob\\AppData\\Roaming\\NuGet\\NuGet.Config",
