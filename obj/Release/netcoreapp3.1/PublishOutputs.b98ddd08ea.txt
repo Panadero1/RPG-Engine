@@ -1,0 +1,5 @@
+C:\Users\jacob\source\repos\A\A\bin\Release\netcoreapp3.1\publish\A.exe
+C:\Users\jacob\source\repos\A\A\bin\Release\netcoreapp3.1\publish\A.dll
+C:\Users\jacob\source\repos\A\A\bin\Release\netcoreapp3.1\publish\A.deps.json
+C:\Users\jacob\source\repos\A\A\bin\Release\netcoreapp3.1\publish\A.runtimeconfig.json
+C:\Users\jacob\source\repos\A\A\bin\Release\netcoreapp3.1\publish\A.pdb
