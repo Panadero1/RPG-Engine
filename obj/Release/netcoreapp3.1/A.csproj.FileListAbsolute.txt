@@ -1,0 +1,13 @@
+C:\Users\jacob\source\repos\A\A\bin\Release\netcoreapp3.1\A.exe
+C:\Users\jacob\source\repos\A\A\bin\Release\netcoreapp3.1\A.deps.json
+C:\Users\jacob\source\repos\A\A\bin\Release\netcoreapp3.1\A.runtimeconfig.json
+C:\Users\jacob\source\repos\A\A\bin\Release\netcoreapp3.1\A.runtimeconfig.dev.json
+C:\Users\jacob\source\repos\A\A\bin\Release\netcoreapp3.1\A.dll
+C:\Users\jacob\source\repos\A\A\bin\Release\netcoreapp3.1\A.pdb
+C:\Users\jacob\source\repos\A\A\obj\Release\netcoreapp3.1\A.csprojAssemblyReference.cache
+C:\Users\jacob\source\repos\A\A\obj\Release\netcoreapp3.1\A.AssemblyInfoInputs.cache
+C:\Users\jacob\source\repos\A\A\obj\Release\netcoreapp3.1\A.AssemblyInfo.cs
+C:\Users\jacob\source\repos\A\A\obj\Release\netcoreapp3.1\A.csproj.CoreCompileInputs.cache
+C:\Users\jacob\source\repos\A\A\obj\Release\netcoreapp3.1\A.dll
+C:\Users\jacob\source\repos\A\A\obj\Release\netcoreapp3.1\A.pdb
+C:\Users\jacob\source\repos\A\A\obj\Release\netcoreapp3.1\A.genruntimeconfig.cache
