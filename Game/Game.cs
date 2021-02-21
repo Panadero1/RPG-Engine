@@ -2,28 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace A
+namespace GameEngine
 {
    static class Game
    {
       // TODO: map generation, melting, thermodynamics, comments, title screen, VisibleAtLine() adapt for not just player
+
       public static bool _execute = true;
       public static string _filePath;
-      //
+
       public static Dictionary<string, Action> _gameModes = new Dictionary<string, Action>() 
       {
          // if you wish to add a gamemode, make the key lowercase!!!
          { "game", GameEngine },
-         { "tutorial", Tutorial}
+         { "tutorial", Tutorial},
+         { "level editor", LevelEditor }
       };
 
       static void Main(string[] args)
       {
-         if (GameEngineCommands.TryFindCommand("help", out Command command))
-         {
-            command._helpLines[0] = "Enter the command that you wish to learn about\n" + GameEngineCommands.ListCommands();
-         }
-
          Console.WriteLine("Welcome. Current game modes are: ");
          foreach (string gameMode in _gameModes.Keys)
          {
@@ -42,6 +39,11 @@ namespace A
       }
       static void GameEngine()
       {
+         CommandChoices com = GameModeCommands._engineCommands;
+         if (com.TryFindCommand("help", out Command command))
+         {
+            command._helpLines[0] = "Enter the command that you wish to learn about\n" + com.ListCommands();
+         }
 
          if (!World.LoadFromFile())
          {
@@ -56,7 +58,7 @@ namespace A
 
          for (Console.WriteLine(World._loadedLevel._grid.GraphicString()); _execute; Console.WriteLine(World._loadedLevel._grid.GraphicString()))
          {
-            if (GameEngineCommands.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
+            if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
             {
                World.UpdateWorld();
             }
@@ -69,6 +71,11 @@ namespace A
       }
       static void Tutorial()
       {
+         CommandChoices com = GameModeCommands._tutorialCommands;
+         if (com.TryFindCommand("help", out Command command))
+         {
+            command._helpLines[0] = "Enter the command that you wish to learn about\n" + com.ListCommands();
+         }
          string[] lines = new string[]
          {
             // v 0
@@ -117,7 +124,7 @@ namespace A
          {
             TutorialProgression(lines, ref index);
 
-            if (GameEngineCommands.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
+            if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
             {
                World.UpdateWorld();
             }
@@ -195,6 +202,11 @@ namespace A
                Console.WriteLine("That is the end of the tutorial now. For more information on commands, type 'help'. Type 'exit' to leave");
                break;
          }
+      }
+
+      static void LevelEditor()
+      {
+
       }
    }
 }

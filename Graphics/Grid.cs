@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace A
+namespace GameEngine
 {
    class Grid
    {

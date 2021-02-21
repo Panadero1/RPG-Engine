@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace A
+namespace GameEngine
 {
    class Tile : ICloneable
    {

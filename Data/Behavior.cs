@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace A
+namespace GameEngine
 {
    static class Behavior // <<<<----- Make sure this is the right file you're editing; **this looks very similar to UseActions.cs**
    {
