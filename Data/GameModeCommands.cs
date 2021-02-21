@@ -190,6 +190,7 @@ namespace GameEngine
                 Console.WriteLine("\n" + result._helpText + "\n");
             }
         }
+        
         private static void TutorialHelp(string[] parameters)
         {
             if (_tutorialCommands.TryFindCommand(parameters[0], out Command result))
@@ -197,6 +198,7 @@ namespace GameEngine
                 Console.WriteLine("\n" + result._helpText + "\n");
             }
         }
+        
         private static void LevelEditorHelp(string[] parameters)
         {
             if (_tutorialCommands.TryFindCommand(parameters[0], out Command result))

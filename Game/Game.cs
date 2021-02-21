@@ -203,10 +203,16 @@ namespace GameEngine
                break;
          }
       }
-
       static void LevelEditor()
       {
-
+         CommandChoices com = GameModeCommands._editorCommands;
+         for (Console.WriteLine(World._loadedLevel._grid.GraphicString()); _execute; Console.WriteLine(World._loadedLevel._grid.GraphicString()))
+         {
+            if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
+            {
+               World.UpdateWorld();
+            }
+         }
       }
    }
 }
