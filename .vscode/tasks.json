@@ -14,32 +14,6 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "build release",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/A.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary",
-                "-c",
-                "Release"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "publish debug",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/A.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
             "label": "publish release",
             "command": "dotnet",
             "type": "process",

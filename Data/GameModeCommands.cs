@@ -5,6 +5,7 @@ namespace GameEngine
 {
     static class GameModeCommands
     {
+        private static string[] emptyString = new string[0];
         #region Actions
         private static void Remove(string[] parameters)
         {
@@ -530,7 +531,6 @@ namespace GameEngine
             false);
         #endregion
 
-        private static string[] emptyString = new string[0];
         public static CommandChoices _engineCommands = new CommandChoices(new List<Command>()
         {
             _remove,
