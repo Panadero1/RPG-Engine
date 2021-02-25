@@ -23,7 +23,11 @@
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary",
                 "-c",
-                "Release"
+                "Release",
+                "-r",
+                "win-x64",
+                "--self-contained",
+                "true"
             ],
             "problemMatcher": "$msCompile"
         },
