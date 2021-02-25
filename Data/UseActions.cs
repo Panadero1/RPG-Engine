@@ -7,7 +7,7 @@ namespace GameEngine
       // WARNING!!!! DO NOT REMOVE, SHUFFLE, OR CHANGE ANY OF THE CURRENT ACTIONS WITHIN THIS ARRAY
       // YOU MAY ADD ACTIONS, BUT BE SURE TO DO SO AT THE END OF EACH ARRAY
       // Please add a string that represents your command in the array: _identifiers
-      public static Action<string[], Contents>[] _customCommands = new Action<string[], Contents>[]
+      public static Action<string[], Contents>[] CustomCommands = new Action<string[], Contents>[]
       {
          DoesNothing,
          MonsterDialogue,
@@ -18,7 +18,7 @@ namespace GameEngine
          Gun,
          Dialogue
       };
-      public static string[] _identifiers = new string[]
+      public static string[] Identifiers = new string[]
       {
          "DoesNothing",
          "MonsterDialogue",
@@ -32,12 +32,12 @@ namespace GameEngine
 
       public static bool TryGetAction(string givenIdentifier, out Action<string[], Contents> result)
       {
-         for (int identifierIndex = 0; identifierIndex < _identifiers.Length; identifierIndex++)
+         for (int identifierIndex = 0; identifierIndex < Identifiers.Length; identifierIndex++)
          {
-            string identifier = (string)_identifiers[identifierIndex];
+            string identifier = (string)Identifiers[identifierIndex];
             if (identifier.Equals(givenIdentifier))
             {
-               result = _customCommands[identifierIndex];
+               result = CustomCommands[identifierIndex];
                return true;
             }
          }
@@ -46,12 +46,12 @@ namespace GameEngine
       }
       public static bool TryGetIdentifier(Action<string[], Contents> givenAction, out string result)
       {
-         for (int actionIndex = 0; actionIndex < _identifiers.Length; actionIndex++)
+         for (int actionIndex = 0; actionIndex < Identifiers.Length; actionIndex++)
          {
-            Action<string[], Contents> action = _customCommands[actionIndex];
+            Action<string[], Contents> action = CustomCommands[actionIndex];
             if (action.Equals(givenAction))
             {
-               result = _identifiers[actionIndex];
+               result = Identifiers[actionIndex];
                return true;
             }
          }
@@ -91,21 +91,21 @@ namespace GameEngine
       }
       public static void Lever(string[] parameters, Contents contents)
       {
-         foreach (Tile tile in World._loadedLevel._grid._tileGrid)
+         foreach (Tile tile in World.LoadedLevel.Grid.TileGrid)
          {
-            if (tile._contents != null)
+            if (tile.Contents != null)
             {
-               if (tile._contents._name == "gate")
+               if (tile.Contents.Name == "gate")
                {
-                  tile._contents = null;
-                  tile._floor = World._gateOpen._floor;
+                  tile.Contents = null;
+                  tile.Floor = World.GateOpen.Floor;
                }
             }
-            else if (tile._floor._name == "retractedGate")
+            else if (tile.Floor.Name == "retractedGate")
             {
-               tile._contents = World._gateClosed._contents;
-               tile._contents._coordinates = tile._coordinates;
-               tile._floor = World._ground;
+               tile.Contents = World.GateClosed.Contents;
+               tile.Contents.Coordinates = tile.Coordinates;
+               tile.Floor = World.Ground;
             }
          }
       }
@@ -121,7 +121,7 @@ namespace GameEngine
       }
       public static void Gun(string[] parameters, Contents contents)
       {
-         if (World._player._holding._name != "gun")
+         if (World.Player.Holding.Name != "gun")
          {
             Console.WriteLine("You can't fire the gun while it's on the ground.");
             return;
@@ -145,30 +145,30 @@ namespace GameEngine
             return;
          }
 
-         Coord playerCoord = World._player.GetCoords();
-         if (!World._loadedLevel._grid.VisibleAtLine(new Coord(targetCoord._x - playerCoord._x, targetCoord._y - playerCoord._y)))
+         Coord playerCoord = World.Player.GetCoords();
+         if (!World.LoadedLevel.Grid.VisibleAtLine(new Coord(targetCoord.X - playerCoord.X, targetCoord.Y - playerCoord.Y)))
          {
             Console.WriteLine("You cannot see this tile from here. Try moving");
             return;
          }
 
-         Tile tileAtCoords = World._loadedLevel._grid.GetTileAtCoords(targetCoord);
+         Tile tileAtCoords = World.LoadedLevel.Grid.GetTileAtCoords(targetCoord);
 
-         if (tileAtCoords == null || tileAtCoords._contents == null)
+         if (tileAtCoords == null || tileAtCoords.Contents == null)
          {
             return;
          }
-         tileAtCoords._contents.Damage(1);
+         tileAtCoords.Contents.Damage(1);
       }
       public static void Dialogue(string[] parameters, Contents contents)
       {
-         if (World._dialogue.TryGetValue(contents._name, out string result))
+         if (World.Dialogue.TryGetValue(contents.Name, out string result))
          {
             Console.WriteLine(result);
          }
          else
          {
-            Console.WriteLine("Error- Inconsistency. The contents: " + contents._name + " has a dialogue UseAction, but is not mapped to any dialogue in the world file.");
+            Console.WriteLine("Error- Inconsistency. The contents: " + contents.Name + " has a dialogue UseAction, but is not mapped to any dialogue in the world file.");
          }
       }
    }

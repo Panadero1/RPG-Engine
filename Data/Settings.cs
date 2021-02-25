@@ -6,7 +6,7 @@ namespace GameEngine
 {
    static class Settings
    {
-      public static bool _spaced = true;
+      public static bool Spaced = true;
 
       public static void LoadSettings()
       {

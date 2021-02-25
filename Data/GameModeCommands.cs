@@ -5,11 +5,10 @@ namespace GameEngine
 {
     static class GameModeCommands
     {
-        private static string[] emptyString = new string[0];
         #region Actions
         private static void Remove(string[] parameters)
         {
-            if (World._player._holding != null)
+            if (World.Player.Holding != null)
             {
                 Console.WriteLine("You're already holding something");
                 return;
@@ -17,26 +16,26 @@ namespace GameEngine
             Contents container;
             if (parameters[0].Equals("self", StringComparison.OrdinalIgnoreCase))
             {
-                container = World._player._contents;
+                container = World.Player.Contents;
             }
             else if (CommandInterpretation.InterpretDirection(parameters[0], out Coord coord))
             {
-                Tile givenTile = World._loadedLevel._grid.GetTileAtCoords(World._player.GetCoords().Add(coord));
+                Tile givenTile = World.LoadedLevel.Grid.GetTileAtCoords(World.Player.GetCoords().Add(coord));
                 if (givenTile == null)
                 {
                     return;
                 }
-                if (givenTile._contents == null)
+                if (givenTile.Contents == null)
                 {
                     Console.WriteLine("There are no contents at this location");
                     return;
                 }
-                if (!givenTile._contents._container)
+                if (!givenTile.Contents.Container)
                 {
                     Console.WriteLine("The contents at this tile is not a container");
                     return;
                 }
-                container = givenTile._contents;
+                container = givenTile.Contents;
 
             }
             else
@@ -45,7 +44,7 @@ namespace GameEngine
                 return;
             }
 
-            if (container._contained.Count == 0)
+            if (container.Contained.Count == 0)
             {
                 Console.WriteLine("There are no items in this container.");
                 return;
@@ -61,12 +60,12 @@ namespace GameEngine
                 index = parameters[1];
             }
 
-            if (CommandInterpretation.InterpretInt(index, 0, container._contained.Count - 1, out int result))
+            if (CommandInterpretation.InterpretInt(index, 0, container.Contained.Count - 1, out int result))
             {
-                Contents removedContents = container._contained[result];
-                container._contained.RemoveAt(result);
-                Console.WriteLine(removedContents._name + " was removed!");
-                World._player._holding = removedContents;
+                Contents removedContents = container.Contained[result];
+                container.Contained.RemoveAt(result);
+                Console.WriteLine(removedContents.Name + " was removed!");
+                World.Player.Holding = removedContents;
             }
         }
 
@@ -74,27 +73,27 @@ namespace GameEngine
         {
             if (CommandInterpretation.InterpretDirection(parameters[0], out Coord addCoord))
             {
-                World._loadedLevel._grid.MoveContents(World._player._contents, addCoord);
+                World.LoadedLevel.Grid.MoveContents(World.Player.Contents, addCoord);
 
             }
         }
 
         private static void Bag(string[] parameters)
         {
-            if (World._player._holding == null)
+            if (World.Player.Holding == null)
             {
                 Console.WriteLine("You are not holding anything");
             }
             else
             {
-                Console.WriteLine("You are currently holding " + World._player._holding._name);
+                Console.WriteLine("You are currently holding " + World.Player.Holding.Name);
             }
-            Console.WriteLine(World._player._contents.ListContents());
+            Console.WriteLine(World.Player.Contents.ListContents());
         }
 
         private static void Add(string[] parameters)
         {
-            if (World._player._holding == null)
+            if (World.Player.Holding == null)
             {
                 Console.WriteLine("You aren't holding anything!");
                 return;
@@ -102,26 +101,26 @@ namespace GameEngine
             Contents container;
             if (parameters[0].Equals("self", StringComparison.OrdinalIgnoreCase))
             {
-                container = World._player._contents;
+                container = World.Player.Contents;
             }
             else if (CommandInterpretation.InterpretDirection(parameters[0], out Coord result))
             {
-                Tile givenTile = World._loadedLevel._grid.GetTileAtCoords(result.Add(World._player.GetCoords()));
+                Tile givenTile = World.LoadedLevel.Grid.GetTileAtCoords(result.Add(World.Player.GetCoords()));
                 if (givenTile == null)
                 {
                     return;
                 }
-                if (givenTile._contents == null)
+                if (givenTile.Contents == null)
                 {
                     Console.WriteLine("There are no contents at this location");
                     return;
                 }
-                if (!givenTile._contents._container)
+                if (!givenTile.Contents.Container)
                 {
                     Console.WriteLine("The contents at this tile is not a container");
                     return;
                 }
-                container = givenTile._contents;
+                container = givenTile.Contents;
 
             }
             else
@@ -130,46 +129,46 @@ namespace GameEngine
                 return;
             }
 
-            Console.WriteLine(World._player._holding._name + " was added to " + container._name);
-            container._contained.Add(World._player._holding);
-            World._player._holding = null;
+            Console.WriteLine(World.Player.Holding.Name + " was added to " + container.Name);
+            container.Contained.Add(World.Player.Holding);
+            World.Player.Holding = null;
         }
 
         private static void Drop(string[] parameters)
         {
-            if (World._player._holding == null)
+            if (World.Player.Holding == null)
             {
                 Console.WriteLine("You're not holding anything.");
                 return;
             }
             if (CommandInterpretation.InterpretDirection(parameters[0], out Coord result))
             {
-                Coord newCoords = World._player.GetCoords().Add(result);
-                Tile tileAtCoords = World._loadedLevel._grid.GetTileAtCoords(newCoords);
+                Coord newCoords = World.Player.GetCoords().Add(result);
+                Tile tileAtCoords = World.LoadedLevel.Grid.GetTileAtCoords(newCoords);
 
                 if (tileAtCoords == null)
                 {
                     Console.WriteLine("That tile does not exist");
                     return;
                 }
-                if (tileAtCoords._contents != null)
+                if (tileAtCoords.Contents != null)
                 {
                     Console.WriteLine("That tile is occupied.");
                     return;
                 }
                 else
                 {
-                    World._loadedLevel._grid.SetContentsAtCoords(newCoords, World._player._holding);
-                    tileAtCoords._contents._coordinates = newCoords;
+                    World.LoadedLevel.Grid.SetContentsAtCoords(newCoords, World.Player.Holding);
+                    tileAtCoords.Contents.Coordinates = newCoords;
 
-                    World._player._holding = null;
+                    World.Player.Holding = null;
                 }
             }
         }
 
         private static void Exit(string[] parameters)
         {
-            Game._execute = false;
+            Game.Execute = false;
         }
 
         private static void Save(string[] parameters)
@@ -180,64 +179,64 @@ namespace GameEngine
             }
             else
             {
-                World.SaveToFile(Game._filePath);
+                World.SaveToFile(Game.FilePath);
             }
         }
 
         private static void EngineHelp(string[] parameters)
         {
-            if (_engineCommands.TryFindCommand(parameters[0], out Command result))
+            if (EngineCommands.TryFindCommand(parameters[0], out Command result))
             {
-                Console.WriteLine("\n" + result._helpText + "\n");
+                Console.WriteLine("\n" + result.HelpText + "\n");
             }
         }
         
         private static void TutorialHelp(string[] parameters)
         {
-            if (_tutorialCommands.TryFindCommand(parameters[0], out Command result))
+            if (TutorialCommands.TryFindCommand(parameters[0], out Command result))
             {
-                Console.WriteLine("\n" + result._helpText + "\n");
+                Console.WriteLine("\n" + result.HelpText + "\n");
             }
         }
         
         private static void LevelEditorHelp(string[] parameters)
         {
-            if (_tutorialCommands.TryFindCommand(parameters[0], out Command result))
+            if (TutorialCommands.TryFindCommand(parameters[0], out Command result))
             {
-                Console.WriteLine("\n" + result._helpText + "\n");
+                Console.WriteLine("\n" + result.HelpText + "\n");
             }
         }
 
         private static void Pick(string[] parameters)
         {
-            if (World._player._holding != null)
+            if (World.Player.Holding != null)
             {
                 Console.WriteLine("You're already holding something! Either drop it or add it to your inventory");
                 return;
             }
             if (CommandInterpretation.InterpretDirection(parameters[0], out Coord result))
             {
-                Coord newCoords = World._player.GetCoords().Add(result);
-                Tile tileAtCoords = World._loadedLevel._grid.GetTileAtCoords(newCoords);
+                Coord newCoords = World.Player.GetCoords().Add(result);
+                Tile tileAtCoords = World.LoadedLevel.Grid.GetTileAtCoords(newCoords);
 
                 if (tileAtCoords == null)
                 {
                     Console.WriteLine("That tile does not exist");
                     return;
                 }
-                if (tileAtCoords._contents == null)
+                if (tileAtCoords.Contents == null)
                 {
                     Console.WriteLine("There is nothing on that tile");
                     return;
                 }
-                if (World._player._strength < tileAtCoords._contents._totalWeight)
+                if (World.Player.Strength < tileAtCoords.Contents.TotalWeight)
                 {
                     Console.WriteLine("You're not strong enough to lift this");
                     return;
                 }
-                Console.WriteLine(tileAtCoords._contents._name + " was picked up");
-                World._player._holding = tileAtCoords._contents;
-                tileAtCoords._contents = null;
+                Console.WriteLine(tileAtCoords.Contents.Name + " was picked up");
+                World.Player.Holding = tileAtCoords.Contents;
+                tileAtCoords.Contents = null;
             }
         }
 
@@ -250,8 +249,8 @@ namespace GameEngine
         {
             if (CommandInterpretation.InterpretAlphaNum(paramters[0], paramters[1], out Coord result))
             {
-                Coord relativeCoord = new Coord(result._x - World._player._contents._coordinates._x, result._y - World._player._contents._coordinates._y);
-                if (!World._loadedLevel._grid.VisibleAtLine(relativeCoord))
+                Coord relativeCoord = new Coord(result.X - World.Player.Contents.Coordinates.X, result.Y - World.Player.Contents.Coordinates.Y);
+                if (!World.LoadedLevel.Grid.VisibleAtLine(relativeCoord))
                 {
                     Console.WriteLine("Tile is not visible!");
                     return;
@@ -259,69 +258,69 @@ namespace GameEngine
 
                 Console.WriteLine("Observing tile " + paramters[0] + " " + paramters[1]);
 
-                Tile lookTile = World._loadedLevel._grid.GetTileAtCoords(result);
+                Tile lookTile = World.LoadedLevel.Grid.GetTileAtCoords(result);
 
                 if (lookTile == null)
                 {
                     return;
                 }
 
-                Console.WriteLine("The floor appears to be " + lookTile._floor._name);
-                if (lookTile._contents == null)
+                Console.WriteLine("The floor appears to be " + lookTile.Floor.Name);
+                if (lookTile.Contents == null)
                 {
                     Console.WriteLine("There is nothing on the tile.");
                     return;
                 }
                 Console.WriteLine("The contents at this tile has these statistics:");
-                Console.WriteLine("Name: " + lookTile._contents._name);
-                Console.WriteLine("Size: " + lookTile._contents._size);
-                Console.WriteLine("Weight: " + lookTile._contents._totalWeight);
-                Console.WriteLine("Temperature: " + lookTile._contents._temperature);
-                Console.WriteLine("Melting point: " + lookTile._contents._meltingpoint);
-                Console.WriteLine("Durability: " + lookTile._contents._durability);
+                Console.WriteLine("Name: " + lookTile.Contents.Name);
+                Console.WriteLine("Size: " + lookTile.Contents.Size);
+                Console.WriteLine("Weight: " + lookTile.Contents.TotalWeight);
+                Console.WriteLine("Temperature: " + lookTile.Contents.Temperature);
+                Console.WriteLine("Melting point: " + lookTile.Contents.MeltingPoint);
+                Console.WriteLine("Durability: " + lookTile.Contents.Durability);
 
-                Console.WriteLine("Transparent: " + lookTile._contents._transparent);
-                Console.WriteLine("Container: " + lookTile._contents._container);
+                Console.WriteLine("Transparent: " + lookTile.Contents.Transparent);
+                Console.WriteLine("Container: " + lookTile.Contents.Container);
 
-                World._contentsIndex.Add(lookTile._contents);
+                World.ContentsIndex.Add(lookTile.Contents);
             }
         }
 
         private static void Use(string[] parameters)
         {
-            if (World._player._holding == null)
+            if (World.Player.Holding == null)
             {
                 Console.WriteLine("You aren't holding anything");
                 return;
             }
-            World._player._holding._useAction(parameters, World._player._holding);
+            World.Player.Holding.UseAction(parameters, World.Player.Holding);
         }
 
         private static void Map(string[] parameters)
         {
-            Console.WriteLine(World._worldMap.GraphicString());
+            Console.WriteLine(World.WorldMap.GraphicString());
         }
 
         private static void Interact(string[] parameters)
         {
             if (CommandInterpretation.InterpretDirection(parameters[0], out Coord result))
             {
-                Coord newCoords = World._player.GetCoords().Add(result);
-                Tile tileAtCoords = World._loadedLevel._grid.GetTileAtCoords(newCoords);
+                Coord newCoords = World.Player.GetCoords().Add(result);
+                Tile tileAtCoords = World.LoadedLevel.Grid.GetTileAtCoords(newCoords);
 
                 if (tileAtCoords == null)
                 {
                     Console.WriteLine("That tile does not exist");
                     return;
                 }
-                if (tileAtCoords._contents == null)
+                if (tileAtCoords.Contents == null)
                 {
                     Console.WriteLine("You cannot interact with the floor..");
                     return;
                 }
                 else
                 {
-                    tileAtCoords._contents._useAction(parameters, tileAtCoords._contents);
+                    tileAtCoords.Contents.UseAction(parameters, tileAtCoords.Contents);
                 }
             }
         }
@@ -333,15 +332,15 @@ namespace GameEngine
 
         private static void Index(string[] parameters)
         {
-            if (World._contentsIndex.Count == 0)
+            if (World.ContentsIndex.Count == 0)
             {
                 Console.WriteLine("There are no current discovered contents. Use the 'look' command to discover new tiles & contents.");
                 return;
             }
             int longestName = 0;
-            foreach (Contents contents in World._contentsIndex)
+            foreach (Contents contents in World.ContentsIndex)
             {
-                int nameLength = contents._name.Length;
+                int nameLength = contents.Name.Length;
                 if (nameLength > longestName)
                 {
                     longestName = nameLength;
@@ -356,16 +355,22 @@ namespace GameEngine
             }
             Console.WriteLine("Symbol");
 
-            foreach (Contents contents in World._contentsIndex)
+            foreach (Contents contents in World.ContentsIndex)
             {
-                string contentsName = contents._name;
+                string contentsName = contents.Name;
                 Console.Write(contentsName);
                 for (int space = contentsName.Length; space <= longestName; space++)
                 {
                     Console.Write(" ");
                 }
-                Console.WriteLine(contents._visualChar);
+                Console.WriteLine(contents.VisualChar);
             }
+        }
+
+        private static void NewMap(string[] parameters)
+        {
+            string mapName = CommandInterpretation.GetUserResponse("Enter a name for this new map.");
+            World.EditorMap = new Map(new Level[][] {new Level[0]}, mapName);
         }
 
         #endregion
@@ -394,7 +399,7 @@ namespace GameEngine
         private static readonly Command _bag = new Command(
             "bag",
             "Displays the contents of your bag and what you are holding.",
-            emptyString,
+            _emptyString,
             Bag,
             false);
 
@@ -421,14 +426,14 @@ namespace GameEngine
         private static readonly Command _exit = new Command(
             "exit",
             "Closes the program and gives you an option to save.",
-            emptyString,
+            _emptyString,
             Exit,
             false);
 
         private static readonly Command _save = new Command(
             "save",
             "Saves the current state of the game into a file.",
-            emptyString,
+            _emptyString,
             Save,
             false);
 
@@ -495,14 +500,14 @@ namespace GameEngine
         private static readonly Command _use = new Command(
             "use",
             "Uses the item currently in your hand",
-            emptyString,
+            _emptyString,
             Use,
             true);
 
         private static readonly Command _map = new Command(
             "map",
             "Displays the map",
-            emptyString,
+            _emptyString,
             GameModeCommands.Map,
             false);
 
@@ -519,19 +524,31 @@ namespace GameEngine
         private static readonly Command _wait = new Command(
             "wait",
             "Skips one action",
-            emptyString,
+            _emptyString,
             Wait,
             true);
 
         private static readonly Command _index = new Command(
             "index",
             "Displays all learned contents",
-            emptyString,
+            _emptyString,
             GameModeCommands.Index,
+            false);
+
+        // Editor commands
+        private static readonly Command _newMap = new Command(
+            "new",
+            "creates a new world file",
+            new string[]
+            {
+
+            },
+            NewMap,
             false);
         #endregion
 
-        public static CommandChoices _engineCommands = new CommandChoices(new List<Command>()
+        private static string[] _emptyString = new string[0];
+        public static CommandChoices EngineCommands = new CommandChoices(new List<Command>()
         {
             _remove,
             _move,
@@ -550,7 +567,7 @@ namespace GameEngine
             _wait,
             _index
          });
-        public static CommandChoices _tutorialCommands = new CommandChoices(new List<Command>()
+        public static CommandChoices TutorialCommands = new CommandChoices(new List<Command>()
         {
             _remove,
             _move,
@@ -567,7 +584,7 @@ namespace GameEngine
             _wait,
             _index
         });
-        public static CommandChoices _editorCommands = new CommandChoices(new List<Command>()
+        public static CommandChoices EditorCommands = new CommandChoices(new List<Command>()
         {
            _levelEditorHelp
         });

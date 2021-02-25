@@ -4,22 +4,22 @@ namespace GameEngine
 {
    class Command
    {
-      public string _helpText;
+      public string HelpText;
 
-      public string _identifier;
+      public string Identifier;
 
-      public string[] _helpLines;
-      public Action<string[]> _customCommand;
+      public string[] HelpLines;
+      public Action<string[]> CustomCommand;
 
-      public bool _takesTime;
+      public bool TakesTime;
 
       public Command(string identifier, string helpText, string[] helpLines, Action<string[]> customCommand, bool takesTime)
       {
-         _identifier = identifier;
-         _helpText = helpText;
-         _helpLines = helpLines;
-         _customCommand = customCommand;
-         _takesTime = takesTime;
+         Identifier = identifier;
+         HelpText = helpText;
+         HelpLines = helpLines;
+         CustomCommand = customCommand;
+         TakesTime = takesTime;
       }
    }
 }

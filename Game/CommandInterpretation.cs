@@ -10,7 +10,7 @@ namespace GameEngine
          string response = Console.ReadLine();
          if (response == "exit")
          {
-            Game._execute = false;
+            Game.Execute = false;
             return string.Empty;
          }
          else
@@ -24,7 +24,7 @@ namespace GameEngine
          string response = Console.ReadLine();
          if (response == "exit")
          {
-            Game._execute = false;
+            Game.Execute = false;
             return string.Empty;
          }
          else

@@ -4,63 +4,63 @@ namespace GameEngine
 {
    class Map
    {
-      public Level[][] _levelMap;
-      public string _name;
-      public int _width;
-      public int _height;
+      public Level[][] LevelMap;
+      public string Name;
+      public int Width;
+      public int Height;
 
       public Map(Level[][] gridMap, string name)
       {
-         _levelMap = gridMap;
-         _name = name;
+         LevelMap = gridMap;
+         Name = name;
 
-         _width = gridMap.Length;
-         _height = gridMap[0].Length;
+         Width = gridMap.Length;
+         Height = gridMap[0].Length;
       }
 
       public Level GetLevelAtCoords(Coord coords)
       {
-         if (coords._x < 0 || coords._x >= _levelMap.Length || coords._y < 0 || coords._y >= _levelMap[0].Length)
+         if (coords.X < 0 || coords.X >= LevelMap.Length || coords.Y < 0 || coords.Y >= LevelMap[0].Length)
          {
             Console.WriteLine("Level is out of bounds of the map.");
             return null;
          }
-         return _levelMap[coords._x][coords._y];
+         return LevelMap[coords.X][coords.Y];
       }
 
       public string GraphicString()
       {
          string returnString = "   ";
-         for (int repeat = 0; repeat < _levelMap.Length; repeat++)
+         for (int repeat = 0; repeat < LevelMap.Length; repeat++)
          {
-            returnString += ((repeat % 10 == 0) ? AlphabetIndex((repeat / 10)) : ' ') + (Settings._spaced ? " " : "");
+            returnString += ((repeat % 10 == 0) ? AlphabetIndex((repeat / 10)) : ' ') + (Settings.Spaced ? " " : "");
          }
          returnString += "\n   ";
-         for (int repeat = 0; repeat < _levelMap.Length; repeat++)
+         for (int repeat = 0; repeat < LevelMap.Length; repeat++)
          {
-            returnString += (repeat % 10) + (Settings._spaced ? " " : "");
+            returnString += (repeat % 10) + (Settings.Spaced ? " " : "");
          }
          returnString += "\n   ";
-         for (int repeat = 0; repeat < _levelMap.Length + (Settings._spaced ? _levelMap.Length - 1 : 0); repeat++)
+         for (int repeat = 0; repeat < LevelMap.Length + (Settings.Spaced ? LevelMap.Length - 1 : 0); repeat++)
          {
             returnString += "-";
          }
          returnString += "\n";
 
-         for (int y = 0; y < _levelMap[0].Length; y++)
+         for (int y = 0; y < LevelMap[0].Length; y++)
          {
             returnString += ((y % 10 == 0) ? AlphabetIndex(y / 10) : ' ') + (y % 10 + "|");
 
-            for (int x = 0; x < _levelMap.Length; x++)
+            for (int x = 0; x < LevelMap.Length; x++)
             {
-               Level currentLevel = _levelMap[x][y];
+               Level currentLevel = LevelMap[x][y];
                if (currentLevel == null)
                {
-                  returnString += " " + (Settings._spaced ? " " : "");
+                  returnString += " " + (Settings.Spaced ? " " : "");
                }
                else
                {
-                  returnString += ((currentLevel.Equals(World._loadedLevel)) ? World._player._contents._visualChar : currentLevel._visualChar) + (Settings._spaced ? " " : "");
+                  returnString += ((currentLevel.Equals(World.LoadedLevel)) ? World.Player.Contents.VisualChar : currentLevel.VisualChar) + (Settings.Spaced ? " " : "");
                }
             }
             returnString += "\n";

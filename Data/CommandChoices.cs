@@ -5,18 +5,18 @@ namespace GameEngine
 {
    class CommandChoices
    {
-      public List<Command> _commandList;
+      public List<Command> CommandList;
 
       public CommandChoices(List<Command> commandList)
       {
-         _commandList = commandList;
+         CommandList = commandList;
       }
 
       public bool TryFindCommand(string identifier, out Command command)
         {
-            foreach (Command commandInList in _commandList)
+            foreach (Command commandInList in CommandList)
             {
-                if (commandInList._identifier.Equals(identifier, StringComparison.OrdinalIgnoreCase))
+                if (commandInList.Identifier.Equals(identifier, StringComparison.OrdinalIgnoreCase))
                 {
                 command = commandInList;
                 return true;
@@ -29,9 +29,9 @@ namespace GameEngine
         public string ListCommands()
         {
             string commandString = string.Empty;
-            foreach (Command command in _commandList)
+            foreach (Command command in CommandList)
             {
-                commandString += command._identifier + "\n";
+                commandString += command.Identifier + "\n";
             }
             return commandString;
         }
@@ -39,9 +39,9 @@ namespace GameEngine
         {
             string[] splitCommand = userCommand.Split(' ');
 
-            foreach (Command commandItem in _commandList)
+            foreach (Command commandItem in CommandList)
             {
-                if (splitCommand[0].Equals(commandItem._identifier, StringComparison.OrdinalIgnoreCase))
+                if (splitCommand[0].Equals(commandItem.Identifier, StringComparison.OrdinalIgnoreCase))
                 {
                 List<string> responses = new List<string>();
                 int commandParameter;
@@ -49,13 +49,13 @@ namespace GameEngine
                 {
                     responses.Add(splitCommand[commandParameter]);
                 }
-                for (int helpLineIndex = commandParameter; helpLineIndex < commandItem._helpLines.Length + 1; helpLineIndex++)
+                for (int helpLineIndex = commandParameter; helpLineIndex < commandItem.HelpLines.Length + 1; helpLineIndex++)
                 {
-                    string helpLine = commandItem._helpLines[helpLineIndex - 1];
+                    string helpLine = commandItem.HelpLines[helpLineIndex - 1];
                     responses.Add(CommandInterpretation.GetUserResponse(helpLine));
                 }
-                commandItem._customCommand(responses.ToArray());
-                return commandItem._takesTime;
+                commandItem.CustomCommand(responses.ToArray());
+                return commandItem.TakesTime;
                 }
             }
             return false;

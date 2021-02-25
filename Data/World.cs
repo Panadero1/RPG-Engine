@@ -10,52 +10,54 @@ namespace GameEngine
    {
       private static readonly Coord _zeroZero = new Coord(0, 0);
 
-      public static Player _player = new Player(new Contents("Player", 'A', 20, 100, true, 50, 10, 50, true, 100, new List<Contents>(), UseActions.DoesNothing, Behavior.DoesNothing), null, 50);
+      public static Player Player = new Player(new Contents("Player", 'A', 20, 100, true, 50, 10, 50, true, 100, new List<Contents>(), UseActions.DoesNothing, Behavior.DoesNothing), null, 50);
 
       #region tile definitions
 
-      public static Floor _ground = new Floor('.', "ground");
+      public static Floor Ground = new Floor('.', "ground");
 
-      public static Tile _empty = new Tile(_ground, null, _zeroZero);
+      public static Tile Empty = new Tile(Ground, null, _zeroZero);
 
-      public static Tile _mud = new Tile(new Floor('~', "mud"), null, _zeroZero);
+      public static Tile Mud = new Tile(new Floor('~', "mud"), null, _zeroZero);
 
-      public static Tile _wall = new Tile(_ground, new Contents("wall", '#', 20, 500, false, 40, 10000, 400000, UseActions._customCommands[0], Behavior.DoesNothing), _zeroZero);
+      public static Tile Wall = new Tile(Ground, new Contents("wall", '#', 20, 500, false, 40, 10000, 400000, UseActions.CustomCommands[0], Behavior.DoesNothing), _zeroZero);
 
-      public static Tile _fence = new Tile(_ground, new Contents("fence", '+', 20, 100, true, 5, 10000, 60, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
+      public static Tile Fence = new Tile(Ground, new Contents("fence", '+', 20, 100, true, 5, 10000, 60, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
 
-      public static Tile _hog = new Tile(new Floor('~', "mudpit"), new Contents("hog", 'H', 30, 100, true, 4, 40, 20, UseActions.DoesNothing, Behavior.Aggressive), _zeroZero);
+      public static Tile Hog = new Tile(new Floor('~', "mudpit"), new Contents("hog", 'H', 30, 100, true, 4, 40, 20, UseActions.DoesNothing, Behavior.Aggressive), _zeroZero);
 
-      public static Tile _plant = new Tile(new Floor('Y', "plant"), null, _zeroZero);
+      public static Tile Plant = new Tile(new Floor('Y', "plant"), null, _zeroZero);
 
-      public static Tile _chicken = new Tile(_ground, new Contents("chicken", '>', 20, 100, true, 1, 2, 5, UseActions.DoesNothing, Behavior.Wander), _zeroZero);
+      public static Tile Chicken = new Tile(Ground, new Contents("chicken", '>', 20, 100, true, 1, 2, 5, UseActions.DoesNothing, Behavior.Wander), _zeroZero);
 
-      public static Tile _gateClosed = new Tile(_ground, new Contents("gate", '-', 20, 100, true, 2000, 10, 12390, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
+      public static Tile Person = new Tile(Ground, new Contents("person", 'p', 20, 100, true, 1, 1, 1000, UseActions.Rude, Behavior.Wander), _zeroZero);
 
-      public static Tile _person = new Tile(_ground, new Contents("person", 'p', 20, 100, true, 1, 1, 1000, UseActions.Rude, Behavior.Wander), _zeroZero);
+      public static Tile Rock = new Tile(Ground, new Contents("rock", 'o', 10, 1000, true, 4, 1, 3, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
 
-      public static Tile _rock = new Tile(_ground, new Contents("rock", 'o', 10, 1000, true, 4, 1, 3, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
+      public static Tile Lever = new Tile(Ground, new Contents("lever", 'L', 10, 203, true, 10, 234, 5151, UseActions.Lever, Behavior.DoesNothing), _zeroZero);
 
-      public static Tile _lever = new Tile(_ground, new Contents("lever", 'L', 10, 203, true, 10, 234, 5151, UseActions.Lever, Behavior.DoesNothing), _zeroZero);
+      public static Tile Tombstone = new Tile(Ground, new Contents("tombstone", 'n', 0, 50, true, 10, 30, 400, UseActions.Tombstone, Behavior.DoesNothing), _zeroZero);
 
-      public static Tile _tombstone = new Tile(_ground, new Contents("tombstone", 'n', 0, 50, true, 10, 30, 400, UseActions.Tombstone, Behavior.DoesNothing), _zeroZero);
+      public static Tile Ghost = new Tile(Ground, new Contents("ghost", 'G', 0, 100, true, 1, 50, 2837, UseActions.Boo, Behavior.Wander), _zeroZero);
 
-      public static Tile _ghost = new Tile(_ground, new Contents("ghost", 'G', 0, 100, true, 1, 50, 2837, UseActions.Boo, Behavior.Wander), _zeroZero);
+      public static Tile Target = new Tile(Ground, new Contents("target", '@', 20, 100, true, 2, 1000, 1000, UseActions.DoesNothing, Behavior.Target), _zeroZero);
 
-      public static Tile _target = new Tile(_ground, new Contents("target", '@', 20, 100, true, 2, 1000, 1000, UseActions.DoesNothing, Behavior.Target), _zeroZero);
+      public static Tile GunTile = new Tile(Ground, new Contents("gun", 'r', 20, 200, true, 4, 4, 5, UseActions.Gun, Behavior.DoesNothing), _zeroZero);
 
-      public static Tile _gunTile = new Tile(_ground, new Contents("gun", 'r', 20, 200, true, 4, 4, 5, UseActions.Gun, Behavior.DoesNothing), _zeroZero);
+      public static Tile Sign = new Tile(Ground, new Contents("sign", 'S', 20, 100, true, 4, 10000, 100000, UseActions.Dialogue, Behavior.DoesNothing), _zeroZero);
 
-      public static Tile _sign = new Tile(_ground, new Contents("sign", 'S', 20, 100, true, 4, 10000, 100000, UseActions.Dialogue, Behavior.DoesNothing), _zeroZero);
+      public static Tile GateOpen = new Tile(new Floor('.', "retractedGate"), null, _zeroZero);
 
-      public static Tile _gateOpen = new Tile(new Floor('.', "retractedGate"), null, _zeroZero);
+      public static Tile GateClosed = new Tile(Ground, new Contents("gate", '-', 20, 100, true, 2000, 10, 12390, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
       #endregion
 
-      public static Dictionary<string, string> _dialogue = new Dictionary<string, string>();
+      public static Dictionary<string, string> Dialogue = new Dictionary<string, string>();
 
-      public static Map _worldMap;
+      public static Map WorldMap;
 
-      public static Map _tutorialLevel = new Map(new Level[][]
+      public static Map EditorMap;
+
+      public static Map TutorialLevel = new Map(new Level[][]
       {
          // column 1
          new Level[]
@@ -69,50 +71,50 @@ namespace GameEngine
                      // row 1
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_target.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_gateClosed.Clone()
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Target.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)GateClosed.Clone()
                      },
                      // row 2
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_gunTile.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_gateClosed.Clone()
+                        (Tile)Empty.Clone(),
+                        (Tile)GunTile.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)GateClosed.Clone()
                      },
                      // row 3 
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        new Tile(_ground, _player._contents, _zeroZero),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_gateClosed.Clone()
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        new Tile(Ground, Player.Contents, _zeroZero),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)GateClosed.Clone()
                      },
                      // row 4
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_gateClosed.Clone()
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)GateClosed.Clone()
                      }
                   }
                ),
@@ -136,12 +138,12 @@ namespace GameEngine
                      // row 1
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_lever.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_lever.Clone(),
-                        new Tile(_ground, new Contents(
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Lever.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Lever.Clone(),
+                        new Tile(Ground, new Contents(
                            "chest",
                            'C',
                            20,
@@ -164,52 +166,52 @@ namespace GameEngine
                      // row 2
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_gateClosed.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)GateClosed.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      // row 3
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_gateClosed.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)GateClosed.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      // row 4
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_sign.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_gateOpen.Clone(),
-                        (Tile)_gateOpen.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Sign.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)GateOpen.Clone(),
+                        (Tile)GateOpen.Clone(),
                      },
                      // row 5
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      // row 6
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_hog.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Hog.Clone(),
                      }
                   }
                ),
@@ -916,9 +918,9 @@ namespace GameEngine
          }
       },"test"); */// For editing
 
-      public static Level _loadedLevel;
+      public static Level LoadedLevel;
 
-      public static List<Contents> _contentsIndex = new List<Contents>();
+      public static List<Contents> ContentsIndex = new List<Contents>();
 
       public static bool LoadFromFile()
       {
@@ -958,7 +960,7 @@ namespace GameEngine
 
          if (CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse("Which file would you like to load?"), fileNames, out string result))
          {
-            Game._filePath = files[result].FullName;
+            Game.FilePath = files[result].FullName;
             LoadFromFile(files[result].FullName);
          }
          else
@@ -1017,7 +1019,7 @@ namespace GameEngine
                      Coord coordinates = new Coord(int.Parse(tileRowLine[1]), int.Parse(tileRowLine[2]));
                      if (contents != null)
                      {
-                        contents._coordinates = coordinates;
+                        contents.Coordinates = coordinates;
                      }
 
                      tiles.Add(new Tile(floor, contents, coordinates));
@@ -1072,13 +1074,13 @@ namespace GameEngine
                levels.Add(levelToAdd);
                if (bool.Parse(splitLine[3]))
                {
-                  _loadedLevel = levelToAdd;
+                  LoadedLevel = levelToAdd;
                }
             }
             levelGrid.Add(levels.ToArray());
          }
 
-         _worldMap = new Map(levelGrid.ToArray(), mapName);
+         WorldMap = new Map(levelGrid.ToArray(), mapName);
 
          sr.ReadLine();
 
@@ -1088,17 +1090,17 @@ namespace GameEngine
 
          List<Contents> allContents = GetAllContents(sr);
 
-         _player = new Player(_loadedLevel._grid.GetTileAtCoords(playerCoords)._contents, allContents[0], int.Parse(sr.ReadLine()));
+         Player = new Player(LoadedLevel.Grid.GetTileAtCoords(playerCoords).Contents, allContents[0], int.Parse(sr.ReadLine()));
 
          sr.ReadLine();
 
-         _contentsIndex = GetAllContents(sr);
+         ContentsIndex = GetAllContents(sr);
 
          sr.ReadLine();
 
          for (splitLine = SplitNextLine(sr); splitLine[0] != "}"; splitLine = SplitNextLine(sr))
          {
-            _dialogue.Add(splitLine[0], splitLine[1]);
+            Dialogue.Add(splitLine[0], splitLine[1]);
          }
 
          sr.Close();
@@ -1183,8 +1185,8 @@ namespace GameEngine
             }
             return;
          }
-         Level[][] levelMap = InvertMap(_worldMap._levelMap);
-         sw.WriteLine("map " + _worldMap._name + " {");
+         Level[][] levelMap = InvertMap(WorldMap.LevelMap);
+         sw.WriteLine("map " + WorldMap.Name + " {");
          for (int levelY = 0; levelY < levelMap[0].Length; levelY++)
          {
             sw.WriteLine("row " + levelY + " {");
@@ -1197,24 +1199,24 @@ namespace GameEngine
                   continue;
                }
                sw.WriteLine(
-                  "level " + level._name + " " + level._visualChar + " " + (level.Equals(_loadedLevel)) +
-                  " " + level._levelCoord._x + "," + level._levelCoord._y + 
-                  " " + (level._northEntry == null ? "null" : (level._northEntry._x + "," + level._northEntry._y)) + 
-                  " " + (level._eastEntry == null ? "null" : (level._eastEntry._x + "," + level._eastEntry._y)) + 
-                  " " + (level._southEntry == null ? "null" : (level._southEntry._x + "," + level._southEntry._y)) + 
-                  " " + (level._westEntry == null ? "null" : (level._westEntry._x + "," + level._westEntry._y)) + 
+                  "level " + level.Name + " " + level.VisualChar + " " + (level.Equals(LoadedLevel)) +
+                  " " + level.LevelCoord.X + "," + level.LevelCoord.Y + 
+                  " " + (level.NorthEntry == null ? "null" : (level.NorthEntry.X + "," + level.NorthEntry.Y)) + 
+                  " " + (level.EastEntry == null ? "null" : (level.EastEntry.X + "," + level.EastEntry.Y)) + 
+                  " " + (level.SouthEntry == null ? "null" : (level.SouthEntry.X + "," + level.SouthEntry.Y)) + 
+                  " " + (level.WestEntry == null ? "null" : (level.WestEntry.X + "," + level.WestEntry.Y)) + 
                   " " + "grid {");
-               for (int y = 0; y < level._grid._tileGrid.GetLength(1); y++)
+               for (int y = 0; y < level.Grid.TileGrid.GetLength(1); y++)
                {
                   sw.WriteLine("row " + y + " {");
-                  for (int x = 0; x < level._grid._tileGrid.GetLength(0); x++)
+                  for (int x = 0; x < level.Grid.TileGrid.GetLength(0); x++)
                   {
-                     Tile tileAtCoords = level._grid._tileGrid[x, y];
+                     Tile tileAtCoords = level.Grid.TileGrid[x, y];
                      sw.WriteLine("tile {");
 
-                     sw.WriteLine("floor " + tileAtCoords._floor._name + " " + tileAtCoords._floor._visualChar);
+                     sw.WriteLine("floor " + tileAtCoords.Floor.Name + " " + tileAtCoords.Floor.VisualChar);
                      sw.WriteLine("contents {");
-                     ListAllContents(tileAtCoords._contents, sw);
+                     ListAllContents(tileAtCoords.Contents, sw);
                      sw.WriteLine("}");
                      sw.WriteLine("coordinates " + x + " " + y);
 
@@ -1229,18 +1231,18 @@ namespace GameEngine
          sw.WriteLine("}");
 
          sw.WriteLine("player {");
-         sw.WriteLine(_player._contents._coordinates._x + " " + _player._contents._coordinates._y);
+         sw.WriteLine(Player.Contents.Coordinates.X + " " + Player.Contents.Coordinates.Y);
          sw.WriteLine("holding {");
-         ListAllContents(_player._holding, sw);
+         ListAllContents(Player.Holding, sw);
          sw.WriteLine("}");
-         sw.WriteLine(_player._strength);
+         sw.WriteLine(Player.Strength);
          sw.WriteLine("}");
 
          sw.WriteLine("Tile index {");
 
-         foreach (Contents contents in _contentsIndex)
+         foreach (Contents contents in ContentsIndex)
          {
-            contents._container = false;
+            contents.Container = false;
             ListAllContents(contents, sw);
          }
 
@@ -1248,15 +1250,15 @@ namespace GameEngine
 
          sw.WriteLine("Dialogue {");
 
-         foreach (string key in _dialogue.Keys)
+         foreach (string key in Dialogue.Keys)
          {
-            sw.WriteLine(key + _dialogue[key]);
+            sw.WriteLine(key + Dialogue[key]);
          }
 
          sw.WriteLine("}");
 
          sw.Close();
-         Console.WriteLine("World file saved successfully as " + Game._filePath);
+         Console.WriteLine("World file saved successfully as " + Game.FilePath);
       }
 
       private static void ListAllContents(Contents contentsAtCoords, StreamWriter sw)
@@ -1266,21 +1268,21 @@ namespace GameEngine
             sw.WriteLine("null");
             return;
          }
-         sw.Write(contentsAtCoords._name + " " + contentsAtCoords._visualChar + " " + contentsAtCoords._temperature + " " + contentsAtCoords._meltingpoint + " " + contentsAtCoords._transparent + " " + contentsAtCoords._durability + " " + contentsAtCoords._size + " " + contentsAtCoords._weight + " ");
-         sw.Write(contentsAtCoords._container + " " + contentsAtCoords._containerSpace + " ");
-         if (UseActions.TryGetIdentifier(contentsAtCoords._useAction, out string actionResult) && Behavior.TryGetIdentifier(contentsAtCoords._behavior, out string behaviorResult))
+         sw.Write(contentsAtCoords.Name + " " + contentsAtCoords.VisualChar + " " + contentsAtCoords.Temperature + " " + contentsAtCoords.MeltingPoint + " " + contentsAtCoords.Transparent + " " + contentsAtCoords.Durability + " " + contentsAtCoords.Size + " " + contentsAtCoords.Weight + " ");
+         sw.Write(contentsAtCoords.Container + " " + contentsAtCoords.ContainerSpace + " ");
+         if (UseActions.TryGetIdentifier(contentsAtCoords.UseAction, out string actionResult) && Behavior.TryGetIdentifier(contentsAtCoords.Behavior, out string behaviorResult))
          {
             sw.Write(actionResult + " ");
             sw.WriteLine(behaviorResult);
          }
          sw.WriteLine("contained {");
-         if (!contentsAtCoords._container)
+         if (!contentsAtCoords.Container)
          {
             sw.WriteLine("null");
          }
          else
          {
-            foreach (Contents contained in contentsAtCoords._contained)
+            foreach (Contents contained in contentsAtCoords.Contained)
             {
                ListAllContents(contained, sw);
             }
@@ -1290,20 +1292,20 @@ namespace GameEngine
 
       public static void UpdateWorld()
       {
-         Level realLoadedLevel = _loadedLevel;
-         foreach (Level[] levels in _worldMap._levelMap)
+         Level realLoadedLevel = LoadedLevel;
+         foreach (Level[] levels in WorldMap.LevelMap)
          {
             foreach (Level level in levels)
             {
                List<Contents> contentsToUpdate = new List<Contents>();
-               _loadedLevel = level;
+               LoadedLevel = level;
                if (level == null)
                {
                   continue;
                }
-               foreach (Tile tile in level._grid._tileGrid)
+               foreach (Tile tile in level.Grid.TileGrid)
                {
-                  Contents contents = tile._contents;
+                  Contents contents = tile.Contents;
                   if (contents == null)
                   {
                      continue;
@@ -1312,11 +1314,11 @@ namespace GameEngine
                }
                foreach (Contents updateContents in contentsToUpdate)
                {
-                  updateContents._behavior(updateContents);
+                  updateContents.Behavior(updateContents);
                }
             }
          }
-         _loadedLevel = realLoadedLevel;
+         LoadedLevel = realLoadedLevel;
       }
    }
 }

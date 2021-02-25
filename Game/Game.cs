@@ -6,12 +6,12 @@ namespace GameEngine
 {
    static class Game
    {
-      // TODO: map generation, melting, thermodynamics, comments, title screen, VisibleAtLine() adapt for not just player, figure out settings
+      // TODO: map generation, melting, thermodynamics, comments, title screen, VisibleAtLine() adapt for not just player
 
-      public static bool _execute = true;
-      public static string _filePath;
+      public static bool Execute = true;
+      public static string FilePath;
 
-      public static Dictionary<string, Action> _gameModes = new Dictionary<string, Action>() 
+      public static Dictionary<string, Action> GameModes = new Dictionary<string, Action>() 
       {
          // if you wish to add a gamemode, make the key lowercase!!!
          { "game", GameEngine },
@@ -22,27 +22,27 @@ namespace GameEngine
       static void Main(string[] args)
       {
          Console.WriteLine("Welcome. Current game modes are: ");
-         foreach (string gameMode in _gameModes.Keys)
+         foreach (string gameMode in GameModes.Keys)
          {
             Console.WriteLine(gameMode);
          }
 
          string result;
-         while (!CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse("Which gamemode would you like to launch?"), _gameModes.Keys.ToArray(), out result))
+         while (!CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse("Which gamemode would you like to launch?"), GameModes.Keys.ToArray(), out result))
          {
             if (!CommandInterpretation.InterpretYesNo("Could not identify gamemode. Would you like to try again"))
             {
                return;
             }
          }
-         _gameModes[result.ToLower()]();
+         GameModes[result.ToLower()]();
       }
       static void GameEngine()
       {
-         CommandChoices com = GameModeCommands._engineCommands;
+         CommandChoices com = GameModeCommands.EngineCommands;
          if (com.TryFindCommand("help", out Command command))
          {
-            command._helpLines[0] = "Enter the command that you wish to learn about\n" + com.ListCommands();
+            command.HelpLines[0] = "Enter the command that you wish to learn about\n" + com.ListCommands();
          }
 
          if (!World.LoadFromFile())
@@ -56,7 +56,7 @@ namespace GameEngine
          Console.WriteLine("Type \"exit\" at any time to close the game");
          Console.WriteLine("Type \"help\" to view a list of commands");
 
-         for (Console.WriteLine(World._loadedLevel._grid.GraphicString()); _execute; Console.WriteLine(World._loadedLevel._grid.GraphicString()))
+         for (Console.WriteLine(World.LoadedLevel.Grid.GraphicString()); Execute; Console.WriteLine(World.LoadedLevel.Grid.GraphicString()))
          {
             if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
             {
@@ -66,15 +66,15 @@ namespace GameEngine
 
          if (CommandInterpretation.InterpretYesNo("Would you like to save your progress?"))
          {
-            World.SaveToFile(_filePath);
+            World.SaveToFile(FilePath);
          }
       }
       static void Tutorial()
       {
-         CommandChoices com = GameModeCommands._tutorialCommands;
+         CommandChoices com = GameModeCommands.TutorialCommands;
          if (com.TryFindCommand("help", out Command command))
          {
-            command._helpLines[0] = "Enter the command that you wish to learn about\n" + com.ListCommands();
+            command.HelpLines[0] = "Enter the command that you wish to learn about\n" + com.ListCommands();
          }
          string[] lines = new string[]
          {
@@ -105,14 +105,13 @@ namespace GameEngine
             // v 12
             "Nice work! You've solidified the basic skills needed to understand and manipualte your surroundings.\nRemember to use 'help' if you need a refresher on what commands to use."
          };
-
-         World._dialogue = new Dictionary<string, string>()
+         World.Dialogue = new Dictionary<string, string>()
          {
             { "sign", "Treasure is past these gates, but beware! Flip that lever and you will release the beast!!!\n\nTry to trap it then shoot it from afar."}
          };
 
-         World._worldMap = World._tutorialLevel;
-         World._loadedLevel = World._worldMap._levelMap[0][0];
+         World.WorldMap = World.TutorialLevel;
+         World.LoadedLevel = World.WorldMap.LevelMap[0][0];
 
          int index = 0;
 
@@ -120,7 +119,7 @@ namespace GameEngine
 
          // INCOMPLETE!!!!!
 
-         for (Console.WriteLine(World._loadedLevel._grid.GraphicString()); _execute; Console.WriteLine(World._loadedLevel._grid.GraphicString()))
+         for (Console.WriteLine(World.LoadedLevel.Grid.GraphicString()); Execute; Console.WriteLine(World.LoadedLevel.Grid.GraphicString()))
          {
             TutorialProgression(lines, ref index);
 
@@ -152,7 +151,7 @@ namespace GameEngine
                WriteNextLine(lines, ref index);
                break;
             case 5:
-               if (World._contentsIndex.Count > 3)
+               if (World.ContentsIndex.Count > 3)
                {
                   WriteNextLine(lines, ref index);
                }
@@ -161,7 +160,7 @@ namespace GameEngine
                WriteNextLine(lines, ref index);
                break;
             case 7:
-               if (World._player._holding != null && World._player._holding._name == "gun")
+               if (World.Player.Holding != null && World.Player.Holding.Name == "gun")
                {
                   WriteNextLine(lines, ref index);
                }
@@ -170,7 +169,7 @@ namespace GameEngine
                WriteNextLine(lines, ref index);
                break;
             case 9:
-               if (World._loadedLevel == World._tutorialLevel._levelMap[1][0])
+               if (World.LoadedLevel == World.TutorialLevel.LevelMap[1][0])
                {
                   WriteNextLine(lines, ref index);
                }
@@ -179,16 +178,16 @@ namespace GameEngine
                WriteNextLine(lines, ref index);
                break;
             case 11:
-               if (World._loadedLevel == World._tutorialLevel._levelMap[1][0] && !World._loadedLevel._grid.TryFindContents(World._hog._contents, out _))
+               if (World.LoadedLevel == World.TutorialLevel.LevelMap[1][0] && !World.LoadedLevel.Grid.TryFindContents(World.Hog.Contents, out _))
                {
                   WriteNextLine(lines, ref index);
                }
                break;
             case 12:
                int coins = 0;
-               foreach (Contents contents in World._player._contents._contained)
+               foreach (Contents contents in World.Player.Contents.Contained)
                {
-                  if (contents._name == "coin")
+                  if (contents.Name == "coin")
                   {
                      coins++;
                   }
@@ -203,16 +202,10 @@ namespace GameEngine
                break;
          }
       }
+
       static void LevelEditor()
       {
-         CommandChoices com = GameModeCommands._editorCommands;
-         for (Console.WriteLine(World._loadedLevel._grid.GraphicString()); _execute; Console.WriteLine(World._loadedLevel._grid.GraphicString()))
-         {
-            if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
-            {
-               World.UpdateWorld();
-            }
-         }
+
       }
    }
 }

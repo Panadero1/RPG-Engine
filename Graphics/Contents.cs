@@ -5,75 +5,75 @@ namespace GameEngine
 {
    class Contents : ICloneable
    {
-      public Coord _coordinates;
+      public Coord Coordinates;
 
-      public string _name;
-      public char _visualChar;
+      public string Name;
+      public char VisualChar;
 
-      public int _temperature;
-      public int _meltingpoint;
-      public int _durability;
+      public int Temperature;
+      public int MeltingPoint;
+      public int Durability;
 
-      public int _size;
-      public float _weight;
-      public float _totalWeight;
+      public int Size;
+      public float Weight;
+      public float TotalWeight;
 
-      public bool _transparent;
+      public bool Transparent;
 
-      public bool _container = false;
-      public int _containerSpace = 0;
-      public int _usedSpace = 0;
-      public List<Contents> _contained = new List<Contents>();
+      public bool Container = false;
+      public int ContainerSpace = 0;
+      public int UsedSpace = 0;
+      public List<Contents> Contained = new List<Contents>();
 
-      public Action<string[], Contents> _useAction;
-      public Action<Contents> _behavior;
+      public Action<string[], Contents> UseAction;
+      public Action<Contents> Behavior;
 
       public Contents(string name, char visualChar, int temperature, int meltingpoint, bool transparent, int durability, int size, float weight, Action<string[], Contents> useAction, Action<Contents> behavior)
       {
-         _name = name;
-         _visualChar = visualChar;
-         _temperature = temperature;
-         _meltingpoint = meltingpoint;
-         _transparent = transparent;
-         _durability = durability;
-         _size = size;
-         _weight = weight;
-         _useAction = useAction;
-         _behavior = behavior;
+         Name = name;
+         VisualChar = visualChar;
+         Temperature = temperature;
+         MeltingPoint = meltingpoint;
+         Transparent = transparent;
+         Durability = durability;
+         Size = size;
+         Weight = weight;
+         UseAction = useAction;
+         Behavior = behavior;
       }
 
       public Contents(string name, char visualChar, int temperature, int meltingpoint, bool transparent, int durability, int size, float weight, bool container, int containerSpace, List<Contents> contained, Action<string[], Contents> useAction, Action<Contents> behavior) : this(name, visualChar, temperature, meltingpoint, transparent, durability, size, weight, useAction, behavior)
       {
-         _container = container;
-         _containerSpace = containerSpace;
-         _contained = contained;
+         Container = container;
+         ContainerSpace = containerSpace;
+         Contained = contained;
 
          CleanOut();
 
-         _usedSpace = 0;
-         _totalWeight = GetWeightRecursive();
+         UsedSpace = 0;
+         TotalWeight = GetWeightRecursive();
          if (container)
          {
-            foreach (Contents contents in _contained)
+            foreach (Contents contents in Contained)
             {
-               _usedSpace += contents._size;
+               UsedSpace += contents.Size;
             }
          }
       }
       private void CleanOut()
       {
-         if (_container)
+         if (Container)
          {
-            while (_contained.Remove(null)) ;
+            while (Contained.Remove(null)) ;
          }
       }
 
       private float GetWeightRecursive()
       {
-         float totalWeight = _weight;
-         if (_container)
+         float totalWeight = Weight;
+         if (Container)
          {
-            foreach (Contents contents in _contained)
+            foreach (Contents contents in Contained)
             {
                totalWeight += contents.GetWeightRecursive();
             }
@@ -84,55 +84,55 @@ namespace GameEngine
 
       public void AddContents(Contents contentsToAdd)
       {
-         if (_container)
+         if (Container)
          {
-            if (contentsToAdd._size <= (_containerSpace - _usedSpace))
+            if (contentsToAdd.Size <= (ContainerSpace - UsedSpace))
             {
-               _contained.Add(contentsToAdd);
-               _usedSpace += contentsToAdd._size;
-               _totalWeight += contentsToAdd._weight;
+               Contained.Add(contentsToAdd);
+               UsedSpace += contentsToAdd.Size;
+               TotalWeight += contentsToAdd.Weight;
                Console.WriteLine("Added.");
             }
             else
             {
-               Console.WriteLine(contentsToAdd._name + " is to big. It doesn't fit inside " + _name);
-               if (_contained.Count > 0 && _containerSpace >= contentsToAdd._size)
+               Console.WriteLine(contentsToAdd.Name + " is to big. It doesn't fit inside " + Name);
+               if (Contained.Count > 0 && ContainerSpace >= contentsToAdd.Size)
                {
-                  Console.WriteLine("You can remove some items from " + _name + " to make space for it, though");
+                  Console.WriteLine("You can remove some items from " + Name + " to make space for it, though");
                }
             }
          }
          else
          {
-            Console.WriteLine("You can't put " + contentsToAdd._name + " in " + _name);
+            Console.WriteLine("You can't put " + contentsToAdd.Name + " in " + Name);
          }
       }
       public string ListContents()
       {
-         string output = "\nHere are the contents of " + _name + "\n";
-         output += "Space used in " + _name + ": " + _usedSpace + "/" + _containerSpace + "\n\n";
+         string output = "\nHere are the contents of " + Name + "\n";
+         output += "Space used in " + Name + ": " + UsedSpace + "/" + ContainerSpace + "\n\n";
 
-         for (int contentsIndex = 0; contentsIndex < _contained.Count; contentsIndex++)
+         for (int contentsIndex = 0; contentsIndex < Contained.Count; contentsIndex++)
          {
-            Contents contents = _contained[contentsIndex];
+            Contents contents = Contained[contentsIndex];
 
-            output += contentsIndex + ". " + contents._name + "\tSize: " + contents._size + "\tWeight: " + contents._totalWeight + "\n";
+            output += contentsIndex + ". " + contents.Name + "\tSize: " + contents.Size + "\tWeight: " + contents.TotalWeight + "\n";
          }
          return output;
       }
       public string ListContainers()
       {
-         Console.WriteLine("Here are the containers of " + _name);
+         Console.WriteLine("Here are the containers of " + Name);
 
          string output = "\n";
 
          output += "0. Self\n";
-         for (int contentsIndex = 0; contentsIndex < _contained.Count; contentsIndex++)
+         for (int contentsIndex = 0; contentsIndex < Contained.Count; contentsIndex++)
          {
-            Contents contents = _contained[contentsIndex];
-            if (contents._container)
+            Contents contents = Contained[contentsIndex];
+            if (contents.Container)
             {
-               Console.WriteLine((contentsIndex + 1) + ". " + contents._name + "\tSize: " + contents._size + "\tWeight: " + contents._weight);
+               Console.WriteLine((contentsIndex + 1) + ". " + contents.Name + "\tSize: " + contents.Size + "\tWeight: " + contents.Weight);
             }
          }
          return output;
@@ -140,19 +140,19 @@ namespace GameEngine
 
       public void Damage(int damage, bool displayMessage = true)
       {
-         _durability -= damage;
+         Durability -= damage;
          if (displayMessage)
          {
-            Console.WriteLine(_name + " was damaged for " + damage);
+            Console.WriteLine(Name + " was damaged for " + damage);
          }
-         if (_durability <= 0)
+         if (Durability <= 0)
          {
-            if (_container && _contained.Count > 0)
+            if (Container && Contained.Count > 0)
             {
                // HERE IS WHERE BAG IS DEFINED. Change as you wish
-               Tile destroyTile = World._loadedLevel._grid.GetTileAtCoords(_coordinates);
+               Tile destroyTile = World.LoadedLevel.Grid.GetTileAtCoords(Coordinates);
 
-               destroyTile._contents = new Contents
+               destroyTile.Contents = new Contents
                   (
                   name: "bag",
                   visualChar: 'b',
@@ -163,23 +163,23 @@ namespace GameEngine
                   5,
                   1,
                   true,
-                  _containerSpace,
-                  _contained,
+                  ContainerSpace,
+                  Contained,
                   UseActions.DoesNothing,
-                  Behavior.DoesNothing
+                  GameEngine.Behavior.DoesNothing
                   );
-               destroyTile._contents._coordinates = destroyTile._coordinates;
+               destroyTile.Contents.Coordinates = destroyTile.Coordinates;
             }
             else
             {
-               World._loadedLevel._grid.GetTileAtCoords(_coordinates)._contents = null;
+               World.LoadedLevel.Grid.GetTileAtCoords(Coordinates).Contents = null;
             }
          }
       }
 
       public object Clone()
       {
-         return new Contents(this._name, this._visualChar, this._temperature, this._meltingpoint, this._transparent, this._durability, this._size, this._weight, this._container, this._containerSpace, this._contained, this._useAction, this._behavior);
+         return new Contents(this.Name, this.VisualChar, this.Temperature, this.MeltingPoint, this.Transparent, this.Durability, this.Size, this.Weight, this.Container, this.ContainerSpace, this.Contained, this.UseAction, this.Behavior);
       }
    }
 }

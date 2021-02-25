@@ -3,13 +3,13 @@ namespace GameEngine
 {
    class Floor
    {
-      public char _visualChar;
-      public string _name;
+      public char VisualChar;
+      public string Name;
 
       public Floor(char visualChar, string name)
       {
-         _visualChar = visualChar;
-         _name = name;
+         VisualChar = visualChar;
+         Name = name;
       }
    }
 }

@@ -3,21 +3,21 @@ namespace GameEngine
 {
    class Player
    {
-      public Contents _contents;
-      public Contents _holding;
+      public Contents Contents;
+      public Contents Holding;
 
-      public int _strength;
+      public int Strength;
 
       public Player(Contents contents, Contents holding, int strength)
       {
-         _contents = contents;
-         _holding = holding;
+         Contents = contents;
+         Holding = holding;
 
-         _strength = strength;
+         Strength = strength;
       }
       public Coord GetCoords()
       {
-         return _contents._coordinates;
+         return Contents.Coordinates;
       }
    }
 }

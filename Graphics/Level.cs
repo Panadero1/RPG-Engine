@@ -3,32 +3,32 @@ namespace GameEngine
 {
    class Level
    {
-      public char _visualChar;
-      public string _name;
-      public Grid _grid;
-      public int _width;
-      public int _height;
+      public char VisualChar;
+      public string Name;
+      public Grid Grid;
+      public int Width;
+      public int Height;
 
-      public Coord _levelCoord;
+      public Coord LevelCoord;
 
-      public Coord _northEntry;
-      public Coord _eastEntry;
-      public Coord _southEntry;
-      public Coord _westEntry;
+      public Coord NorthEntry;
+      public Coord EastEntry;
+      public Coord SouthEntry;
+      public Coord WestEntry;
 
       public Level(string name, char visualChar, Grid grid, Coord levelCoord, Coord northEntry, Coord eastEntry, Coord southEntry, Coord westEntry)
       {
-         _name = name;
-         _visualChar = visualChar;
-         _grid = grid;
-         _width = grid._tileGrid.GetLength(0);
-         _height = grid._tileGrid.GetLength(1);
-         _levelCoord = levelCoord;
+         Name = name;
+         VisualChar = visualChar;
+         Grid = grid;
+         Width = grid.TileGrid.GetLength(0);
+         Height = grid.TileGrid.GetLength(1);
+         LevelCoord = levelCoord;
 
-         _northEntry = northEntry;
-         _eastEntry = eastEntry;
-         _southEntry = southEntry;
-         _westEntry = westEntry;
+         NorthEntry = northEntry;
+         EastEntry = eastEntry;
+         SouthEntry = southEntry;
+         WestEntry = westEntry;
       }
    }
 }

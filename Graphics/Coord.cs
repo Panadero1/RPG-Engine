@@ -4,13 +4,13 @@ namespace GameEngine
 {
    class Coord
    {
-      public int _x;
-      public int _y;
+      public int X;
+      public int Y;
 
       public Coord(int x, int y)
       {
-         _x = x;
-         _y = y;
+         X = x;
+         Y = y;
       }
       public static bool FromAlphaNum(string alphaNumX, string alphaNumY, out Coord result)
       {
@@ -72,11 +72,11 @@ namespace GameEngine
 
       public Coord Add(Coord coordsToAdd)
       {
-         return new Coord(_x + coordsToAdd._x, _y + coordsToAdd._y);
+         return new Coord(X + coordsToAdd.X, Y + coordsToAdd.Y);
       }
       public Coord Subtract(Coord coordsToSubtract)
       {
-         return new Coord(_x - coordsToSubtract._x, _y - coordsToSubtract._y);
+         return new Coord(X - coordsToSubtract.X, Y - coordsToSubtract.Y);
       }
    }
 }
