@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -224,7 +224,7 @@ namespace GameEngine
          }
       }, "tutorial");
 
-      /*public static Map _worldMap = new Map(new Level[][]
+      public static Map _worldMap = new Map(new Level[,]
       {
          // column 1
          new Level[]
