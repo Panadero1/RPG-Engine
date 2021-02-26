@@ -1,10 +1,13 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 
 namespace GameEngine
 {
     static class GameModeCommands
     {
+        private static string[] _emptyString = new string[0];
+
         #region Actions
         private static void Remove(string[] parameters)
         {
@@ -168,6 +171,10 @@ namespace GameEngine
 
         private static void Exit(string[] parameters)
         {
+            if (CommandInterpretation.InterpretYesNo("Would you like to save before exiting?"))
+            {
+                Save(_emptyString);
+            }
             Game.Execute = false;
         }
 
@@ -175,7 +182,10 @@ namespace GameEngine
         {
             if (CommandInterpretation.InterpretYesNo("Would you like to save the file in a new location?"))
             {
-                World.SaveToFile(CommandInterpretation.GetUserResponse("Please indicate the path of the file"));
+                string response = CommandInterpretation.GetUserResponse("Please indicate the name of the file");
+                Path.ChangeExtension(response, ".txt");
+
+                World.SaveToFile(Path.Combine(Game.FilePath, response));
             }
             else
             {
@@ -201,7 +211,7 @@ namespace GameEngine
         
         private static void LevelEditorHelp(string[] parameters)
         {
-            if (TutorialCommands.TryFindCommand(parameters[0], out Command result))
+            if (EditorCommands.TryFindCommand(parameters[0], out Command result))
             {
                 Console.WriteLine("\n" + result.HelpText + "\n");
             }
@@ -242,7 +252,7 @@ namespace GameEngine
 
         private static void Load(string[] parameters)
         {
-            World.LoadFromFile(parameters[0]);
+            World.LoadFromFile();
         }
 
         private static void Look(string[] paramters)
@@ -369,8 +379,134 @@ namespace GameEngine
 
         private static void NewMap(string[] parameters)
         {
+            string fileMouth;
+            if (!World.TryGetMapsFolder(out fileMouth))
+            {
+                return;
+            }
             string mapName = CommandInterpretation.GetUserResponse("Enter a name for this new map.");
-            World.EditorMap = new Map(new Level[][] {new Level[0]}, mapName);
+            Game.FilePath = Path.Combine(fileMouth, Path.ChangeExtension(mapName, ".txt"));
+            World.WorldMap = new Map(new Level[1,1], mapName);
+        }
+
+        private static void Expand(string[] parameters)
+        {
+            Coord direction;
+            if (!CommandInterpretation.InterpretDirection(parameters[0], out direction))
+            {
+                return;
+            }
+            switch (Game.EditorState)
+            {
+                case Game._editorState.Map:
+
+                    Level [,] expandedMap = new Level[World.WorldMap.LevelMap.GetLength(0) + Math.Abs(direction.X), World.WorldMap.LevelMap.GetLength(1) + Math.Abs(direction.Y)];
+
+                    for (int y = (direction.Y == -1 ? 0 : 1); y < World.WorldMap.LevelMap.GetLength(1); y++)
+                    {
+                        for(int x = (direction.X == -1 ? 0 : 1); x < World.WorldMap.LevelMap.GetLength(0); x++)
+                        {
+                            expandedMap[x, y] = World.WorldMap.LevelMap[x, y];
+                        }
+                    }
+
+                    World.WorldMap = new Map(expandedMap, World.WorldMap.Name);
+                    break;
+
+                case Game._editorState.Level:
+
+                    Grid expandedGrid = new Grid(new Tile[World.LoadedLevel.Grid.TileGrid.GetLength(0) + direction.X, World.LoadedLevel.Grid.TileGrid.GetLength(1) + direction.Y]);
+
+                    for (int y = (direction.Y == -1 ? 0 : 1); y < World.LoadedLevel.Grid.TileGrid.GetLength(1); y++)
+                    {
+                        for (int x = (direction.X == -1 ? 0 : 1); x < World.LoadedLevel.Grid.TileGrid.GetLength(1); x++)
+                        {
+                            expandedGrid.TileGrid[x, y] = World.LoadedLevel.Grid.TileGrid[x, y];
+                        }
+                    }
+                    World.LoadedLevel.Grid = expandedGrid;
+
+                    #region Updating entry points
+                    int levelWidth = World.LoadedLevel.Grid.TileGrid.GetLength(0);
+                    int levelHeight = World.LoadedLevel.Grid.TileGrid.GetLength(1);
+                    World.LoadedLevel.WestEntry = new Coord(0, (levelHeight - 1) / 2);
+                    World.LoadedLevel.EastEntry = new Coord(levelWidth - 1, (levelHeight - 1) / 2);
+                    World.LoadedLevel.NorthEntry = new Coord((levelWidth - 1) / 2, 0);
+                    World.LoadedLevel.NorthEntry = new Coord((levelWidth - 1) / 2, levelHeight - 1);
+                    #endregion
+                    break;
+            }
+        }
+        
+        private static void ViewMap(string[] parameters)
+        {
+            Console.WriteLine(World.WorldMap.GraphicString());
+        }
+
+        private static void SwitchMap(string[] parameters)
+        {
+            Game.EditorState = Game._editorState.Map;
+        }
+
+        private static void FocusLevel(string[] parameters)
+        {
+            Coord levelCoord;
+            Level levelAtCoords;
+            if (!Coord.FromAlphaNum(parameters[0], parameters[1], out levelCoord))
+            {
+                return;
+            }
+            if (!World.WorldMap.GetLevelAtCoords(levelCoord, out levelAtCoords))
+            {
+                return;
+            }
+            if (levelAtCoords == null)
+            {
+                Console.WriteLine("This level is empty. We are going to create a new one here.");
+                levelAtCoords = new Level(
+                    CommandInterpretation.GetUserResponse("Enter a name for this level"),
+                    CommandInterpretation.GetUserResponse("Enter a character (letter or number) to represent this level")[0],
+                    new Grid(new Tile[1,1]),
+                    levelCoord,
+                    null,
+                    null,
+                    null,
+                    null);
+
+                #region evaluating entry points
+                Level result;
+                if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(1, 0)), out result))
+                {
+                    if (result != null)
+                    {
+                        levelAtCoords.EastEntry = new Coord(0, 0);
+                    }
+                }
+                if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(-1, 0)), out result))
+                {
+                    if (result != null)
+                    {
+                        levelAtCoords.WestEntry = new Coord(0, 0);
+                    }
+                }
+                if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(0, 1)), out result))
+                {
+                    if (result != null)
+                    {
+                        levelAtCoords.SouthEntry = new Coord(0, 0);
+                    }
+                }
+                if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(0, -1)), out result))
+                {
+                    if (result != null)
+                    {
+                        levelAtCoords.NorthEntry = new Coord(0, 0);
+                    }
+                }
+                #endregion
+            }
+            World.LoadedLevel = levelAtCoords;
+            Game.EditorState = Game._editorState.Level;
         }
 
         #endregion
@@ -479,10 +615,7 @@ namespace GameEngine
         private static readonly Command _load = new Command(
             "load",
             "Loads a file from a file path",
-            new string[]
-            {
-                "Please enter the full path of your world file"
-            },
+            _emptyString,
             Load,
             false);
 
@@ -539,15 +672,36 @@ namespace GameEngine
         private static readonly Command _newMap = new Command(
             "new",
             "creates a new world file",
+            _emptyString,
+            NewMap,
+            false);
+        private static readonly Command _expand = new Command(
+            "expand",
+            "Expands the map or level, depending on the current state",
             new string[]
             {
-
+                "Indicate the cardinal direction in which you would like to expand."
             },
-            NewMap,
+            Expand,
+            false);
+        private static readonly Command _switchMap = new Command(
+            "map",
+            "Switches to the map view",
+            _emptyString,
+            SwitchMap,
+            false);
+        private static readonly Command _focusLevel = new Command(
+            "level",
+            "Switches to a view of a specific level",
+            new string[]
+            {
+                "Enter the x coordinate of the level that you would like to load.",
+                "Enter the y coordinate of the level that you would like to load.",
+            },
+            FocusLevel,
             false);
         #endregion
 
-        private static string[] _emptyString = new string[0];
         public static CommandChoices EngineCommands = new CommandChoices(new List<Command>()
         {
             _remove,
@@ -586,7 +740,14 @@ namespace GameEngine
         });
         public static CommandChoices EditorCommands = new CommandChoices(new List<Command>()
         {
-           _levelEditorHelp
+           _save,
+           _load,
+           _exit,
+           _levelEditorHelp,
+           _newMap,
+           _expand,
+           _switchMap,
+           _focusLevel
         });
     }
 }

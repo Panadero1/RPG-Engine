@@ -6,8 +6,6 @@ namespace GameEngine
       public char VisualChar;
       public string Name;
       public Grid Grid;
-      public int Width;
-      public int Height;
 
       public Coord LevelCoord;
 
@@ -21,8 +19,6 @@ namespace GameEngine
          Name = name;
          VisualChar = visualChar;
          Grid = grid;
-         Width = grid.TileGrid.GetLength(0);
-         Height = grid.TileGrid.GetLength(1);
          LevelCoord = levelCoord;
 
          NorthEntry = northEntry;

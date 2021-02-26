@@ -6,6 +6,37 @@ namespace GameEngine
    {
       public Tile[,] TileGrid;
 
+      public Grid(Tile[,] tileGrid)
+      {
+         if (tileGrid.GetLength(0) >= 260 || tileGrid.GetLength(1) >= 260)
+         {
+            Console.WriteLine("Grid is too large!");
+            return;
+         }
+         Tile[,] createdTiles = new Tile[tileGrid.GetLength(0), tileGrid.GetLength(1)];
+         for (int y = 0; y < tileGrid.GetLength(1); y++)
+         {
+            for (int x = 0; x < tileGrid.GetLength(0); x++)
+            {
+               Floor oldFloor = tileGrid[x, y].Floor;
+               Contents oldContents = tileGrid[x, y].Contents;
+               if (oldContents == null)
+               {
+                  createdTiles[x, y] = new Tile(new Floor(oldFloor.VisualChar, oldFloor.Name), null, new Coord(x, y));
+               }
+               else
+               {
+                  createdTiles[x, y] = new Tile(new Floor(oldFloor.VisualChar, oldFloor.Name), new Contents(oldContents.Name, oldContents.VisualChar, oldContents.Temperature, oldContents.MeltingPoint, oldContents.Transparent, oldContents.Durability, oldContents.Size, oldContents.Weight, oldContents.Container, oldContents.ContainerSpace, oldContents.Contained, oldContents.UseAction, oldContents.Behavior), new Coord(x, y));
+                  createdTiles[x, y].Contents.Coordinates = new Coord(x, y);
+                  if (oldContents.Name == World.Player.Contents.Name)
+                  {
+                     World.Player.Contents = createdTiles[x, y].Contents;
+                  }
+               }
+            }
+         }
+         TileGrid = createdTiles;
+      }
       public Grid(Tile[][] tileGrid)
       {
          if (tileGrid.Length >= 260 || tileGrid[0].Length >= 260)
@@ -54,7 +85,11 @@ namespace GameEngine
             Coord levelCoords = World.LoadedLevel.LevelCoord.Add(new Coord(-1, 0));
             if (levelCoords.X >= 0)
             {
-               Level levelToWest = World.WorldMap.GetLevelAtCoords(levelCoords);
+               Level levelToWest;
+               if (!World.WorldMap.GetLevelAtCoords(levelCoords, out levelToWest))
+               {
+                  return;
+               }
                if (levelToWest == null)
                {
                   Console.WriteLine("You cannot move here");
@@ -79,13 +114,17 @@ namespace GameEngine
                return;
             }
          }
-         else if (endingCoord.X >= World.LoadedLevel.Width)
+         else if (endingCoord.X >= World.LoadedLevel.Grid.TileGrid.GetLength(0))
          {
             // Changing levels to east
             Coord levelCoords = World.LoadedLevel.LevelCoord.Add(new Coord(1, 0));
-            if (levelCoords.X < World.WorldMap.Width)
+            if (levelCoords.X < World.WorldMap.LevelMap.GetLength(0))
             {
-               Level levelToEast = World.WorldMap.GetLevelAtCoords(levelCoords);
+               Level levelToEast;
+               if (!World.WorldMap.GetLevelAtCoords(levelCoords, out levelToEast))
+               {
+                  return;
+               }
                if (levelToEast == null)
                {
                   Console.WriteLine("You cannot move here");
@@ -116,7 +155,11 @@ namespace GameEngine
             Coord levelCoords = World.LoadedLevel.LevelCoord.Add(new Coord(0, -1));
             if (levelCoords.Y >= 0)
             {
-               Level levelToNorth = World.WorldMap.GetLevelAtCoords(levelCoords);
+               Level levelToNorth;
+               if (!World.WorldMap.GetLevelAtCoords(levelCoords, out levelToNorth))
+               {
+                  return;
+               }
                if (levelToNorth == null)
                {
                   Console.WriteLine("You cannot move here");
@@ -141,13 +184,17 @@ namespace GameEngine
                return;
             }
          }
-         else if (endingCoord.Y >= World.LoadedLevel.Height)
+         else if (endingCoord.Y >= World.LoadedLevel.Grid.TileGrid.GetLength(1))
          {
             // Changing levels to south
             Coord levelCoords = World.LoadedLevel.LevelCoord.Add(new Coord(0, 1));
-            if (levelCoords.Y < World.WorldMap.Height)
+            if (levelCoords.Y < World.WorldMap.LevelMap.GetLength(1))
             {
-               Level levelToSouth = World.WorldMap.GetLevelAtCoords(levelCoords);
+               Level levelToSouth;
+               if (!World.WorldMap.GetLevelAtCoords(levelCoords, out levelToSouth))
+               {
+                  return;
+               }
                if (levelToSouth == null)
                {
                   Console.WriteLine("You cannot move here");

@@ -1,6 +1,564 @@
 map test {
 row 0 {
 null
+level Barn B False 1,0 null null 3,6 null grid {
+row 0 {
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 0 0
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 1 0
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 2 0
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 3 0
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 4 0
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 5 0
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 6 0
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 7 0
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 8 0
+}
+}
+row 1 {
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 0 1
+}
+tile {
+floor mudpit ~
+contents {
+hog H 30 100 True 4 40 20 False 0 DoesNothing Aggressive
+contained {
+null
+}
+}
+coordinates 1 1
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 2 1
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 1
+}
+tile {
+floor ground .
+contents {
+Player A 20 100 True 50 10 50 True 100 DoesNothing DoesNothing
+contained {
+}
+}
+coordinates 4 1
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 1
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 6 1
+}
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 7 1
+}
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 8 1
+}
+}
+row 2 {
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 0 2
+}
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 1 2
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 2 2
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 2
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 2
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 2
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 6 2
+}
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 7 2
+}
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 8 2
+}
+}
+row 3 {
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 0 3
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 1 3
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 2 3
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 3
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 3
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 3
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 6 3
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 7 3
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 8 3
+}
+}
+row 4 {
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 0 4
+}
+tile {
+floor mudpit ~
+contents {
+hog H 30 100 True 4 40 20 False 0 DoesNothing Aggressive
+contained {
+null
+}
+}
+coordinates 1 4
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 2 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 4
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 6 4
+}
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 7 4
+}
+tile {
+floor mudpit ~
+contents {
+hog H 30 100 True 4 40 20 False 0 DoesNothing Aggressive
+contained {
+null
+}
+}
+coordinates 8 4
+}
+}
+row 5 {
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 0 5
+}
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 1 5
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 2 5
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 5
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 5
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 5
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 6 5
+}
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 7 5
+}
+tile {
+floor mud ~
+contents {
+null
+}
+coordinates 8 5
+}
+}
+row 6 {
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 0 6
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 1 6
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 2 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 6
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 6 6
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 7 6
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 8 6
+}
+}
+}
+null
+}
+row 1 {
 level Field T False 0,1 null 6,3 3,6 null grid {
 row 0 {
 tile {
@@ -64,10 +622,7 @@ coordinates 0 1
 tile {
 floor plant Y
 contents {
-chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
-contained {
 null
-}
 }
 coordinates 1 1
 }
@@ -183,7 +738,10 @@ coordinates 2 3
 tile {
 floor ground .
 contents {
+chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
+contained {
 null
+}
 }
 coordinates 3 3
 }
@@ -363,1401 +921,7 @@ coordinates 6 6
 }
 }
 }
-level Market M False 0,2 3,0 9,4 null null grid {
-row 0 {
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 0 0
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 1 0
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 2 0
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 0
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 0
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 0
-}
-tile {
-floor ground .
-contents {
-gate - 20 100 True 2000 10 12390 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 6 0
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 7 0
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 8 0
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 9 0
-}
-}
-row 1 {
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 0 1
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 1 1
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 2 1
-}
-tile {
-floor ground .
-contents {
-person p 20 100 True 1 1 1000 False 0 Rude Wander
-contained {
-null
-}
-}
-coordinates 3 1
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 1
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 1
-}
-tile {
-floor ground .
-contents {
-gate - 20 100 True 2000 10 12390 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 6 1
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 7 1
-}
-tile {
-floor ground .
-contents {
-chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
-contained {
-null
-}
-}
-coordinates 8 1
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 9 1
-}
-}
-row 2 {
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 0 2
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 1 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 2 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 2
-}
-tile {
-floor ground .
-contents {
-gate - 20 100 True 2000 10 12390 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 6 2
-}
-tile {
-floor ground .
-contents {
-gate - 20 100 True 2000 10 12390 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 7 2
-}
-tile {
-floor ground .
-contents {
-gate - 20 100 True 2000 10 12390 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 8 2
-}
-tile {
-floor ground .
-contents {
-gate - 20 100 True 2000 10 12390 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 9 2
-}
-}
-row 3 {
-tile {
-floor ground .
-contents {
-rock o 10 1000 True 4 1 3 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 0 3
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 1 3
-}
-tile {
-floor ground .
-contents {
-person p 20 100 True 1 1 1000 False 0 Rude Wander
-contained {
-null
-}
-}
-coordinates 2 3
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 3
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 3
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 3
-}
-tile {
-floor ground .
-contents {
-lever L 10 203 True 10 234 5151 False 0 Lever DoesNothing
-contained {
-null
-}
-}
-coordinates 6 3
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 7 3
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 8 3
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 9 3
-}
-}
-row 4 {
-tile {
-floor ground .
-contents {
-person p 20 100 True 1 1 1000 False 0 Rude Wander
-contained {
-null
-}
-}
-coordinates 0 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 1 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 2 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 4
-}
-tile {
-floor ground .
-contents {
-person p 20 100 True 1 1 1000 False 0 Rude Wander
-contained {
-null
-}
-}
-coordinates 5 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 7 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 8 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 9 4
-}
-}
-row 5 {
-tile {
-floor ground .
-contents {
-rock o 10 1000 True 4 1 3 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 0 5
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 1 5
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 2 5
-}
-tile {
-floor ground .
-contents {
-chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
-contained {
-null
-}
-}
-coordinates 3 5
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 5
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 5
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 5
-}
-tile {
-floor ground .
-contents {
-person p 20 100 True 1 1 1000 False 0 Rude Wander
-contained {
-null
-}
-}
-coordinates 7 5
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 8 5
-}
-tile {
-floor ground .
-contents {
-person p 20 100 True 1 1 1000 False 0 Rude Wander
-contained {
-null
-}
-}
-coordinates 9 5
-}
-}
-row 6 {
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 0 6
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 1 6
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 2 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 7 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 8 6
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 9 6
-}
-}
-row 7 {
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 0 7
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 1 7
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 2 7
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 7
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 7
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 7
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 7
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 7 7
-}
-tile {
-floor ground .
-contents {
-rock o 10 1000 True 4 1 3 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 8 7
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 9 7
-}
-}
-row 8 {
-tile {
-floor mudpit ~
-contents {
-null
-}
-coordinates 0 8
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 1 8
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 2 8
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 8
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 8
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 8
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 8
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 7 8
-}
-tile {
-floor ground .
-contents {
-rock o 10 1000 True 4 1 3 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 8 8
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 9 8
-}
-}
-row 9 {
-tile {
-floor ground .
-contents {
-hog H 30 100 True 10 40 20 False 0 DoesNothing Wander
-contained {
-null
-}
-}
-coordinates 0 9
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 1 9
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 2 9
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 9
-}
-tile {
-floor ground .
-contents {
-person p 20 100 True 1 1 1000 False 0 Rude Wander
-contained {
-null
-}
-}
-coordinates 4 9
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 9
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 9
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 7 9
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 8 9
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 9 9
-}
-}
-}
-}
-row 1 {
-level Barn B True 1,0 null null 3,6 null grid {
-row 0 {
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 0 0
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 1 0
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 2 0
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 3 0
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 4 0
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 5 0
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 6 0
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 7 0
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 8 0
-}
-}
-row 1 {
-tile {
-floor mud ~
-contents {
-null
-}
-coordinates 0 1
-}
-tile {
-floor mudpit ~
-contents {
-hog H 30 100 True 10 40 20 False 0 DoesNothing Wander
-contained {
-null
-}
-}
-coordinates 1 1
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 2 1
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 1
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 1
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 1
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 6 1
-}
-tile {
-floor mud ~
-contents {
-null
-}
-coordinates 7 1
-}
-tile {
-floor mud ~
-contents {
-null
-}
-coordinates 8 1
-}
-}
-row 2 {
-tile {
-floor mud ~
-contents {
-null
-}
-coordinates 0 2
-}
-tile {
-floor mud ~
-contents {
-null
-}
-coordinates 1 2
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 2 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 2
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 6 2
-}
-tile {
-floor mud ~
-contents {
-null
-}
-coordinates 7 2
-}
-tile {
-floor mud ~
-contents {
-null
-}
-coordinates 8 2
-}
-}
-row 3 {
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 0 3
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 1 3
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 2 3
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 3
-}
-tile {
-floor ground .
-contents {
-Player A 20 100 True 50 10 50 True 100 DoesNothing DoesNothing
-contained {
-chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
-contained {
-null
-}
-}
-}
-coordinates 4 3
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 3
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 6 3
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 7 3
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 8 3
-}
-}
-row 4 {
-tile {
-floor mud ~
-contents {
-hog H 30 100 True 10 40 20 False 0 DoesNothing Wander
-contained {
-null
-}
-}
-coordinates 0 4
-}
-tile {
-floor mudpit ~
-contents {
-null
-}
-coordinates 1 4
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 2 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 4
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 6 4
-}
-tile {
-floor mud ~
-contents {
-null
-}
-coordinates 7 4
-}
-tile {
-floor mudpit ~
-contents {
-hog H 30 100 True 10 40 20 False 0 DoesNothing Wander
-contained {
-null
-}
-}
-coordinates 8 4
-}
-}
-row 5 {
-tile {
-floor mud ~
-contents {
-null
-}
-coordinates 0 5
-}
-tile {
-floor mud ~
-contents {
-null
-}
-coordinates 1 5
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 2 5
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 5
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 5
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 5
-}
-tile {
-floor ground .
-contents {
-fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 6 5
-}
-tile {
-floor mud ~
-contents {
-null
-}
-coordinates 7 5
-}
-tile {
-floor mud ~
-contents {
-null
-}
-coordinates 8 5
-}
-}
-row 6 {
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 0 6
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 1 6
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 2 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 6
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 6 6
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 7 6
-}
-tile {
-floor ground .
-contents {
-wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
-contained {
-null
-}
-}
-coordinates 8 6
-}
-}
-}
-level Farm F False 1,1 3,0 6,3 3,6 0,3 grid {
+level Farm F True 1,1 3,0 6,3 3,6 0,3 grid {
 row 0 {
 tile {
 floor ground .
@@ -1769,7 +933,10 @@ coordinates 0 0
 tile {
 floor ground .
 contents {
+chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
+contained {
 null
+}
 }
 coordinates 1 0
 }
@@ -2026,374 +1193,6 @@ coordinates 0 5
 tile {
 floor plant Y
 contents {
-chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
-contained {
-null
-}
-}
-coordinates 1 5
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 2 5
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 3 5
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 4 5
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 5 5
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 5
-}
-}
-row 6 {
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 0 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 1 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 2 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 6
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 6
-}
-}
-}
-level Field T False 1,2 3,0 6,3 null 0,3 grid {
-row 0 {
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 0 0
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 1 0
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 2 0
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 0
-}
-tile {
-floor ground .
-contents {
-chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
-contained {
-null
-}
-}
-coordinates 4 0
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 0
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 0
-}
-}
-row 1 {
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 0 1
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 1 1
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 2 1
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 3 1
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 4 1
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 5 1
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 1
-}
-}
-row 2 {
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 0 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 1 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 2 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 4 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 2
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 2
-}
-}
-row 3 {
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 0 3
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 1 3
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 2 3
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 3
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 4 3
-}
-tile {
-floor plant Y
-contents {
-null
-}
-coordinates 5 3
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 3
-}
-}
-row 4 {
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 0 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 1 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 2 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 3 4
-}
-tile {
-floor ground .
-contents {
-chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
-contained {
-null
-}
-}
-coordinates 4 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 5 4
-}
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 6 4
-}
-}
-row 5 {
-tile {
-floor ground .
-contents {
-null
-}
-coordinates 0 5
-}
-tile {
-floor plant Y
-contents {
 null
 }
 coordinates 1 5
@@ -2486,9 +1285,6 @@ coordinates 6 6
 }
 }
 }
-}
-row 2 {
-null
 level Field T False 2,1 null null 3,6 0,3 grid {
 row 0 {
 tile {
@@ -2668,7 +1464,10 @@ coordinates 2 3
 tile {
 floor ground .
 contents {
+chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
+contained {
 null
+}
 }
 coordinates 3 3
 }
@@ -2791,10 +1590,7 @@ coordinates 5 5
 tile {
 floor ground .
 contents {
-chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
-contained {
 null
-}
 }
 coordinates 6 5
 }
@@ -2818,6 +1614,1206 @@ tile {
 floor ground .
 contents {
 null
+}
+coordinates 2 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 6 6
+}
+}
+}
+}
+row 2 {
+level Market M False 0,2 3,0 9,4 null null grid {
+row 0 {
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 0 0
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 1 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 2 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 0
+}
+tile {
+floor ground .
+contents {
+gate - 20 100 True 2000 10 12390 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 6 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 7 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 8 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 9 0
+}
+}
+row 1 {
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 0 1
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 1 1
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 2 1
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 1
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 1
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 1
+}
+tile {
+floor ground .
+contents {
+gate - 20 100 True 2000 10 12390 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 6 1
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 7 1
+}
+tile {
+floor ground .
+contents {
+chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
+contained {
+null
+}
+}
+coordinates 8 1
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 9 1
+}
+}
+row 2 {
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 0 2
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 1 2
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 2 2
+}
+tile {
+floor ground .
+contents {
+person p 20 100 True 1 1 1000 False 0 Rude Wander
+contained {
+null
+}
+}
+coordinates 3 2
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 2
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 2
+}
+tile {
+floor ground .
+contents {
+gate - 20 100 True 2000 10 12390 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 6 2
+}
+tile {
+floor ground .
+contents {
+gate - 20 100 True 2000 10 12390 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 7 2
+}
+tile {
+floor ground .
+contents {
+gate - 20 100 True 2000 10 12390 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 8 2
+}
+tile {
+floor ground .
+contents {
+gate - 20 100 True 2000 10 12390 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 9 2
+}
+}
+row 3 {
+tile {
+floor ground .
+contents {
+rock o 10 1000 True 4 1 3 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 0 3
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 1 3
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 2 3
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 3
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 3
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 3
+}
+tile {
+floor ground .
+contents {
+lever L 10 203 True 10 234 5151 False 0 Lever DoesNothing
+contained {
+null
+}
+}
+coordinates 6 3
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 7 3
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 8 3
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 9 3
+}
+}
+row 4 {
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 0 4
+}
+tile {
+floor ground .
+contents {
+person p 20 100 True 1 1 1000 False 0 Rude Wander
+contained {
+null
+}
+}
+coordinates 1 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 2 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 4
+}
+tile {
+floor ground .
+contents {
+person p 20 100 True 1 1 1000 False 0 Rude Wander
+contained {
+null
+}
+}
+coordinates 6 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 7 4
+}
+tile {
+floor ground .
+contents {
+person p 20 100 True 1 1 1000 False 0 Rude Wander
+contained {
+null
+}
+}
+coordinates 8 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 9 4
+}
+}
+row 5 {
+tile {
+floor ground .
+contents {
+rock o 10 1000 True 4 1 3 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 0 5
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 1 5
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 2 5
+}
+tile {
+floor ground .
+contents {
+person p 20 100 True 1 1 1000 False 0 Rude Wander
+contained {
+null
+}
+}
+coordinates 3 5
+}
+tile {
+floor ground .
+contents {
+chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
+contained {
+null
+}
+}
+coordinates 4 5
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 5
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 6 5
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 7 5
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 8 5
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 9 5
+}
+}
+row 6 {
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 0 6
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 1 6
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 2 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 6 6
+}
+tile {
+floor ground .
+contents {
+person p 20 100 True 1 1 1000 False 0 Rude Wander
+contained {
+null
+}
+}
+coordinates 7 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 8 6
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 9 6
+}
+}
+row 7 {
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 0 7
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 1 7
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 2 7
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 7
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 7
+}
+tile {
+floor ground .
+contents {
+person p 20 100 True 1 1 1000 False 0 Rude Wander
+contained {
+null
+}
+}
+coordinates 5 7
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 6 7
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 7 7
+}
+tile {
+floor ground .
+contents {
+rock o 10 1000 True 4 1 3 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 8 7
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 9 7
+}
+}
+row 8 {
+tile {
+floor mudpit ~
+contents {
+hog H 30 100 True 4 40 20 False 0 DoesNothing Aggressive
+contained {
+null
+}
+}
+coordinates 0 8
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 1 8
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 2 8
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 8
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 8
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 8
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 6 8
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 7 8
+}
+tile {
+floor ground .
+contents {
+rock o 10 1000 True 4 1 3 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 8 8
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 9 8
+}
+}
+row 9 {
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 0 9
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 1 9
+}
+tile {
+floor ground .
+contents {
+fence + 20 100 True 5 10000 60 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 2 9
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 9
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 9
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 9
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 6 9
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 7 9
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 8 9
+}
+tile {
+floor ground .
+contents {
+wall # 20 500 False 40 10000 400000 False 0 DoesNothing DoesNothing
+contained {
+null
+}
+}
+coordinates 9 9
+}
+}
+}
+level Field T False 1,2 3,0 6,3 null 0,3 grid {
+row 0 {
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 0 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 1 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 2 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 0
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 6 0
+}
+}
+row 1 {
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 0 1
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 1 1
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 2 1
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 3 1
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 4 1
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 5 1
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 6 1
+}
+}
+row 2 {
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 0 2
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 1 2
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 2 2
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 2
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 2
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 2
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 6 2
+}
+}
+row 3 {
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 0 3
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 1 3
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 2 3
+}
+tile {
+floor ground .
+contents {
+chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
+contained {
+null
+}
+}
+coordinates 3 3
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 4 3
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 5 3
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 6 3
+}
+}
+row 4 {
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 0 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 1 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 2 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 3 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 4 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 5 4
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 6 4
+}
+}
+row 5 {
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 0 5
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 1 5
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 2 5
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 3 5
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 4 5
+}
+tile {
+floor plant Y
+contents {
+null
+}
+coordinates 5 5
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 6 5
+}
+}
+row 6 {
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 0 6
+}
+tile {
+floor ground .
+contents {
+null
+}
+coordinates 1 6
+}
+tile {
+floor ground .
+contents {
+chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
+contained {
+null
+}
 }
 coordinates 2 6
 }
@@ -2884,10 +2880,7 @@ coordinates 3 0
 tile {
 floor ground .
 contents {
-ghost G 0 100 True 1 50 2837 False 0 Boo Wander
-contained {
 null
-}
 }
 coordinates 4 0
 }
@@ -2944,7 +2937,10 @@ coordinates 3 1
 tile {
 floor ground .
 contents {
+ghost G 0 100 True 1 50 2837 False 0 Boo Wander
+contained {
 null
+}
 }
 coordinates 4 1
 }
@@ -2970,10 +2966,7 @@ row 2 {
 tile {
 floor ground .
 contents {
-ghost G 0 100 True 1 50 2837 False 0 Boo Wander
-contained {
 null
-}
 }
 coordinates 0 2
 }
@@ -2987,7 +2980,10 @@ coordinates 1 2
 tile {
 floor ground .
 contents {
+ghost G 0 100 True 1 50 2837 False 0 Boo Wander
+contained {
 null
+}
 }
 coordinates 2 2
 }
@@ -3041,10 +3037,7 @@ coordinates 1 3
 tile {
 floor ground .
 contents {
-ghost G 0 100 True 1 50 2837 False 0 Boo Wander
-contained {
 null
-}
 }
 coordinates 2 3
 }
@@ -3087,17 +3080,17 @@ row 4 {
 tile {
 floor ground .
 contents {
-ghost G 0 100 True 1 50 2837 False 0 Boo Wander
-contained {
 null
-}
 }
 coordinates 0 4
 }
 tile {
 floor ground .
 contents {
+ghost G 0 100 True 1 50 2837 False 0 Boo Wander
+contained {
 null
+}
 }
 coordinates 1 4
 }
@@ -3111,14 +3104,20 @@ coordinates 2 4
 tile {
 floor ground .
 contents {
+chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
+contained {
 null
+}
 }
 coordinates 3 4
 }
 tile {
 floor ground .
 contents {
+ghost G 0 100 True 1 50 2837 False 0 Boo Wander
+contained {
 null
+}
 }
 coordinates 4 4
 }
@@ -3222,10 +3221,7 @@ coordinates 2 6
 tile {
 floor ground .
 contents {
-chicken > 20 100 True 1 2 5 False 0 DoesNothing Wander
-contained {
 null
-}
 }
 coordinates 3 6
 }
@@ -3255,7 +3251,7 @@ coordinates 6 6
 }
 }
 player {
-4 3
+4 1
 holding {
 null
 }

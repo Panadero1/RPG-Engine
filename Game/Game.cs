@@ -8,8 +8,14 @@ namespace GameEngine
    {
       // TODO: map generation, melting, thermodynamics, comments, title screen, VisibleAtLine() adapt for not just player
 
+      public enum _editorState 
+      {
+         Map,
+         Level
+      }
       public static bool Execute = true;
       public static string FilePath;
+      public static _editorState EditorState;
 
       public static Dictionary<string, Action> GameModes = new Dictionary<string, Action>() 
       {
@@ -40,11 +46,7 @@ namespace GameEngine
       static void GameEngine()
       {
          CommandChoices com = GameModeCommands.EngineCommands;
-         if (com.TryFindCommand("help", out Command command))
-         {
-            command.HelpLines[0] = "Enter the command that you wish to learn about\n" + com.ListCommands();
-         }
-
+         SetupCom(ref com);
          if (!World.LoadFromFile())
          {
             return;
@@ -63,19 +65,11 @@ namespace GameEngine
                World.UpdateWorld();
             }
          }
-
-         if (CommandInterpretation.InterpretYesNo("Would you like to save your progress?"))
-         {
-            World.SaveToFile(FilePath);
-         }
       }
       static void Tutorial()
       {
          CommandChoices com = GameModeCommands.TutorialCommands;
-         if (com.TryFindCommand("help", out Command command))
-         {
-            command.HelpLines[0] = "Enter the command that you wish to learn about\n" + com.ListCommands();
-         }
+         SetupCom(ref com);
          string[] lines = new string[]
          {
             // v 0
@@ -111,7 +105,7 @@ namespace GameEngine
          };
 
          World.WorldMap = World.TutorialLevel;
-         World.LoadedLevel = World.WorldMap.LevelMap[0][0];
+         World.LoadedLevel = World.WorldMap.LevelMap[0, 0];
 
          int index = 0;
 
@@ -169,7 +163,7 @@ namespace GameEngine
                WriteNextLine(lines, ref index);
                break;
             case 9:
-               if (World.LoadedLevel == World.TutorialLevel.LevelMap[1][0])
+               if (World.LoadedLevel == World.TutorialLevel.LevelMap[1, 0])
                {
                   WriteNextLine(lines, ref index);
                }
@@ -178,7 +172,7 @@ namespace GameEngine
                WriteNextLine(lines, ref index);
                break;
             case 11:
-               if (World.LoadedLevel == World.TutorialLevel.LevelMap[1][0] && !World.LoadedLevel.Grid.TryFindContents(World.Hog.Contents, out _))
+               if (World.LoadedLevel == World.TutorialLevel.LevelMap[1, 0] && !World.LoadedLevel.Grid.TryFindContents(World.Hog.Contents, out _))
                {
                   WriteNextLine(lines, ref index);
                }
@@ -205,7 +199,45 @@ namespace GameEngine
 
       static void LevelEditor()
       {
-
+         CommandChoices com = GameModeCommands.EditorCommands;
+         SetupCom(ref com);
+         EditorState = _editorState.Map;
+         if (CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse("Would you like to make a \"new\" file or would you like to \"load\" one?"), new string[] { "new", "load" }, out string result))
+         {
+            com.EvaluateCommand(result);
+         }
+         else
+         {
+            if (CommandInterpretation.InterpretYesNo("That is not a valid choice. Would you like to try again?"))
+            {
+               LevelEditor();
+            }
+            return;
+         }
+         if (World.WorldMap == null)
+         {
+            return;
+         }
+         while (Execute)
+         {
+            switch (EditorState)
+            {
+               case _editorState.Map:
+                  Console.WriteLine(World.WorldMap.GraphicString());
+                  break;
+               case _editorState.Level:
+                  Console.WriteLine(World.LoadedLevel.Grid.GraphicString());
+                  break;
+            }
+            com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command: "));
+         }
+      }
+      private static void SetupCom(ref CommandChoices com)
+      {
+         if (com.TryFindCommand("help", out Command command))
+         {
+            command.HelpLines[0] = com.ListCommands() + "Enter the command that you wish to learn about\n";
+         }
       }
    }
 }

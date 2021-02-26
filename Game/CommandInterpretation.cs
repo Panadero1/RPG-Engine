@@ -8,29 +8,13 @@ namespace GameEngine
       {
          Console.WriteLine(message);
          string response = Console.ReadLine();
-         if (response == "exit")
-         {
-            Game.Execute = false;
-            return string.Empty;
-         }
-         else
-         {
-            return response;
-         }
+         return response.Trim();
       }
 
       public static string GetUserResponse()
       {
          string response = Console.ReadLine();
-         if (response == "exit")
-         {
-            Game.Execute = false;
-            return string.Empty;
-         }
-         else
-         {
-            return response;
-         }
+         return response.Trim();
       }
 
       public static bool InterpretInt(string response, int minValue, int maxValue, out int result)
