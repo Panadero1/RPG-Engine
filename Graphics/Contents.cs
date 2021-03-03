@@ -10,8 +10,6 @@ namespace GameEngine
       public string Name;
       public char VisualChar;
 
-      public int Temperature;
-      public int MeltingPoint;
       public int Durability;
 
       public int Size;
@@ -28,12 +26,10 @@ namespace GameEngine
       public Action<string[], Contents> UseAction;
       public Action<Contents> Behavior;
 
-      public Contents(string name, char visualChar, int temperature, int meltingpoint, bool transparent, int durability, int size, float weight, Action<string[], Contents> useAction, Action<Contents> behavior)
+      public Contents(string name, char visualChar, bool transparent, int durability, int size, float weight, Action<string[], Contents> useAction, Action<Contents> behavior)
       {
          Name = name;
          VisualChar = visualChar;
-         Temperature = temperature;
-         MeltingPoint = meltingpoint;
          Transparent = transparent;
          Durability = durability;
          Size = size;
@@ -42,7 +38,7 @@ namespace GameEngine
          Behavior = behavior;
       }
 
-      public Contents(string name, char visualChar, int temperature, int meltingpoint, bool transparent, int durability, int size, float weight, bool container, int containerSpace, List<Contents> contained, Action<string[], Contents> useAction, Action<Contents> behavior) : this(name, visualChar, temperature, meltingpoint, transparent, durability, size, weight, useAction, behavior)
+      public Contents(string name, char visualChar, bool transparent, int durability, int size, float weight, bool container, int containerSpace, List<Contents> contained, Action<string[], Contents> useAction, Action<Contents> behavior) : this(name, visualChar, transparent, durability, size, weight, useAction, behavior)
       {
          Container = container;
          ContainerSpace = containerSpace;
@@ -150,14 +146,15 @@ namespace GameEngine
             if (Container && Contained.Count > 0)
             {
                // HERE IS WHERE BAG IS DEFINED. Change as you wish
-               Tile destroyTile = World.LoadedLevel.Grid.GetTileAtCoords(Coordinates);
+               if (!World.LoadedLevel.Grid.GetTileAtCoords(Coordinates, out Tile destroyTile))
+               {
+                  return;
+               }
 
                destroyTile.Contents = new Contents
                   (
                   name: "bag",
                   visualChar: 'b',
-                  20,
-                  100,
                   true,
                   1,
                   5,
@@ -172,14 +169,17 @@ namespace GameEngine
             }
             else
             {
-               World.LoadedLevel.Grid.GetTileAtCoords(Coordinates).Contents = null;
+               if (World.LoadedLevel.Grid.GetTileAtCoords(Coordinates, out Tile tile))
+               {
+                  tile.Contents = null;
+               }
             }
          }
       }
 
       public object Clone()
       {
-         return new Contents(this.Name, this.VisualChar, this.Temperature, this.MeltingPoint, this.Transparent, this.Durability, this.Size, this.Weight, this.Container, this.ContainerSpace, this.Contained, this.UseAction, this.Behavior);
+         return new Contents(this.Name, this.VisualChar, this.Transparent, this.Durability, this.Size, this.Weight, this.Container, this.ContainerSpace, this.Contained, this.UseAction, this.Behavior);
       }
    }
 }

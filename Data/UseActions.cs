@@ -59,6 +59,15 @@ namespace GameEngine
          return false;
       }
 
+      public static string AllActions()
+      {
+         foreach(string identifier in Identifiers)
+         {
+            Console.WriteLine(identifier);
+         }
+         return string.Empty;
+      }
+
       // All custom Use Actions
       public static void DoesNothing(string[] parameters, Contents contents)
       {
@@ -146,13 +155,16 @@ namespace GameEngine
          }
 
          Coord playerCoord = World.Player.GetCoords();
-         if (!World.LoadedLevel.Grid.VisibleAtLine(new Coord(targetCoord.X - playerCoord.X, targetCoord.Y - playerCoord.Y)))
+         if (!World.LoadedLevel.Grid.VisibleAtLine(playerCoord, new Coord(targetCoord.X - playerCoord.X, targetCoord.Y - playerCoord.Y)))
          {
             Console.WriteLine("You cannot see this tile from here. Try moving");
             return;
          }
 
-         Tile tileAtCoords = World.LoadedLevel.Grid.GetTileAtCoords(targetCoord);
+         if (!World.LoadedLevel.Grid.GetTileAtCoords(targetCoord, out Tile tileAtCoords, false))
+         {
+            return;
+         }
 
          if (tileAtCoords == null || tileAtCoords.Contents == null)
          {

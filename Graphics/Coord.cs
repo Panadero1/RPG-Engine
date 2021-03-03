@@ -57,7 +57,7 @@ namespace GameEngine
 
          #endregion
          
-         result = new Coord(numFromAlphaNum(alphaNumX[0]) + x, numFromAlphaNum(alphaNumY[0]) + y);
+         result = new Coord(numFromAlphaNum(alphaNumX[0])*10 + x, numFromAlphaNum(alphaNumY[0])*10 + y);
          return true;
       }
       public string ToAlphaNum()
@@ -69,7 +69,12 @@ namespace GameEngine
       {
          return (letter - 65);
       }
-
+      
+      public double Distance(Coord coordsToCompare)
+      {
+         Coord distCoord = Subtract(coordsToCompare);
+         return Math.Sqrt(Math.Pow(distCoord.X, 2) + Math.Pow(distCoord.Y, 2));
+      }
       public Coord Add(Coord coordsToAdd)
       {
          return new Coord(X + coordsToAdd.X, Y + coordsToAdd.Y);

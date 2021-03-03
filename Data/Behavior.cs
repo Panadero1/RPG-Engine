@@ -25,7 +25,7 @@ namespace GameEngine
          "Target"
       };
 
-      public static bool TryGetAction(string givenIdentifier, out Action<Contents> result)
+      public static bool TryGetBehavior(string givenIdentifier, out Action<Contents> result)
       {
          for (int identifierIndex = 0; identifierIndex < Identifiers.Length; identifierIndex++)
          {
@@ -54,6 +54,15 @@ namespace GameEngine
          return false;
       }
 
+      public static string AllBehavior()
+      {
+         foreach(string identifier in Identifiers)
+         {
+            Console.WriteLine(identifier);
+         }
+         return string.Empty;
+      }
+      
       // All custom Behaviors
       public static void DoesNothing(Contents contents)
       {
@@ -74,9 +83,11 @@ namespace GameEngine
          for (int coordIndex = 0; coordIndex < wanderCoords.Count; coordIndex++)
          {
             Coord coord = wanderCoords[coordIndex];
-
-            Tile tileAtContents = World.LoadedLevel.Grid.GetTileAtCoords(coord.Add(contents.Coordinates), false);
-            if  (tileAtContents == null || tileAtContents.Contents != null)
+            if (!World.LoadedLevel.Grid.GetTileAtCoords(coord.Add(contents.Coordinates), out Tile tileAtCoords, false))
+            {
+               return;
+            }
+            if  (tileAtCoords == null || tileAtCoords.Contents != null)
             {
                wanderCoords.Remove(coord);
                coordIndex--;

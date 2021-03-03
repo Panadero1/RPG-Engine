@@ -17,10 +17,10 @@ namespace GameEngine
          Contents = contents;
          Coordinates = coordinates;
       }
-      public void UpdateVisual()
+      public void UpdateVisual(bool LOS)
       {
          Coord playerCoords = World.Player.GetCoords();
-         if (!World.LoadedLevel.Grid.VisibleAtLine(new Coord(Coordinates.X - playerCoords.X, Coordinates.Y - playerCoords.Y)))
+         if (LOS && !World.LoadedLevel.Grid.VisibleAtLine(playerCoords, new Coord(Coordinates.X - playerCoords.X, Coordinates.Y - playerCoords.Y)))
          {
             VisualChar = ' ';
          }
