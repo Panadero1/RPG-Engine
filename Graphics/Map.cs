@@ -4,56 +4,53 @@ namespace GameEngine
 {
    class Map
    {
-      public Level[][] LevelMap;
+      public Level[,] LevelMap;
       public string Name;
-      public int Width;
-      public int Height;
 
-      public Map(Level[][] gridMap, string name)
+      public Map(Level[,] gridMap, string name)
       {
          LevelMap = gridMap;
          Name = name;
-
-         Width = gridMap.Length;
-         Height = gridMap[0].Length;
       }
 
-      public Level GetLevelAtCoords(Coord coords)
+      public bool GetLevelAtCoords(Coord coords, out Level result)
       {
-         if (coords.X < 0 || coords.X >= LevelMap.Length || coords.Y < 0 || coords.Y >= LevelMap[0].Length)
+         if (coords.X < 0 || coords.X >= LevelMap.GetLength(0) || coords.Y < 0 || coords.Y >= LevelMap.GetLength(1))
          {
             Console.WriteLine("Level is out of bounds of the map.");
-            return null;
+            result = null;
+            return false;
          }
-         return LevelMap[coords.X][coords.Y];
+         result = LevelMap[coords.X, coords.Y];
+         return true;
       }
 
       public string GraphicString()
       {
          string returnString = "   ";
-         for (int repeat = 0; repeat < LevelMap.Length; repeat++)
+         for (int repeat = 0; repeat < LevelMap.GetLength(0); repeat++)
          {
             returnString += ((repeat % 10 == 0) ? AlphabetIndex((repeat / 10)) : ' ') + (Settings.Spaced ? " " : "");
          }
          returnString += "\n   ";
-         for (int repeat = 0; repeat < LevelMap.Length; repeat++)
+         for (int repeat = 0; repeat < LevelMap.GetLength(0); repeat++)
          {
             returnString += (repeat % 10) + (Settings.Spaced ? " " : "");
          }
          returnString += "\n   ";
-         for (int repeat = 0; repeat < LevelMap.Length + (Settings.Spaced ? LevelMap.Length - 1 : 0); repeat++)
+         for (int repeat = 0; repeat < LevelMap.GetLength(0) + (Settings.Spaced ? LevelMap.GetLength(0) - 1 : 0); repeat++)
          {
             returnString += "-";
          }
          returnString += "\n";
 
-         for (int y = 0; y < LevelMap[0].Length; y++)
+         for (int y = 0; y < LevelMap.GetLength(1); y++)
          {
             returnString += ((y % 10 == 0) ? AlphabetIndex(y / 10) : ' ') + (y % 10 + "|");
 
-            for (int x = 0; x < LevelMap.Length; x++)
+            for (int x = 0; x < LevelMap.GetLength(0); x++)
             {
-               Level currentLevel = LevelMap[x][y];
+               Level currentLevel = LevelMap[x, y];
                if (currentLevel == null)
                {
                   returnString += " " + (Settings.Spaced ? " " : "");

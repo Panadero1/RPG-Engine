@@ -10,7 +10,7 @@ namespace GameEngine
    {
       private static readonly Coord _zeroZero = new Coord(0, 0);
 
-      public static Player Player = new Player(new Contents("Player", 'A', 20, 100, true, 50, 10, 50, true, 100, new List<Contents>(), UseActions.DoesNothing, Behavior.DoesNothing), null, 50);
+      public static Player Player = new Player(new Contents("Player", 'A', true, 50, 10, 50, true, 100, new List<Contents>(), UseActions.DoesNothing, Behavior.DoesNothing), null, 50);
 
       #region tile definitions
 
@@ -20,47 +20,44 @@ namespace GameEngine
 
       public static Tile Mud = new Tile(new Floor('~', "mud"), null, _zeroZero);
 
-      public static Tile Wall = new Tile(Ground, new Contents("wall", '#', 20, 500, false, 40, 10000, 400000, UseActions.CustomCommands[0], Behavior.DoesNothing), _zeroZero);
+      public static Tile Wall = new Tile(Ground, new Contents("wall", '#', false, 40, 10000, 400000, UseActions.CustomCommands[0], Behavior.DoesNothing), _zeroZero);
 
-      public static Tile Fence = new Tile(Ground, new Contents("fence", '+', 20, 100, true, 5, 10000, 60, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
+      public static Tile Fence = new Tile(Ground, new Contents("fence", '+', true, 5, 10000, 60, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
 
-      public static Tile Hog = new Tile(new Floor('~', "mudpit"), new Contents("hog", 'H', 30, 100, true, 4, 40, 20, UseActions.DoesNothing, Behavior.Aggressive), _zeroZero);
+      public static Tile Hog = new Tile(new Floor('~', "mudpit"), new Contents("hog", 'H', true, 4, 40, 20, UseActions.DoesNothing, Behavior.Aggressive), _zeroZero);
 
       public static Tile Plant = new Tile(new Floor('Y', "plant"), null, _zeroZero);
 
-      public static Tile Chicken = new Tile(Ground, new Contents("chicken", '>', 20, 100, true, 1, 2, 5, UseActions.DoesNothing, Behavior.Wander), _zeroZero);
+      public static Tile Chicken = new Tile(Ground, new Contents("chicken", '>', true, 1, 2, 5, UseActions.DoesNothing, Behavior.Wander), _zeroZero);
 
-      public static Tile Person = new Tile(Ground, new Contents("person", 'p', 20, 100, true, 1, 1, 1000, UseActions.Rude, Behavior.Wander), _zeroZero);
+      public static Tile Person = new Tile(Ground, new Contents("person", 'p', true, 1, 1, 1000, UseActions.Rude, Behavior.Wander), _zeroZero);
 
-      public static Tile Rock = new Tile(Ground, new Contents("rock", 'o', 10, 1000, true, 4, 1, 3, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
+      public static Tile Rock = new Tile(Ground, new Contents("rock", 'o', true, 4, 1, 3, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
 
-      public static Tile Lever = new Tile(Ground, new Contents("lever", 'L', 10, 203, true, 10, 234, 5151, UseActions.Lever, Behavior.DoesNothing), _zeroZero);
+      public static Tile Lever = new Tile(Ground, new Contents("lever", 'L', true, 10, 234, 5151, UseActions.Lever, Behavior.DoesNothing), _zeroZero);
 
-      public static Tile Tombstone = new Tile(Ground, new Contents("tombstone", 'n', 0, 50, true, 10, 30, 400, UseActions.Tombstone, Behavior.DoesNothing), _zeroZero);
+      public static Tile Tombstone = new Tile(Ground, new Contents("tombstone", 'n', true, 10, 30, 400, UseActions.Tombstone, Behavior.DoesNothing), _zeroZero);
 
-      public static Tile Ghost = new Tile(Ground, new Contents("ghost", 'G', 0, 100, true, 1, 50, 2837, UseActions.Boo, Behavior.Wander), _zeroZero);
+      public static Tile Ghost = new Tile(Ground, new Contents("ghost", 'G', true, 1, 50, 2837, UseActions.Boo, Behavior.Wander), _zeroZero);
 
-      public static Tile Target = new Tile(Ground, new Contents("target", '@', 20, 100, true, 2, 1000, 1000, UseActions.DoesNothing, Behavior.Target), _zeroZero);
+      public static Tile Target = new Tile(Ground, new Contents("target", '@', true, 2, 1000, 1000, UseActions.DoesNothing, Behavior.Target), _zeroZero);
 
-      public static Tile GunTile = new Tile(Ground, new Contents("gun", 'r', 20, 200, true, 4, 4, 5, UseActions.Gun, Behavior.DoesNothing), _zeroZero);
+      public static Tile GunTile = new Tile(Ground, new Contents("gun", 'r', true, 4, 4, 5, UseActions.Gun, Behavior.DoesNothing), _zeroZero);
 
-      public static Tile Sign = new Tile(Ground, new Contents("sign", 'S', 20, 100, true, 4, 10000, 100000, UseActions.Dialogue, Behavior.DoesNothing), _zeroZero);
+      public static Tile Sign = new Tile(Ground, new Contents("sign", 'S', true, 4, 10000, 100000, UseActions.Dialogue, Behavior.DoesNothing), _zeroZero);
 
       public static Tile GateOpen = new Tile(new Floor('.', "retractedGate"), null, _zeroZero);
 
-      public static Tile GateClosed = new Tile(Ground, new Contents("gate", '-', 20, 100, true, 2000, 10, 12390, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
+      public static Tile GateClosed = new Tile(Ground, new Contents("gate", '-', true, 2000, 10, 12390, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
       #endregion
 
       public static Dictionary<string, string> Dialogue = new Dictionary<string, string>();
 
       public static Map WorldMap;
 
-      public static Map EditorMap;
-
-      public static Map TutorialLevel = new Map(new Level[][]
+      public static Map TutorialLevel = new Map(new Level[,]
       {
          // column 1
-         new Level[]
          {
             new Level(
                "Field",
@@ -126,7 +123,6 @@ namespace GameEngine
             )
          },
          // column 2
-         new Level[]
          {
             new Level(
                "Trap",
@@ -146,8 +142,6 @@ namespace GameEngine
                         new Tile(Ground, new Contents(
                            "chest",
                            'C',
-                           20,
-                           100,
                            true,
                            10,
                            1000,
@@ -156,9 +150,9 @@ namespace GameEngine
                            100,
                            new List<Contents>()
                            {
-                              new Contents("coin", 'c', 20, 2000, true, 3, 1, 1, UseActions.DoesNothing, Behavior.DoesNothing),
-                              new Contents("coin", 'c', 20, 2000, true, 3, 1, 1, UseActions.DoesNothing, Behavior.DoesNothing),
-                              new Contents("coin", 'c', 20, 2000, true, 3, 1, 1, UseActions.DoesNothing, Behavior.DoesNothing)
+                              new Contents("coin", 'c', true, 3, 1, 1, UseActions.DoesNothing, Behavior.DoesNothing),
+                              new Contents("coin", 'c', true, 3, 1, 1, UseActions.DoesNothing, Behavior.DoesNothing),
+                              new Contents("coin", 'c', true, 3, 1, 1, UseActions.DoesNothing, Behavior.DoesNothing)
                            },
                            UseActions.DoesNothing,
                            Behavior.DoesNothing), _zeroZero),
@@ -223,11 +217,10 @@ namespace GameEngine
             )
          }
       }, "tutorial");
-
-      /*public static Map _worldMap = new Map(new Level[][]
+      
+      /*public static Map _worldMap = new Map(new Level[,]
       {
          // column 1
-         new Level[]
          {
             null,
             new Level
@@ -240,73 +233,73 @@ namespace GameEngine
                   {
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_chicken.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Chicken.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                   }
                ),
@@ -326,133 +319,133 @@ namespace GameEngine
                   {
                      new Tile[]
                      {
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_changableWall.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)GateClosed.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_changableWall.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_chicken.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)GateClosed.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Chicken.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_person.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_changableWall.Clone(),
-                        (Tile)_changableWall.Clone(),
-                        (Tile)_changableWall.Clone(),
-                        (Tile)_changableWall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Person.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)GateClosed.Clone(),
+                        (Tile)GateClosed.Clone(),
+                        (Tile)GateClosed.Clone(),
+                        (Tile)GateClosed.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_rock.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_lever.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Rock.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Lever.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_person.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_person.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_person.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Person.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Person.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Person.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_rock.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_person.Clone(),
-                        (Tile)_chicken.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Rock.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Person.Clone(),
+                        (Tile)Chicken.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_fence.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_person.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_wall.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Person.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Wall.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_person.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_rock.Clone(),
-                        (Tile)_wall.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Person.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Rock.Clone(),
+                        (Tile)Wall.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_hog.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_rock.Clone(),
-                        (Tile)_wall.Clone(),
+                        (Tile)Hog.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Rock.Clone(),
+                        (Tile)Wall.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_wall.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Wall.Clone(),
                      }
                   }
                ),
@@ -464,7 +457,6 @@ namespace GameEngine
             ),
          },
          // column 2
-         new Level[]
          {
             new Level
             (
@@ -476,87 +468,87 @@ namespace GameEngine
                   {
                      new Tile[]
                      {
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_mud.Clone(),
-                        (Tile)_hog.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_empty.Clone(),
-                        new Tile(_ground, _player._contents, _zeroZero),
-                        (Tile)_empty.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_mud.Clone(),
-                        (Tile)_mud.Clone(),
+                        (Tile)Mud.Clone(),
+                        (Tile)Hog.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Empty.Clone(),
+                        new Tile(Ground, Player.Contents, _zeroZero),
+                        (Tile)Empty.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Mud.Clone(),
+                        (Tile)Mud.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_mud.Clone(),
-                        (Tile)_mud.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_mud.Clone(),
-                        (Tile)_mud.Clone(),
+                        (Tile)Mud.Clone(),
+                        (Tile)Mud.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Mud.Clone(),
+                        (Tile)Mud.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_fence.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_fence.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Fence.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_mud.Clone(),
-                        (Tile)_hog.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_mud.Clone(),
-                        (Tile)_hog.Clone(),
+                        (Tile)Mud.Clone(),
+                        (Tile)Hog.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Mud.Clone(),
+                        (Tile)Hog.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_mud.Clone(),
-                        (Tile)_mud.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_fence.Clone(),
-                        (Tile)_mud.Clone(),
-                        (Tile)_mud.Clone(),
+                        (Tile)Mud.Clone(),
+                        (Tile)Mud.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Fence.Clone(),
+                        (Tile)Mud.Clone(),
+                        (Tile)Mud.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
-                        (Tile)_wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
+                        (Tile)Wall.Clone(),
                      }
                   }
                ),
@@ -576,73 +568,73 @@ namespace GameEngine
                   {
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_chicken.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Chicken.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        new Tile(_ground, new Contents("monster", '!', 40, 200, false, 8, 2000, 3000, true, 10, new List<Contents>(), UseActions.MonsterDialogue, Behavior.MonsterVictory), _zeroZero),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        new Tile(Ground, new Contents("monster", '!', 40, 200, false, 8, 2000, 3000, true, 10, new List<Contents>(), UseActions.MonsterDialogue, Behavior.MonsterVictory), _zeroZero),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                   }
                ),
@@ -662,73 +654,73 @@ namespace GameEngine
                   {
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_chicken.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Chicken.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_chicken.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Chicken.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                   }
                ),
@@ -740,7 +732,6 @@ namespace GameEngine
             ),
          },
          // column 3
-         new Level[]
          {
             null,
             new Level
@@ -753,73 +744,73 @@ namespace GameEngine
                   {
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_chicken.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Chicken.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_plant.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Plant.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                   }
                ),
@@ -839,73 +830,73 @@ namespace GameEngine
                   {
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_tombstone.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_tombstone.Clone(),
-                        (Tile)_ghost.Clone(),
-                        (Tile)_tombstone.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Tombstone.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Tombstone.Clone(),
+                        (Tile)Ghost.Clone(),
+                        (Tile)Tombstone.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_ghost.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Ghost.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_tombstone.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_tombstone.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_tombstone.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Tombstone.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Tombstone.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Tombstone.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_ghost.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_chicken.Clone(),
-                        (Tile)_ghost.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Ghost.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Chicken.Clone(),
+                        (Tile)Ghost.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_tombstone.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_tombstone.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_tombstone.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Tombstone.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Tombstone.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Tombstone.Clone(),
+                        (Tile)Empty.Clone(),
                      },
                      new Tile[]
                      {
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
-                        (Tile)_empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
+                        (Tile)Empty.Clone(),
                      }
                   }
                ),
@@ -916,22 +907,33 @@ namespace GameEngine
                new Coord(0, 3)
             ),
          }
-      },"test"); */// For editing
+      },"test");*/ // For editing & testing
 
       public static Level LoadedLevel;
 
       public static List<Contents> ContentsIndex = new List<Contents>();
 
-      public static bool LoadFromFile()
+      public static bool TryGetMapsFolder(out string result)
       {
-         string fileMouth;
+         string tryFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\maps\";
          try
          {
-            fileMouth = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\maps\";
+            result = tryFolder;
+            return true;
          }
          catch
          {
-            Console.WriteLine("Your 'maps' folder may be missing. Be sure to put all your world files in a folder named 'maps' within the directory of the executable");
+            Console.WriteLine("Your 'maps' folder may be missing. We're making one now. Be sure to put all your world files in the folder named 'maps' within the directory of the executable");
+            Directory.CreateDirectory(tryFolder);
+            result = null;
+            return false;
+         }
+      }
+      public static bool LoadFromFile()
+      {
+         string fileMouth;
+         if (!TryGetMapsFolder(out fileMouth))
+         {
             return false;
          }
 
@@ -953,19 +955,15 @@ namespace GameEngine
 
          string[] fileNames = files.Keys.ToArray();
 
-         foreach (string file in fileNames)
-         {
-            Console.WriteLine(file);
-         }
-
-         if (CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse("Which file would you like to load?"), fileNames, out string result))
+         Console.WriteLine("Choose a file from the options below.");
+         if (CommandInterpretation.InterpretString(fileNames, out string result))
          {
             Game.FilePath = files[result].FullName;
             LoadFromFile(files[result].FullName);
          }
          else
          {
-            if (CommandInterpretation.InterpretYesNo("No file found with that name. Would you like to try again?"))
+            if (CommandInterpretation.AskYesNo("No file found with that name. Would you like to try again?"))
             {
                return LoadFromFile();
             }
@@ -1079,8 +1077,14 @@ namespace GameEngine
             }
             levelGrid.Add(levels.ToArray());
          }
-
-         WorldMap = new Map(levelGrid.ToArray(), mapName);
+         WorldMap = new Map(new Level[levelGrid[0].Length, levelGrid.Count], mapName);
+         for (int y = 0; y < WorldMap.LevelMap.GetLength(1); y++)
+         {
+            for (int x = 0; x < WorldMap.LevelMap.GetLength(0); x++)
+            {
+               WorldMap.LevelMap[x, y] = levelGrid[y][x];
+            }
+         }
 
          sr.ReadLine();
 
@@ -1089,8 +1093,13 @@ namespace GameEngine
          Coord playerCoords = new Coord(int.Parse(splitLine[0]), int.Parse(splitLine[1]));
 
          List<Contents> allContents = GetAllContents(sr);
-
-         Player = new Player(LoadedLevel.Grid.GetTileAtCoords(playerCoords).Contents, allContents[0], int.Parse(sr.ReadLine()));
+         
+         if (!World.LoadedLevel.Grid.GetTileAtCoords(playerCoords, out Tile tile, false))
+         {
+            return;
+         }
+         
+         Player = new Player(tile.Contents, allContents[0], int.Parse(sr.ReadLine()));
 
          sr.ReadLine();
 
@@ -1100,29 +1109,16 @@ namespace GameEngine
 
          for (splitLine = SplitNextLine(sr); splitLine[0] != "}"; splitLine = SplitNextLine(sr))
          {
-            Dialogue.Add(splitLine[0], splitLine[1]);
+            string restOfLine = "";
+            for (int splitLineIndex = 1; splitLineIndex < splitLine.Length; splitLineIndex++)
+            {
+               restOfLine += splitLine[splitLineIndex] + " ";
+            }
+            restOfLine.Trim();
+            Dialogue.Add(splitLine[0], restOfLine);
          }
 
          sr.Close();
-      }
-
-      private static Level[][] InvertMap(Level[][] levels)
-      {
-         List<Level[]> levelList = new List<Level[]>();
-         for (int x = 0; x < levels[0].Length; x++)
-         {
-            levelList.Add(new Level[levels.Length]);
-         }
-
-         for (int y = 0; y < levels.Length; y++)
-         {
-            Level[] levelRow = levels[y];
-            for (int x = 0; x < levels[0].Length; x++)
-            {
-               levelList[x][y] = levels[y][x];
-            }
-         }
-         return levelList.ToArray();
       }
 
       private static List<Contents> GetAllContents(StreamReader sr)
@@ -1136,20 +1132,18 @@ namespace GameEngine
                contentsList.Add(null);
                continue;
             }
-            bool isContainer = bool.Parse(splitLine[8]);
-            if (UseActions.TryGetAction(splitLine[10], out Action<string[], Contents> actionResult) && Behavior.TryGetAction(splitLine[11], out Action<Contents> behaviorResult))
+            bool isContainer = bool.Parse(splitLine[6]);
+            if (UseActions.TryGetAction(splitLine[8], out Action<string[], Contents> actionResult) && Behavior.TryGetBehavior(splitLine[9], out Action<Contents> behaviorResult))
             {
                contentsList.Add(new Contents(
                name: splitLine[0],
                visualChar: splitLine[1][0],
-               temperature: int.Parse(splitLine[2]),
-               meltingpoint: int.Parse(splitLine[3]),
-               transparent: bool.Parse(splitLine[4]),
-               durability: int.Parse(splitLine[5]),
-               size: int.Parse(splitLine[6]),
-               weight: float.Parse(splitLine[7]),
+               transparent: bool.Parse(splitLine[2]),
+               durability: int.Parse(splitLine[3]),
+               size: int.Parse(splitLine[4]),
+               weight: float.Parse(splitLine[5]),
                container: isContainer,
-               containerSpace: int.Parse(splitLine[9]),
+               containerSpace: int.Parse(splitLine[7]),
                useAction: actionResult,
                behavior: behaviorResult,
                contained: (isContainer ? GetAllContents(sr) : null)
@@ -1179,25 +1173,26 @@ namespace GameEngine
          }
          catch
          {
-            if (CommandInterpretation.InterpretYesNo("File path is invalid. Would you like to try again?"))
+            if (CommandInterpretation.AskYesNo("File path is invalid. Would you like to try again?"))
             {
                SaveToFile(CommandInterpretation.GetUserResponse("Enter file path"));
             }
             return;
          }
-         Level[][] levelMap = InvertMap(WorldMap.LevelMap);
+         Level[,] levelMap = WorldMap.LevelMap;
          sw.WriteLine("map " + WorldMap.Name + " {");
-         for (int levelY = 0; levelY < levelMap[0].Length; levelY++)
+         for (int levelY = 0; levelY < levelMap.GetLength(1); levelY++)
          {
             sw.WriteLine("row " + levelY + " {");
-            for (int levelX = 0; levelX < levelMap.Length; levelX++)
+            for (int levelX = 0; levelX < levelMap.GetLength(0); levelX++)
             {
-               Level level = levelMap[levelX][levelY];
+               Level level = levelMap[levelX, levelY];
                if (level == null)
                {
                   sw.WriteLine("null");
                   continue;
                }
+               // v This is on one line
                sw.WriteLine(
                   "level " + level.Name + " " + level.VisualChar + " " + (level.Equals(LoadedLevel)) +
                   " " + level.LevelCoord.X + "," + level.LevelCoord.Y + 
@@ -1252,7 +1247,7 @@ namespace GameEngine
 
          foreach (string key in Dialogue.Keys)
          {
-            sw.WriteLine(key + Dialogue[key]);
+            sw.WriteLine(key + " " + Dialogue[key]);
          }
 
          sw.WriteLine("}");
@@ -1268,7 +1263,7 @@ namespace GameEngine
             sw.WriteLine("null");
             return;
          }
-         sw.Write(contentsAtCoords.Name + " " + contentsAtCoords.VisualChar + " " + contentsAtCoords.Temperature + " " + contentsAtCoords.MeltingPoint + " " + contentsAtCoords.Transparent + " " + contentsAtCoords.Durability + " " + contentsAtCoords.Size + " " + contentsAtCoords.Weight + " ");
+         sw.Write(contentsAtCoords.Name + " " + contentsAtCoords.VisualChar + " "  + contentsAtCoords.Transparent + " " + contentsAtCoords.Durability + " " + contentsAtCoords.Size + " " + contentsAtCoords.Weight + " ");
          sw.Write(contentsAtCoords.Container + " " + contentsAtCoords.ContainerSpace + " ");
          if (UseActions.TryGetIdentifier(contentsAtCoords.UseAction, out string actionResult) && Behavior.TryGetIdentifier(contentsAtCoords.Behavior, out string behaviorResult))
          {
@@ -1293,32 +1288,44 @@ namespace GameEngine
       public static void UpdateWorld()
       {
          Level realLoadedLevel = LoadedLevel;
-         foreach (Level[] levels in WorldMap.LevelMap)
+         foreach (Level level in WorldMap.LevelMap)
          {
-            foreach (Level level in levels)
+            List<Contents> contentsToUpdate = new List<Contents>();
+            LoadedLevel = level;
+            if (level == null)
             {
-               List<Contents> contentsToUpdate = new List<Contents>();
-               LoadedLevel = level;
-               if (level == null)
+               continue;
+            }
+            foreach (Tile tile in level.Grid.TileGrid)
+            {
+               Contents contents = tile.Contents;
+               if (contents == null)
                {
                   continue;
                }
-               foreach (Tile tile in level.Grid.TileGrid)
-               {
-                  Contents contents = tile.Contents;
-                  if (contents == null)
-                  {
-                     continue;
-                  }
-                  contentsToUpdate.Add(contents);
-               }
-               foreach (Contents updateContents in contentsToUpdate)
-               {
-                  updateContents.Behavior(updateContents);
-               }
+               contentsToUpdate.Add(contents);
+            }
+            foreach (Contents updateContents in contentsToUpdate)
+            {
+               updateContents.Behavior(updateContents);
             }
          }
          LoadedLevel = realLoadedLevel;
       }
+
+        public static bool GetPlayerLevel(out Level result)
+        {
+            foreach (Level level in World.WorldMap.LevelMap)
+            {
+                if (level.Grid.TryFindContents(World.Player.Contents, out _))
+                {
+                    result = level;
+                    return true;
+                }
+            }
+            result = null;
+            return false;
+        }
+
    }
 }

@@ -6,18 +6,19 @@ namespace GameEngine
 {
    static class Game
    {
-      // TODO: map generation, melting, thermodynamics, comments, title screen, VisibleAtLine() adapt for not just player
-
+      // TODO: map generation, remove temp, comments, title screen, VisibleAtLine() adapt for not just player, implement a bunch of behaviors & use actions, documentation so people understand what's happening in this chaos
       public static bool Execute = true;
       public static string FilePath;
 
-      public static Dictionary<string, Action> GameModes = new Dictionary<string, Action>() 
+      public static Dictionary<string, (Action action, CommandChoices commands)> GameModes = new Dictionary<string, (Action, CommandChoices)>() 
       {
          // if you wish to add a gamemode, make the key lowercase!!!
-         { "game", GameEngine },
-         { "tutorial", Tutorial},
-         { "level editor", LevelEditor }
+         { "game", (GameEngine, GameModeCommands.EngineCommands) },
+         { "tutorial", (Tutorial, GameModeCommands.TutorialCommands)},
+         { "level editor", (LevelEditor, GameModeCommands.EditorCommands) }
       };
+
+      public static CommandChoices com;
 
       static void Main(string[] args)
       {
@@ -28,23 +29,19 @@ namespace GameEngine
          }
 
          string result;
-         while (!CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse("Which gamemode would you like to launch?"), GameModes.Keys.ToArray(), out result))
+         while (!CommandInterpretation.InterpretString(GameModes.Keys.ToArray(), out result))
          {
-            if (!CommandInterpretation.InterpretYesNo("Could not identify gamemode. Would you like to try again"))
+            if (!CommandInterpretation.AskYesNo("Could not identify gamemode. Would you like to try again?"))
             {
                return;
             }
          }
-         GameModes[result.ToLower()]();
+         com = GameModes[result.ToLower()].commands;
+         SetupCom(ref com);
+         GameModes[result.ToLower()].action();
       }
       static void GameEngine()
       {
-         CommandChoices com = GameModeCommands.EngineCommands;
-         if (com.TryFindCommand("help", out Command command))
-         {
-            command.HelpLines[0] = "Enter the command that you wish to learn about\n" + com.ListCommands();
-         }
-
          if (!World.LoadFromFile())
          {
             return;
@@ -58,24 +55,15 @@ namespace GameEngine
 
          for (Console.WriteLine(World.LoadedLevel.Grid.GraphicString()); Execute; Console.WriteLine(World.LoadedLevel.Grid.GraphicString()))
          {
+            Console.WriteLine("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name));
             if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
             {
                World.UpdateWorld();
             }
          }
-
-         if (CommandInterpretation.InterpretYesNo("Would you like to save your progress?"))
-         {
-            World.SaveToFile(FilePath);
-         }
       }
       static void Tutorial()
       {
-         CommandChoices com = GameModeCommands.TutorialCommands;
-         if (com.TryFindCommand("help", out Command command))
-         {
-            command.HelpLines[0] = "Enter the command that you wish to learn about\n" + com.ListCommands();
-         }
          string[] lines = new string[]
          {
             // v 0
@@ -87,7 +75,7 @@ namespace GameEngine
             // v 3
             "The 'wait' command does not take any parameters, so just typing it is enough.\nFor commands with parameters, you can separate them with spaces (you have to put them in the right order) or enter them one at a time into the console if you forget which is which\n",
             // v 4
-            "Now this world is very confusing... You see this 'A' in the middle of the grid? That's what you control. Let's try looking around.\nA nice command you'll need to learn is 'look'.\nUse the 'look' command at a coordinate within your vision.\nYou will be prompted to enter the x and y coordinates in this specific format: '<letter><number> <letter><number>'.\nEg. 'look A2 A4'.\nLetters are required to help with coordinates on larger levels\n\nLook at a few different tiles now.",
+            "Now this world is very confusing... You see this 'A' in the middle of the grid? That's what you control. Let's try looking around.\nA nice command you'll need to learn is 'look'.\nUse the 'look' command at a coordinate within your vision.\nYou will be prompted to enter the x and y coordinates in this specific format: '<letter><number> <letter><number>'.\nEg. 'look A2 A4'.\nLetters are required to help with coordinates on larger levels\n\nLook at four or five different tiles now.",
             // v 5
             "You can use the 'index' command to review all the contents you have seen in this world.",
             // v 6
@@ -111,16 +99,15 @@ namespace GameEngine
          };
 
          World.WorldMap = World.TutorialLevel;
-         World.LoadedLevel = World.WorldMap.LevelMap[0][0];
+         World.LoadedLevel = World.WorldMap.LevelMap[0, 0];
 
          int index = 0;
 
          WriteNextLine(lines, ref index);
 
-         // INCOMPLETE!!!!!
-
          for (Console.WriteLine(World.LoadedLevel.Grid.GraphicString()); Execute; Console.WriteLine(World.LoadedLevel.Grid.GraphicString()))
          {
+            Console.WriteLine("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name));
             TutorialProgression(lines, ref index);
 
             if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
@@ -169,7 +156,7 @@ namespace GameEngine
                WriteNextLine(lines, ref index);
                break;
             case 9:
-               if (World.LoadedLevel == World.TutorialLevel.LevelMap[1][0])
+               if (World.LoadedLevel == World.TutorialLevel.LevelMap[1, 0])
                {
                   WriteNextLine(lines, ref index);
                }
@@ -178,7 +165,7 @@ namespace GameEngine
                WriteNextLine(lines, ref index);
                break;
             case 11:
-               if (World.LoadedLevel == World.TutorialLevel.LevelMap[1][0] && !World.LoadedLevel.Grid.TryFindContents(World.Hog.Contents, out _))
+               if (World.LoadedLevel == World.TutorialLevel.LevelMap[1, 0] && !World.LoadedLevel.Grid.TryFindContents(World.Hog.Contents, out _))
                {
                   WriteNextLine(lines, ref index);
                }
@@ -205,7 +192,44 @@ namespace GameEngine
 
       static void LevelEditor()
       {
-
+         Editor.EditorState = Editor.State.Map;
+         if (CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse("Would you like to make a \"new\" file or would you like to \"load\" one?"), new string[] { "new", "load" }, out string result))
+         {
+            com.EvaluateCommand(result);
+         }
+         else
+         {
+            if (CommandInterpretation.AskYesNo("That is not a valid choice. Would you like to try again?"))
+            {
+               LevelEditor();
+            }
+            return;
+         }
+         if (World.WorldMap == null)
+         {
+            return;
+         }
+         while (Execute)
+         {
+            switch (Editor.EditorState)
+            {
+               case Editor.State.Map:
+                  Console.WriteLine(World.WorldMap.GraphicString());
+                  break;
+               case Editor.State.Level:
+                  Console.WriteLine(World.LoadedLevel.Grid.GraphicString(false));
+            Console.WriteLine("Brush: " + (Editor.Brush == null ? "Nothing" : (Editor.Brush.Contents == null ? Editor.Brush.Floor.Name : Editor.Brush.Contents.Name)));
+                  break;
+            }
+            com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command: "));
+         }
+      }
+      private static void SetupCom(ref CommandChoices com)
+      {
+         if (com.TryFindCommand("help", out Command command))
+         {
+            command.HelpLines[0] = com.ListCommands() + "Enter the command that you wish to learn about\n";
+         }
       }
    }
 }

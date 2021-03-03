@@ -6,6 +6,37 @@ namespace GameEngine
    {
       public Tile[,] TileGrid;
 
+      public Grid(Tile[,] tileGrid)
+      {
+         if (tileGrid.GetLength(0) >= 260 || tileGrid.GetLength(1) >= 260)
+         {
+            Console.WriteLine("Grid is too large!");
+            return;
+         }
+         Tile[,] createdTiles = new Tile[tileGrid.GetLength(0), tileGrid.GetLength(1)];
+         for (int y = 0; y < tileGrid.GetLength(1); y++)
+         {
+            for (int x = 0; x < tileGrid.GetLength(0); x++)
+            {
+               Floor oldFloor = tileGrid[x, y].Floor;
+               Contents oldContents = tileGrid[x, y].Contents;
+               if (oldContents == null)
+               {
+                  createdTiles[x, y] = new Tile(new Floor(oldFloor.VisualChar, oldFloor.Name), null, new Coord(x, y));
+               }
+               else
+               {
+                  createdTiles[x, y] = new Tile(new Floor(oldFloor.VisualChar, oldFloor.Name), new Contents(oldContents.Name, oldContents.VisualChar, oldContents.Transparent, oldContents.Durability, oldContents.Size, oldContents.Weight, oldContents.Container, oldContents.ContainerSpace, oldContents.Contained, oldContents.UseAction, oldContents.Behavior), new Coord(x, y));
+                  createdTiles[x, y].Contents.Coordinates = new Coord(x, y);
+                  if (oldContents.Name == World.Player.Contents.Name)
+                  {
+                     World.Player.Contents = createdTiles[x, y].Contents;
+                  }
+               }
+            }
+         }
+         TileGrid = createdTiles;
+      }
       public Grid(Tile[][] tileGrid)
       {
          if (tileGrid.Length >= 260 || tileGrid[0].Length >= 260)
@@ -26,7 +57,7 @@ namespace GameEngine
                }
                else
                {
-                  createdTiles[x, y] = new Tile(new Floor(oldFloor.VisualChar, oldFloor.Name), new Contents(oldContents.Name, oldContents.VisualChar, oldContents.Temperature, oldContents.MeltingPoint, oldContents.Transparent, oldContents.Durability, oldContents.Size, oldContents.Weight, oldContents.Container, oldContents.ContainerSpace, oldContents.Contained, oldContents.UseAction, oldContents.Behavior), new Coord(x, y));
+                  createdTiles[x, y] = new Tile(new Floor(oldFloor.VisualChar, oldFloor.Name), new Contents(oldContents.Name, oldContents.VisualChar, oldContents.Transparent, oldContents.Durability, oldContents.Size, oldContents.Weight, oldContents.Container, oldContents.ContainerSpace, oldContents.Contained, oldContents.UseAction, oldContents.Behavior), new Coord(x, y));
                   createdTiles[x, y].Contents.Coordinates = new Coord(x, y);
                   if (oldContents.Name == World.Player.Contents.Name)
                   {
@@ -54,18 +85,30 @@ namespace GameEngine
             Coord levelCoords = World.LoadedLevel.LevelCoord.Add(new Coord(-1, 0));
             if (levelCoords.X >= 0)
             {
-               Level levelToWest = World.WorldMap.GetLevelAtCoords(levelCoords);
+               Level levelToWest;
+               if (!World.WorldMap.GetLevelAtCoords(levelCoords, out levelToWest))
+               {
+                  return;
+               }
                if (levelToWest == null)
                {
                   Console.WriteLine("You cannot move here");
                   return;
                }
-               if (levelToWest.EastEntry != null && levelToWest.Grid.GetTileAtCoords(levelToWest.EastEntry).Contents == null)
+               if (levelToWest.EastEntry != null && levelToWest.Grid.GetTileAtCoords(levelToWest.EastEntry, out Tile WestEntryTile))
                {
-                  World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates).Contents = null;
+                  if (WestEntryTile.Contents != null)
+                  {
+                     Console.WriteLine("Something is blocking this on the other side");
+                     return;
+                  }
+                  if (World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates, out Tile playerTile))
+                  {
+                     playerTile.Contents = null;
+                  }
                   World.LoadedLevel = levelToWest;
                   startingContents.Coordinates = World.LoadedLevel.EastEntry;
-                  World.LoadedLevel.Grid.GetTileAtCoords(World.LoadedLevel.EastEntry).Contents = startingContents;
+                  WestEntryTile.Contents = startingContents;
                }
                else
                {
@@ -79,24 +122,36 @@ namespace GameEngine
                return;
             }
          }
-         else if (endingCoord.X >= World.LoadedLevel.Width)
+         else if (endingCoord.X >= World.LoadedLevel.Grid.TileGrid.GetLength(0))
          {
             // Changing levels to east
             Coord levelCoords = World.LoadedLevel.LevelCoord.Add(new Coord(1, 0));
-            if (levelCoords.X < World.WorldMap.Width)
+            if (levelCoords.X < World.WorldMap.LevelMap.GetLength(0))
             {
-               Level levelToEast = World.WorldMap.GetLevelAtCoords(levelCoords);
+               Level levelToEast;
+               if (!World.WorldMap.GetLevelAtCoords(levelCoords, out levelToEast))
+               {
+                  return;
+               }
                if (levelToEast == null)
                {
                   Console.WriteLine("You cannot move here");
                   return;
                }
-               if (levelToEast.WestEntry != null && levelToEast.Grid.GetTileAtCoords(levelToEast.WestEntry).Contents == null)
+               if (levelToEast.WestEntry != null && levelToEast.Grid.GetTileAtCoords(levelToEast.WestEntry, out Tile eastEntryTile))
                {
-                  World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates).Contents = null;
+                  if (eastEntryTile.Contents != null)
+                  {
+                     Console.WriteLine("Something is blocking this on the other side");
+                     return;
+                  }
+                  if (World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates, out Tile playerTile))
+                  {
+                     playerTile.Contents = null;
+                  }
                   World.LoadedLevel = levelToEast;
                   startingContents.Coordinates = World.LoadedLevel.WestEntry;
-                  World.LoadedLevel.Grid.GetTileAtCoords(World.LoadedLevel.WestEntry).Contents = startingContents;
+                  eastEntryTile.Contents = startingContents;
                }
                else
                {
@@ -116,18 +171,30 @@ namespace GameEngine
             Coord levelCoords = World.LoadedLevel.LevelCoord.Add(new Coord(0, -1));
             if (levelCoords.Y >= 0)
             {
-               Level levelToNorth = World.WorldMap.GetLevelAtCoords(levelCoords);
+               Level levelToNorth;
+               if (!World.WorldMap.GetLevelAtCoords(levelCoords, out levelToNorth))
+               {
+                  return;
+               }
                if (levelToNorth == null)
                {
                   Console.WriteLine("You cannot move here");
                   return;
                }
-               if (levelToNorth.SouthEntry != null && levelToNorth.Grid.GetTileAtCoords(levelToNorth.SouthEntry).Contents == null)
+               if (levelToNorth.SouthEntry != null && levelToNorth.Grid.GetTileAtCoords(levelToNorth.SouthEntry, out Tile northEntryTile))
                {
-                  World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates).Contents = null;
+                  if (northEntryTile.Contents != null)
+                  {
+                     Console.WriteLine("Something is blocking this on the other side");
+                     return;
+                  }
+                  if (World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates, out Tile playerTile))
+                  {
+                     playerTile.Contents = null;
+                  }
                   World.LoadedLevel = levelToNorth;
                   startingContents.Coordinates = World.LoadedLevel.SouthEntry;
-                  World.LoadedLevel.Grid.GetTileAtCoords(World.LoadedLevel.SouthEntry).Contents = startingContents;
+                  northEntryTile.Contents = startingContents;
                }
                else
                {
@@ -141,24 +208,36 @@ namespace GameEngine
                return;
             }
          }
-         else if (endingCoord.Y >= World.LoadedLevel.Height)
+         else if (endingCoord.Y >= World.LoadedLevel.Grid.TileGrid.GetLength(1))
          {
             // Changing levels to south
             Coord levelCoords = World.LoadedLevel.LevelCoord.Add(new Coord(0, 1));
-            if (levelCoords.Y < World.WorldMap.Height)
+            if (levelCoords.Y < World.WorldMap.LevelMap.GetLength(1))
             {
-               Level levelToSouth = World.WorldMap.GetLevelAtCoords(levelCoords);
+               Level levelToSouth;
+               if (!World.WorldMap.GetLevelAtCoords(levelCoords, out levelToSouth))
+               {
+                  return;
+               }
                if (levelToSouth == null)
                {
                   Console.WriteLine("You cannot move here");
                   return;
                }
-               if (levelToSouth.NorthEntry != null && levelToSouth.Grid.GetTileAtCoords(levelToSouth.NorthEntry).Contents == null)
+               if (levelToSouth.NorthEntry != null && levelToSouth.Grid.GetTileAtCoords(levelToSouth.NorthEntry, out Tile southEntryTile))
                {
-                  World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates).Contents = null;
+                  if (southEntryTile.Contents != null)
+                  {
+                     Console.WriteLine("Something is blocking this on the other side");
+                     return;
+                  }
+                  if (World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates, out Tile playerTile))
+                  {
+                     playerTile.Contents = null;
+                  }
                   World.LoadedLevel = levelToSouth;
                   startingContents.Coordinates = World.LoadedLevel.NorthEntry;
-                  World.LoadedLevel.Grid.GetTileAtCoords(World.LoadedLevel.NorthEntry).Contents = startingContents;
+                  southEntryTile.Contents = startingContents;
                }
                else
                {
@@ -175,8 +254,8 @@ namespace GameEngine
          else
          {
             Coord startingCoord = new Coord(startingContents.Coordinates.X, startingContents.Coordinates.Y);
-            Tile endingTile = World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates.Add(changedLoc));
-            if (endingTile == null)
+            Tile endingTile;
+            if (!World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates.Add(changedLoc), out endingTile))
             {
                return;
             }
@@ -198,7 +277,7 @@ namespace GameEngine
 
       }
 
-      public Tile GetTileAtCoords(Coord coords, bool consolePrint = true)
+      public bool GetTileAtCoords(Coord coords, out Tile result, bool consolePrint = true)
       {
          if (coords.X < 0 || coords.X >= TileGrid.GetLength(0) || coords.Y < 0 || coords.Y >= TileGrid.GetLength(1))
          {
@@ -206,9 +285,11 @@ namespace GameEngine
             {
                Console.WriteLine("Coordinates given are out of range of the grid");
             }
-            return null;
+            result = null;
+            return false;
          }
-         return TileGrid[coords.X, coords.Y];
+         result = TileGrid[coords.X, coords.Y];
+         return true;
       }
 
       public void SetContentsAtCoords(Coord coords, Contents contents)
@@ -216,7 +297,16 @@ namespace GameEngine
          TileGrid[coords.X, coords.Y].Contents = contents;
       }
 
-      public string GraphicString()
+      public void SetTileAtCoords(Coord coords, Tile tile)
+      {
+         if (coords.X < 0 || coords.X >= TileGrid.GetLength(0) || coords.Y < 0 || coords.Y >= TileGrid.GetLength(1))
+         {
+            return;
+         }
+         TileGrid[coords.X, coords.Y] = tile;
+      }
+
+      public string GraphicString(bool LOS = true)
       {
          string returnString = "   ";
          for (int repeat = 0; repeat < TileGrid.GetLength(0); repeat++)
@@ -241,7 +331,7 @@ namespace GameEngine
 
             for (int x = 0; x < TileGrid.GetLength(0); x++)
             {
-               TileGrid[x, y].UpdateVisual();
+               TileGrid[x, y].UpdateVisual(LOS);
                returnString += TileGrid[x, y].VisualChar + (Settings.Spaced ? " " : "");
             }
             returnString += "\n";
@@ -280,12 +370,10 @@ namespace GameEngine
 
       // <LOS>
 
-      public bool VisibleAtLine(Coord relativeCoord)
+      public bool VisibleAtLine(Coord startCoord, Coord relativeCoord)
       {
-         Coord playerCoords = World.Player.GetCoords();
-
-         double x = playerCoords.X + 0.5;
-         double y = playerCoords.Y + 0.5;
+         double x = startCoord.X + 0.5;
+         double y = startCoord.Y + 0.5;
 
          double endingX = x + relativeCoord.X;
          double endingY = y + relativeCoord.Y;
@@ -303,7 +391,10 @@ namespace GameEngine
          {
             for (; y != endingY; y += ySign)
             {
-               Tile tileAtCoords = World.LoadedLevel.Grid.GetTileAtCoords(new Coord((int)x, (int)y), false);
+               if (!World.LoadedLevel.Grid.GetTileAtCoords(new Coord((int)x, (int)y), out Tile tileAtCoords, false))
+               {
+                  return false;
+               }
                if (tileAtCoords != null && tileAtCoords.Contents != null && !tileAtCoords.Contents.Transparent)
                {
                   return false;
@@ -317,20 +408,26 @@ namespace GameEngine
          {
             for (; x != endingX; x += xSign)
             {
-               y = GetYTile(x - 0.1, (double)slope);
+               y = GetYTile(x - 0.1, (double)slope, startCoord);
 
-               double tryY = GetYTile(x + 0.1, (double)slope);
+               double tryY = GetYTile(x + 0.1, (double)slope, startCoord);
                Tile tileAtCoords;
                if (tryY != y)
                {
-                  tileAtCoords = World.LoadedLevel.Grid.GetTileAtCoords(new Coord((int)x, (int)tryY), false);
+                  if (!World.LoadedLevel.Grid.GetTileAtCoords(new Coord((int)x, (int)tryY), out tileAtCoords, false))
+                  {
+                     return false;
+                  }
                   if (tileAtCoords != null && tileAtCoords.Contents != null && !tileAtCoords.Contents.Transparent)
                   {
                      return false;
                   }
                }
 
-               tileAtCoords = World.LoadedLevel.Grid.GetTileAtCoords(new Coord((int)x, (int)y), false);
+               if (!World.LoadedLevel.Grid.GetTileAtCoords(new Coord((int)x, (int)y), out tileAtCoords, false))
+               {
+                  return false;
+               }
 
                if (tileAtCoords != null && tileAtCoords.Contents != null && !tileAtCoords.Contents.Transparent)
                {
@@ -342,20 +439,26 @@ namespace GameEngine
          {
             for (; y != endingY; y += ySign)
             {
-               x = GetXTile(y - 0.1, (double)slope);
+               x = GetXTile(y - 0.1, (double)slope, startCoord);
 
-               double tryX = GetXTile(y + 0.1, (double)slope);
+               double tryX = GetXTile(y + 0.1, (double)slope, startCoord);
                Tile tileAtCoords;
                if (tryX != x)
                {
-                  tileAtCoords = World.LoadedLevel.Grid.GetTileAtCoords(new Coord((int)tryX, (int)y), false);
+                  if (!World.LoadedLevel.Grid.GetTileAtCoords(new Coord((int)tryX, (int)y), out tileAtCoords, false))
+                  {
+                     return false;
+                  }
                   if (tileAtCoords != null && tileAtCoords.Contents != null && !tileAtCoords.Contents.Transparent)
                   {
                      return false;
                   }
                }
-
-               tileAtCoords = World.LoadedLevel.Grid.GetTileAtCoords(new Coord((int)x, (int)y), false);
+               
+               if (!World.LoadedLevel.Grid.GetTileAtCoords(new Coord((int)x, (int)y), out tileAtCoords, false))
+               {
+                  return false;
+               }
 
                if (tileAtCoords != null && tileAtCoords.Contents != null && !tileAtCoords.Contents.Transparent)
                {
@@ -369,20 +472,18 @@ namespace GameEngine
       {
          return (Math.Floor(input) + 0.5f);
       }
-      private double GetYTile(double x, double slope)
-      {
-         Coord playerCoord = World.Player.GetCoords();
-         if (slope == 0)
-         {
-            return CenterTile(playerCoord.Y);
-         }
-         return CenterTile(playerCoord.Y + slope * (x + (0.5 / slope) - playerCoord.X - 0.5));
-      }
-      private double GetXTile(double y, double slope)
-      {
-         Coord playerCoord = World.Player.GetCoords();
-         return CenterTile(playerCoord.X + ((y + (slope * 0.5) - playerCoord.Y - 0.5) / slope));
-      }
+      private double GetYTile(double x, double slope, Coord startCoord)
+        {
+            if (slope == 0)
+            {
+                return CenterTile(startCoord.Y);
+            }
+            return CenterTile(startCoord.Y + slope * (x + (0.5 / slope) - startCoord.X - 0.5));
+        }
+        private double GetXTile(double y, double slope, Coord startCoord)
+        {
+            return CenterTile(startCoord.X + ((y + (slope * 0.5) - startCoord.Y - 0.5) / slope));
+        }
 
       // </LOS>
 
