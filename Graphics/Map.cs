@@ -13,11 +13,14 @@ namespace GameEngine
          Name = name;
       }
 
-      public bool GetLevelAtCoords(Coord coords, out Level result)
+      public bool GetLevelAtCoords(Coord coords, out Level result, bool printResponse = true)
       {
          if (coords.X < 0 || coords.X >= LevelMap.GetLength(0) || coords.Y < 0 || coords.Y >= LevelMap.GetLength(1))
          {
-            Console.WriteLine("Level is out of bounds of the map.");
+            if (printResponse)
+            {
+               Console.WriteLine("Level is out of bounds of the map.");
+            }
             result = null;
             return false;
          }

@@ -626,7 +626,7 @@ namespace GameEngine
 
                 #region evaluating entry points
                 Level result;
-                if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(1, 0)), out result))
+                if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(1, 0)), out result, false))
                 {
                     if (result != null)
                     {
@@ -634,7 +634,7 @@ namespace GameEngine
                         result.WestEntry = new Coord(0, (result.Grid.TileGrid.GetLength(1) - 1) / 2);
                     }
                 }
-                if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(-1, 0)), out result))
+                if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(-1, 0)), out result, false))
                 {
                     if (result != null)
                     {
@@ -642,7 +642,7 @@ namespace GameEngine
                         result.EastEntry = new Coord(result.Grid.TileGrid.GetLength(0) - 1, (result.Grid.TileGrid.GetLength(1) - 1) / 2);
                     }
                 }
-                if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(0, 1)), out result))
+                if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(0, 1)), out result, false))
                 {
                     if (result != null)
                     {
@@ -650,7 +650,7 @@ namespace GameEngine
                         result.NorthEntry = new Coord((result.Grid.TileGrid.GetLength(0) - 1) / 2, 0);
                     }
                 }
-                if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(0, -1)), out result))
+                if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(0, -1)), out result, false))
                 {
                     if (result != null)
                     {
