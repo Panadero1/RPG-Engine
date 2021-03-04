@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GameEngine
 {
@@ -7,51 +8,58 @@ namespace GameEngine
       // WARNING!!!! DO NOT REMOVE, SHUFFLE, OR CHANGE ANY OF THE CURRENT ACTIONS WITHIN THIS ARRAY
       // YOU MAY ADD ACTIONS, BUT BE SURE TO DO SO AT THE END OF EACH ARRAY
       // Please add a string that represents your command in the array: _identifiers
-      public static Action<string[], Contents>[] CustomCommands = new Action<string[], Contents>[]
+      public static (Action<string[], Contents> Action, string Identifier)[] CustomCommands = new (Action<string[], Contents>, string)[]
       {
-         DoesNothing,
-         MonsterDialogue,
-         Rude,
-         Lever,
-         Tombstone,
-         Boo,
-         Gun,
-         Dialogue
-      };
-      public static string[] Identifiers = new string[]
-      {
-         "DoesNothing",
-         "MonsterDialogue",
-         "Rude",
-         "Lever",
-         "Tombstone",
-         "Boo",
-         "Gun",
-         "Dialogue"
+         (DoesNothing,"DoesNothing"),
+         (MonsterDialogue,"MonsterDialogue"),
+         (Rude, "Rude"),
+         (Lever, "Lever"),
+         (Tombstone, "Tombstone"),
+         (Boo, "Boo"),
+         (Gun, "Gun"),
+         (Dialogue, "Dialogue")
       };
 
+      public static string[] GetIdentifiers()
+      {
+         List<string> identifiers = new List<string>();
+         foreach ((Action<string[], Contents>, string) item in CustomCommands)
+         {
+            identifiers.Add(item.Item2);
+         }
+         return identifiers.ToArray();
+      }
+      // The following two functions make this work as a make-shift two-way Dictionary
+      // It's highly dependant on the order of the two arrays staying fixed.
+
+      // Returns the UseAction if its respective index of identifier exists.
       public static bool TryGetAction(string givenIdentifier, out Action<string[], Contents> result)
       {
-         for (int identifierIndex = 0; identifierIndex < Identifiers.Length; identifierIndex++)
+         // Loops through, searching for a match. Returns true when it finds a match
+         string[] identifiers = GetIdentifiers();
+         for (int identifierIndex = 0; identifierIndex < identifiers.Length; identifierIndex++)
          {
-            string identifier = (string)Identifiers[identifierIndex];
-            if (identifier.Equals(givenIdentifier))
+                string identifier = identifiers[identifierIndex];
+                if (identifier.Equals(givenIdentifier))
             {
-               result = CustomCommands[identifierIndex];
+               result = CustomCommands[identifierIndex].Action;
                return true;
             }
          }
          result = null;
          return false;
       }
+      
+      // Returns the identifier if its respective index of Action exists.
       public static bool TryGetIdentifier(Action<string[], Contents> givenAction, out string result)
       {
-         for (int actionIndex = 0; actionIndex < Identifiers.Length; actionIndex++)
+         // Loops through, searching for a match. Returns true when it finds a match
+         for (int actionIndex = 0; actionIndex < CustomCommands.Length; actionIndex++)
          {
-            Action<string[], Contents> action = CustomCommands[actionIndex];
+            Action<string[], Contents> action = CustomCommands[actionIndex].Action;
             if (action.Equals(givenAction))
             {
-               result = Identifiers[actionIndex];
+               result = CustomCommands[actionIndex].Identifier;
                return true;
             }
          }
@@ -61,8 +69,9 @@ namespace GameEngine
 
       public static string AllActions()
       {
-         foreach(string identifier in Identifiers)
+         for(int idendifierIndex = 0; idendifierIndex < CustomCommands.Length; idendifierIndex++)
          {
+            string identifier = CustomCommands[idendifierIndex].Identifier;
             Console.WriteLine(identifier);
          }
          return string.Empty;

@@ -266,7 +266,7 @@ namespace GameEngine
          };
 
          Console.WriteLine("Choose an action that this contents takes");
-         if (!CommandInterpretation.InterpretString(UseActions.Identifiers, out string actionString))
+         if (!CommandInterpretation.InterpretString(UseActions.GetIdentifiers(), out string actionString))
          {
             Console.WriteLine("Action was not a valid response");
             return false;
@@ -274,7 +274,7 @@ namespace GameEngine
          preContainerParamMap["Action"] = actionString;
 
          Console.WriteLine("Choose a behavior for this contents");
-         if (!CommandInterpretation.InterpretString(Behavior.Identifiers, out string behaviorString))
+         if (!CommandInterpretation.InterpretString(Behavior.GetIdentifiers(), out string behaviorString))
          {
             Console.WriteLine("Behavior was not a valid response");
             return false;

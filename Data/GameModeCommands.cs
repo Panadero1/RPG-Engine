@@ -453,9 +453,9 @@ namespace GameEngine
 
                     int xOffset = (direction.X == -1 ? 1 : 0);
                     int yOffset = (direction.Y == -1 ? 1 : 0);
-                    for (int y = yOffset; y < expandedMap.GetLength(1); y++)
+                    for (int y = yOffset; y < World.WorldMap.LevelMap.GetLength(1) + yOffset; y++)
                     {
-                        for(int x = xOffset; x < expandedMap.GetLength(0); x++)
+                        for(int x = xOffset; x < World.WorldMap.LevelMap.GetLength(0) + xOffset; x++)
                         {
                             expandedMap[x, y] = World.WorldMap.LevelMap[x - xOffset, y - yOffset];
                         }
@@ -818,7 +818,7 @@ namespace GameEngine
                 else if (result == memberNames[6])
                 {
                     Console.WriteLine("Enter the action:");
-                    if (!(CommandInterpretation.InterpretString(UseActions.Identifiers, out string actionString) && UseActions.TryGetAction(actionString, out Action<string[], Contents> _action)))
+                    if (!(CommandInterpretation.InterpretString(UseActions.GetIdentifiers(), out string actionString) && UseActions.TryGetAction(actionString, out Action<string[], Contents> _action)))
                     {
                         return;
                     }
@@ -841,7 +841,7 @@ namespace GameEngine
                 else if (result == memberNames[7])
                 {
                     Console.WriteLine("Enter the behavior:");
-                    if (!(CommandInterpretation.InterpretString(Behavior.Identifiers, out string behaviorString) && Behavior.TryGetBehavior(behaviorString, out Action<Contents> _behavior)))
+                    if (!(CommandInterpretation.InterpretString(Behavior.GetIdentifiers(), out string behaviorString) && Behavior.TryGetBehavior(behaviorString, out Action<Contents> _behavior)))
                     {
                         return;
                     }

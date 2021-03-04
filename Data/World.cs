@@ -20,7 +20,7 @@ namespace GameEngine
 
       public static Tile Mud = new Tile(new Floor('~', "mud"), null, _zeroZero);
 
-      public static Tile Wall = new Tile(Ground, new Contents("wall", '#', false, 40, 10000, 400000, UseActions.CustomCommands[0], Behavior.DoesNothing), _zeroZero);
+      public static Tile Wall = new Tile(Ground, new Contents("wall", '#', false, 40, 10000, 400000, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
 
       public static Tile Fence = new Tile(Ground, new Contents("fence", '+', true, 5, 10000, 60, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
 
