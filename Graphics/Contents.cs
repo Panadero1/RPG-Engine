@@ -3,27 +3,50 @@ using System.Collections.Generic;
 
 namespace GameEngine
 {
+   // Data class Contents represents just about any object in the game
    class Contents : ICloneable
    {
+      // The coordinates of the contents
       public Coord Coordinates;
 
+      // A unique identifier for the contents
       public string Name;
+      
+      // The letter, number or symbol that represents the contents
       public char VisualChar;
 
+      // The health of the contents. When reduced to zero through damage, it becomes nothing.
       public int Durability;
 
+      // The amount of space it takes up in a container
       public int Size;
+
+      // The amount it weighs
       public float Weight;
+
+      // The total amount of weight- including its contents
       public float TotalWeight;
 
+      // Whether it is visible and targetable through
       public bool Transparent;
 
+
+      // Whether or not it is able to store other contents
       public bool Container = false;
+      
+      // How much space this container can hold within it
       public int ContainerSpace = 0;
+
+      // The amount of space taken up in this container
       public int UsedSpace = 0;
+
+      // The contents within this container
       public List<Contents> Contained = new List<Contents>();
 
+      // The funciton this calls when it is interacted with or used
       public Action<string[], Contents> UseAction;
+
+      // The function this calls every time the world updates. (only when it is on a tile)
       public Action<Contents> Behavior;
 
       public Contents(string name, char visualChar, bool transparent, int durability, int size, float weight, Action<string[], Contents> useAction, Action<Contents> behavior)
@@ -56,6 +79,8 @@ namespace GameEngine
             }
          }
       }
+      
+      // Removes all null members of contained
       private void CleanOut()
       {
          if (Container)
@@ -64,6 +89,7 @@ namespace GameEngine
          }
       }
 
+      // Where TotalWeight is determined
       private float GetWeightRecursive()
       {
          float totalWeight = Weight;
@@ -78,31 +104,7 @@ namespace GameEngine
          return totalWeight;
       }
 
-      public void AddContents(Contents contentsToAdd)
-      {
-         if (Container)
-         {
-            if (contentsToAdd.Size <= (ContainerSpace - UsedSpace))
-            {
-               Contained.Add(contentsToAdd);
-               UsedSpace += contentsToAdd.Size;
-               TotalWeight += contentsToAdd.Weight;
-               Console.WriteLine("Added.");
-            }
-            else
-            {
-               Console.WriteLine(contentsToAdd.Name + " is to big. It doesn't fit inside " + Name);
-               if (Contained.Count > 0 && ContainerSpace >= contentsToAdd.Size)
-               {
-                  Console.WriteLine("You can remove some items from " + Name + " to make space for it, though");
-               }
-            }
-         }
-         else
-         {
-            Console.WriteLine("You can't put " + contentsToAdd.Name + " in " + Name);
-         }
-      }
+      // Returns a string of all the contents within this container
       public string ListContents()
       {
          string output = "\nHere are the contents of " + Name + "\n";
@@ -116,6 +118,8 @@ namespace GameEngine
          }
          return output;
       }
+      
+      // Lists all containers within this container. Currently unused
       public string ListContainers()
       {
          Console.WriteLine("Here are the containers of " + Name);
@@ -134,6 +138,8 @@ namespace GameEngine
          return output;
       }
 
+      // Reduce durability by damage. If it is less than zero, destroy object
+      // CURRENTLY ONLY WORKS IF THE TILE IS ON THE GRID (no held items, no contained items)
       public void Damage(int damage, bool displayMessage = true)
       {
          Durability -= damage;
@@ -145,11 +151,12 @@ namespace GameEngine
          {
             if (Container && Contained.Count > 0)
             {
-               // HERE IS WHERE BAG IS DEFINED. Change as you wish
                if (!World.LoadedLevel.Grid.GetTileAtCoords(Coordinates, out Tile destroyTile))
                {
                   return;
                }
+
+               // HERE IS WHERE BAG IS DEFINED. Change as you wish
 
                destroyTile.Contents = new Contents
                   (

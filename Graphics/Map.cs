@@ -2,9 +2,13 @@
 
 namespace GameEngine
 {
+   // Highest level data class
    class Map
    {
+      // 2D array of all levels
       public Level[,] LevelMap;
+
+      // Name of the map
       public string Name;
 
       public Map(Level[,] gridMap, string name)
@@ -13,6 +17,7 @@ namespace GameEngine
          Name = name;
       }
 
+      // Gets the level at the given coords
       public bool GetLevelAtCoords(Coord coords, out Level result, bool printResponse = true)
       {
          if (coords.X < 0 || coords.X >= LevelMap.GetLength(0) || coords.Y < 0 || coords.Y >= LevelMap.GetLength(1))
@@ -28,20 +33,21 @@ namespace GameEngine
          return true;
       }
 
+      // String to return that represents LevelMap
       public string GraphicString()
       {
          string returnString = "   ";
          for (int repeat = 0; repeat < LevelMap.GetLength(0); repeat++)
          {
-            returnString += ((repeat % 10 == 0) ? AlphabetIndex((repeat / 10)) : ' ') + (Settings.Spaced ? " " : "");
+            returnString += ((repeat % 10 == 0) ? AlphabetIndex((repeat / 10)) : ' ') + Settings.Spacing;
          }
          returnString += "\n   ";
          for (int repeat = 0; repeat < LevelMap.GetLength(0); repeat++)
          {
-            returnString += (repeat % 10) + (Settings.Spaced ? " " : "");
+            returnString += (repeat % 10) + Settings.Spacing;
          }
          returnString += "\n   ";
-         for (int repeat = 0; repeat < LevelMap.GetLength(0) + (Settings.Spaced ? LevelMap.GetLength(0) - 1 : 0); repeat++)
+         for (int repeat = 0; repeat < (LevelMap.GetLength(0) * (Settings.Spacing.Length + 1)) - Settings.Spacing.Length; repeat++)
          {
             returnString += "-";
          }
@@ -56,11 +62,11 @@ namespace GameEngine
                Level currentLevel = LevelMap[x, y];
                if (currentLevel == null)
                {
-                  returnString += " " + (Settings.Spaced ? " " : "");
+                  returnString += " " + Settings.Spacing;
                }
                else
                {
-                  returnString += ((currentLevel.Equals(World.LoadedLevel)) ? World.Player.Contents.VisualChar : currentLevel.VisualChar) + (Settings.Spaced ? " " : "");
+                  returnString += ((currentLevel.Equals(World.LoadedLevel)) ? World.Player.Contents.VisualChar : currentLevel.VisualChar) + Settings.Spacing;
                }
             }
             returnString += "\n";
@@ -68,11 +74,13 @@ namespace GameEngine
          return returnString;
       }
 
+      // Child function of GraphicString()
       private char AlphabetIndex(int index)
       {
          return (char)(65 + index);
       }
 
+      // Not implemented yet
       public Map GenerateMap()
       {
          throw new NotImplementedException();

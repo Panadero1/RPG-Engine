@@ -6,12 +6,16 @@ using System.Linq;
 
 namespace GameEngine
 {
+   // Where all world data is stored.
    static class World
    {
+      // Coordinates are loaded into each tile & contents when they run through the Grid() constructor, so this is just used as a filler
       private static readonly Coord _zeroZero = new Coord(0, 0);
 
+      // The player is the controllable character. It is set as a default only for the purpose of satisfying a default player for levelEditor
       public static Player Player = new Player(new Contents("Player", 'A', true, 50, 10, 50, true, 100, new List<Contents>(), UseActions.DoesNothing, Behavior.DoesNothing), null, 50);
 
+      // Tile templates used to make the demo.txt file.. some are used in the tutorial. Not used for level editing whatsoever
       #region tile definitions
 
       public static Floor Ground = new Floor('.', "ground");
@@ -51,10 +55,14 @@ namespace GameEngine
       public static Tile GateClosed = new Tile(Ground, new Contents("gate", '-', true, 2000, 10, 12390, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
       #endregion
 
+      // A dictionary mapping between content names and their respective dialogue lines
+      // This means that two contents with Dialogue as the UseAction
       public static Dictionary<string, string> Dialogue = new Dictionary<string, string>();
 
+      // WorldMap is referenced as the current Map in play. This gets defined in LoadFromFile
       public static Map WorldMap;
 
+      // Solidly defined within the program as the tutorial level. Playable without any world files. This also means it's not editable
       public static Map TutorialLevel = new Map(new Level[,]
       {
          // column 1
@@ -218,6 +226,7 @@ namespace GameEngine
          }
       }, "tutorial");
       
+      // This is a backup of the demo world in case I ever lose it or lose compatability and need to make a new one
       /*public static Map _worldMap = new Map(new Level[,]
       {
          // column 1
@@ -909,10 +918,13 @@ namespace GameEngine
          }
       },"test");*/ // For editing & testing
 
+      // This is the current loaded level within the map. It is **always** where the player is (unless level editor)
       public static Level LoadedLevel;
 
+      // This is what is stored for when the 'index' command is typed. It is stored in each world file and generates as the player looks at more things
       public static List<Contents> ContentsIndex = new List<Contents>();
 
+      // This tries to open the 'maps' folder in the directory. It will safely exit the program upon not finding it.
       public static bool TryGetMapsFolder(out string result)
       {
          string tryFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\maps\";
@@ -929,6 +941,8 @@ namespace GameEngine
             return false;
          }
       }
+      
+      // This does none of the loading; it just lists all the loadable files and prompts the user to pick one. It then redirects to the function below.
       public static bool LoadFromFile()
       {
          string fileMouth;
@@ -972,6 +986,8 @@ namespace GameEngine
          return true;
       }
 
+      // This is where all world file interpretation takes place
+      // <worldFile>.txt -> WorldMap
       public static void LoadFromFile(string filePath)
       {
          Console.WriteLine("Loading file " + filePath + "...");
@@ -1121,6 +1137,8 @@ namespace GameEngine
          sr.Close();
       }
 
+      // This is a child function of the one above. It recursively gets all contents, since a contents can contain a contents. 
+      // This is the only reasonable way to get all contents (thus, the name)
       private static List<Contents> GetAllContents(StreamReader sr)
       {
          sr.ReadLine();
@@ -1159,11 +1177,15 @@ namespace GameEngine
          return contentsList;
       }
 
+      // Another child function of LoadFromFile. This one just splits the next line returned into an array delimited by spaces
+      // TODO: add custom string?
       private static string[] SplitNextLine(StreamReader sr)
       {
          return sr.ReadLine().Split(" ");
       }
 
+      // This saves the world map into a file
+      // WorldMap -> <worldFile>.txt
       public static void SaveToFile(string filePath)
       {
          StreamWriter sw;
@@ -1256,6 +1278,7 @@ namespace GameEngine
          Console.WriteLine("World file saved successfully as " + Game.FilePath);
       }
 
+      // This is a child function of the one above. It does the inverse of GetAllContents
       private static void ListAllContents(Contents contentsAtCoords, StreamWriter sw)
       {
          if (contentsAtCoords == null)
@@ -1285,6 +1308,7 @@ namespace GameEngine
          sw.WriteLine("}");
       }
 
+      // This runs through and updates every Tile *AND* runs its behavior
       public static void UpdateWorld()
       {
          Level realLoadedLevel = LoadedLevel;
@@ -1313,7 +1337,8 @@ namespace GameEngine
          LoadedLevel = realLoadedLevel;
       }
 
-        public static bool GetPlayerLevel(out Level result)
+      // Returns the specific level that the player is in
+      public static bool GetPlayerLevel(out Level result)
         {
             foreach (Level level in World.WorldMap.LevelMap)
             {

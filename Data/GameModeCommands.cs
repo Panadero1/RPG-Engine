@@ -5,11 +5,25 @@ using System.Linq;
 
 namespace GameEngine
 {
+    // This class contains all the functions and Commands listed together.
     static class GameModeCommands
     {
-        private static string[] _emptyString = new string[0];
 
-        #region Actions
+        // *******************FOR MODDING*******************
+        // To create a gamemode, you need to add a CommandChoices (at the bottom of the file) and name it well
+        // Add any custom commands you like by first defining a function with params of string[] parameters
+        // You can also take any of the currently defined commands and use them in this gamemode
+        // You don't have to use the string[] parameter, but just make sure it's there (it will be fed in as any parameters the user puts after the command)
+        // Define your command and add it inside the #region Commands. You will need an identifier, help description, an array of strings that asks for each individual parameter...
+        // ... a reference to the function, and finally whether or not the world should pass time after the function has ended.
+        // Use other commands/functions for reference if you get stuck
+        // **************************************************
+
+        // just an empty string array. Used for reference for non-parameter commands
+        private static string[] _emptyString = new string[0];
+        
+        // The list of all functions. 
+        #region Functions
         private static void Remove(string[] parameters)
         {
             if (World.Player.Holding != null)
@@ -424,6 +438,11 @@ namespace GameEngine
                 }
                 Console.WriteLine(contents.VisualChar);
             }
+        }
+
+        private static void Level(string[] parameters)
+        {
+            Console.WriteLine("Current level is " + World.LoadedLevel.Name);
         }
 
         // Level editor commands
@@ -1131,6 +1150,7 @@ namespace GameEngine
         
         #endregion
 
+        // The list of all Commands.
         #region Commands
         private static Command _remove = new Command(
             "remove",
@@ -1293,6 +1313,12 @@ namespace GameEngine
             _emptyString,
             GameModeCommands.Index,
             false);
+        private static readonly Command _level = new Command(
+            "level",
+            "Provides info about the current level",
+            _emptyString,
+            Level,
+            false);
 
         // Editor commands
         private static readonly Command _newMap = new Command(
@@ -1372,6 +1398,7 @@ namespace GameEngine
             false);
         #endregion
 
+        // Each CommandChoices represents a gamemode
         public static CommandChoices EngineCommands = new CommandChoices(new List<Command>()
         {
             _remove,
@@ -1389,7 +1416,8 @@ namespace GameEngine
             _map,
             _interact,
             _wait,
-            _index
+            _index,
+            _level
          });
         public static CommandChoices TutorialCommands = new CommandChoices(new List<Command>()
         {
@@ -1406,7 +1434,8 @@ namespace GameEngine
             _map,
             _interact,
             _wait,
-            _index
+            _index,
+            _level
         });
         public static CommandChoices EditorCommands = new CommandChoices(new List<Command>()
         {

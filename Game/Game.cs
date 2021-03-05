@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace GameEngine
 {
+   // The main class of the game. Contains references for each gamemode
    static class Game
    {
       // TODO: map generation, remove temp, comments, title screen, VisibleAtLine() adapt for not just player, implement a bunch of behaviors & use actions, documentation so people understand what's happening in this chaos
@@ -12,14 +13,18 @@ namespace GameEngine
 
       public static Dictionary<string, (Action action, CommandChoices commands)> GameModes = new Dictionary<string, (Action, CommandChoices)>() 
       {
-         // if you wish to add a gamemode, make the key lowercase!!!
+         // If you wish to add a gamemode, make the key lowercase!!!
+         // For new gamemodes, add a new entry to this table
+         // { "newGameMode", (ReferenceToAFunction, GameModeCommands.CommandChoiceForThisMode) }
          { "game", (GameEngine, GameModeCommands.EngineCommands) },
          { "tutorial", (Tutorial, GameModeCommands.TutorialCommands)},
          { "level editor", (LevelEditor, GameModeCommands.EditorCommands) }
       };
 
+      // When a gamemode is loaded, com is defined by GameModes (^)
       public static CommandChoices com;
 
+      // Always runs. Prompts the user to enter a gamemode and runs that specific gamemode
       static void Main(string[] args)
       {
          Console.WriteLine("Welcome. Current game modes are: ");
@@ -40,6 +45,10 @@ namespace GameEngine
          SetupCom(ref com);
          GameModes[result.ToLower()].action();
       }
+      
+      // Gamemode-specific functions
+
+      // Base game
       static void GameEngine()
       {
          if (!World.LoadFromFile())
@@ -62,6 +71,8 @@ namespace GameEngine
             }
          }
       }
+      
+      // Built-in tutorial
       static void Tutorial()
       {
          string[] lines = new string[]
@@ -116,6 +127,8 @@ namespace GameEngine
             }
          }
       }
+      
+      // Child function of Tutorial() for writing specific info to guide the user
       private static void WriteNextLine(string[] lines, ref int index)
       {
          Console.WriteLine(lines[index]);
@@ -123,6 +136,8 @@ namespace GameEngine
          Console.ReadKey(true);
          index++;
       }
+      
+      // Child function of Tutorial() for determining when it progresses.
       private static void TutorialProgression(string[] lines, ref int index)
       {
          switch (index)
@@ -190,6 +205,7 @@ namespace GameEngine
          }
       }
 
+      // Level editor gamemode
       static void LevelEditor()
       {
          Editor.EditorState = Editor.State.Map;
@@ -224,6 +240,9 @@ namespace GameEngine
             com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command: "));
          }
       }
+      
+
+      // Defines the "help" command of any CommandChoices. If it were defined inside GameModeCommands, there would be circular reference.
       private static void SetupCom(ref CommandChoices com)
       {
          if (com.TryFindCommand("help", out Command command))

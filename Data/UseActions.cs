@@ -3,11 +3,10 @@ using System.Collections.Generic;
 
 namespace GameEngine
 {
+   // UseActions is a class that is defined when the player 'interact's with a tile or 'use's something in their hand
    static class UseActions // <<<<----- Make sure this is the right file you're editing; **this looks very similar to Behavior.cs**
    {
-      // WARNING!!!! DO NOT REMOVE, SHUFFLE, OR CHANGE ANY OF THE CURRENT ACTIONS WITHIN THIS ARRAY
-      // YOU MAY ADD ACTIONS, BUT BE SURE TO DO SO AT THE END OF EACH ARRAY
-      // Please add a string that represents your command in the array: _identifiers
+      // Array of Actions (see below the array of strings that represents the identifiers)
       public static (Action<string[], Contents> Action, string Identifier)[] CustomCommands = new (Action<string[], Contents>, string)[]
       {
          (DoesNothing,"DoesNothing"),
@@ -29,6 +28,7 @@ namespace GameEngine
          }
          return identifiers.ToArray();
       }
+      
       // The following two functions make this work as a make-shift two-way Dictionary
       // It's highly dependant on the order of the two arrays staying fixed.
 
@@ -65,16 +65,6 @@ namespace GameEngine
          }
          result = null;
          return false;
-      }
-
-      public static string AllActions()
-      {
-         for(int idendifierIndex = 0; idendifierIndex < CustomCommands.Length; idendifierIndex++)
-         {
-            string identifier = CustomCommands[idendifierIndex].Identifier;
-            Console.WriteLine(identifier);
-         }
-         return string.Empty;
       }
 
       // All custom Use Actions

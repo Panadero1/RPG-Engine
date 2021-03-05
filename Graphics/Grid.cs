@@ -2,8 +2,10 @@
 
 namespace GameEngine
 {
+   // Contains a 2D array of Tiles and various functions to manipulate it
    class Grid
    {
+      // The 2d array of the grid of Tiles for the current level
       public Tile[,] TileGrid;
 
       public Grid(Tile[,] tileGrid)
@@ -69,6 +71,7 @@ namespace GameEngine
          TileGrid = createdTiles;
       }
 
+      // Moves one contents to another tile
       public void MoveContents(Contents startingContents, Coord changedLoc)
       {
          if (changedLoc.X == 0 && changedLoc.Y == 0)
@@ -277,6 +280,7 @@ namespace GameEngine
 
       }
 
+      // Gets the tile in this grid at the coordinates given
       public bool GetTileAtCoords(Coord coords, out Tile result, bool consolePrint = true)
       {
          if (coords.X < 0 || coords.X >= TileGrid.GetLength(0) || coords.Y < 0 || coords.Y >= TileGrid.GetLength(1))
@@ -292,11 +296,13 @@ namespace GameEngine
          return true;
       }
 
+      // Sets the contents of a tile at the coordinates given
       public void SetContentsAtCoords(Coord coords, Contents contents)
       {
          TileGrid[coords.X, coords.Y].Contents = contents;
       }
 
+      // Sets the tile at the coordinates given
       public void SetTileAtCoords(Coord coords, Tile tile)
       {
          if (coords.X < 0 || coords.X >= TileGrid.GetLength(0) || coords.Y < 0 || coords.Y >= TileGrid.GetLength(1))
@@ -306,20 +312,21 @@ namespace GameEngine
          TileGrid[coords.X, coords.Y] = tile;
       }
 
+      // The visual representation of the grid. Printed frequently to the console
       public string GraphicString(bool LOS = true)
       {
          string returnString = "   ";
          for (int repeat = 0; repeat < TileGrid.GetLength(0); repeat++)
          {
-            returnString += ((repeat % 10 == 0) ? AlphabetIndex((repeat / 10)) : ' ') + (Settings.Spaced ? " " : "");
+            returnString += ((repeat % 10 == 0) ? AlphabetIndex((repeat / 10)) : ' ') + Settings.Spacing;
          }
          returnString += "\n   ";
          for (int repeat = 0; repeat < TileGrid.GetLength(0); repeat++)
          {
-            returnString += (repeat % 10) + (Settings.Spaced ? " " : "");
+            returnString += (repeat % 10) + Settings.Spacing;
          }
          returnString += "\n   ";
-         for (int repeat = 0; repeat < TileGrid.GetLength(0) + (Settings.Spaced ? TileGrid.GetLength(0) - 1 : 0); repeat++)
+         for (int repeat = 0; repeat < (TileGrid.GetLength(0) * (Settings.Spacing.Length + 1)) - Settings.Spacing.Length; repeat++)
          {
             returnString += "-";
          }
@@ -332,21 +339,20 @@ namespace GameEngine
             for (int x = 0; x < TileGrid.GetLength(0); x++)
             {
                TileGrid[x, y].UpdateVisual(LOS);
-               returnString += TileGrid[x, y].VisualChar + (Settings.Spaced ? " " : "");
+               returnString += TileGrid[x, y].VisualChar + Settings.Spacing;
             }
             returnString += "\n";
          }
          return returnString;
       }
+      
+      // Child function of GraphicString
       private char AlphabetIndex(int index)
       {
          return (char)(65 + index);
       }
 
-      /// <summary>
-      /// Finds the first instance of a particular contents
-      /// </summary>
-      /// <returns></returns>
+      // Finds the first instance of a contents in this grid
       public bool TryFindContents(Contents compareContents, out Coord coords)
       {
          for (int y = 0; y < TileGrid.GetLength(1); y++)
@@ -368,8 +374,9 @@ namespace GameEngine
          return false;
       }
 
-      // <LOS>
+      // Line of Sight
 
+      // Returns true if a line drawn from StartCoord to RelativeCoord along TileGrid does not cross over any Transparent=false tiles
       public bool VisibleAtLine(Coord startCoord, Coord relativeCoord)
       {
          double x = startCoord.X + 0.5;
@@ -468,10 +475,14 @@ namespace GameEngine
          }
          return true;
       }
+      
+      // Child function of VisibleAtLine. Important math function
       private double CenterTile(double input)
       {
          return (Math.Floor(input) + 0.5f);
       }
+      
+      // Child function of VisibleAtLine. Important math function
       private double GetYTile(double x, double slope, Coord startCoord)
         {
             if (slope == 0)
@@ -480,19 +491,11 @@ namespace GameEngine
             }
             return CenterTile(startCoord.Y + slope * (x + (0.5 / slope) - startCoord.X - 0.5));
         }
-        private double GetXTile(double y, double slope, Coord startCoord)
-        {
-            return CenterTile(startCoord.X + ((y + (slope * 0.5) - startCoord.Y - 0.5) / slope));
-        }
-
-      // </LOS>
-
-      public void RunBehavior()
+      
+      // Child function of VisibleAtLine. Important math function
+      private double GetXTile(double y, double slope, Coord startCoord)
       {
-         foreach (Tile tile in TileGrid)
-         {
-            tile.Contents.Behavior(tile.Contents);
-         }
+         return CenterTile(startCoord.X + ((y + (slope * 0.5) - startCoord.Y - 0.5) / slope));
       }
    }
 }

@@ -3,8 +3,12 @@ using System.Collections.Generic;
 
 namespace GameEngine
 {
+   // The CommandInterpretation class is very important. Instead of asking for a multitude of parameters and plugging them in everytime you want it, these functions do that for you.
+   // Feel free to expand it as you like.
+   // TODO: merge some overloads together with optional params
    static class CommandInterpretation
    {
+      // Same as Console.Readline, but makes it nice for message interception, if necessary
       public static string GetUserResponse(string message)
       {
          Console.WriteLine(message);
@@ -12,18 +16,21 @@ namespace GameEngine
          return response.Trim();
       }
 
+      // Overload: Prints no message
       public static string GetUserResponse()
       {
          string response = Console.ReadLine();
          return response.Trim();
       }
 
+      // Prompts the user for an integer, then parses it and returns true if the parse was successful.
       public static bool InterpretInt(out int result)
       {
          string response = GetUserResponse("Enter an int");
          return InterpretInt(response, out result);
       }
 
+      // Overload: response parameter, if the string to convert already exists (no prompting)
       public static bool InterpretInt(string response, out int result)
       {
          if (int.TryParse(response, out result))
@@ -33,6 +40,7 @@ namespace GameEngine
          return false;
       }
 
+      // Overload: response parameter & integer range.
       public static bool InterpretInt(string response, int minValue, int maxValue, out int result)
       {
          if (maxValue < minValue)
@@ -56,6 +64,7 @@ namespace GameEngine
          return false;
       }
 
+      // Overload: just integer range.
       public static bool InterpretInt(int minValue, int maxValue, out int result)
       {
          string response = GetUserResponse("Please enter an index between " + minValue + " and " + maxValue);
@@ -76,6 +85,7 @@ namespace GameEngine
          return false;
       }
       
+      // Same as InterpretInt, but with floats
       public static bool InterpretFloat(string response, out float result)
       {
          if (float.TryParse(response, out result))
@@ -85,6 +95,8 @@ namespace GameEngine
          return false;
       }
       
+      // Uses InterpretString to evaluate if the user has said a statement equivalent to "yes" or "no".
+      // When it does not come back conclusive, default is "no"
       public static bool InterpretYesNo(string response)
       {
          string[] validYes = new string[] { "yes", "ok", "okay", "sure", "y", "alright", "yeah", "yep", "true" };
@@ -102,19 +114,21 @@ namespace GameEngine
          return false;
       }
 
+      // Prompts the user with a response, then feeds it to InterpretYesNo
       public static bool AskYesNo(string message)
       {
          string response = GetUserResponse(message);
          return InterpretYesNo(response);
       }
 
+      // Evaluates if a given string fits into a group of acceptable answers and returns the string
       public static bool InterpretString(string response, string[] acceptedAnswers, out string result)
       {
          foreach (string acceptedAnswer in acceptedAnswers)
          {
             if (response.Equals(acceptedAnswer, StringComparison.OrdinalIgnoreCase))
             {
-               result = response;
+               result = acceptedAnswer;
                return true;
             }
          }
@@ -122,6 +136,7 @@ namespace GameEngine
          return false;
       }
 
+      // Overload: prompts the user after listing all elements of the array
       public static bool InterpretString(string[] acceptedAnswers, out string result)
       {
          Console.WriteLine("Here are your options:");
@@ -139,6 +154,7 @@ namespace GameEngine
          return InterpretString(response, acceptedAnswers, out result);
       }
 
+      // As long as the string is not empty, returns true along with the result
       public static bool InterpretString(string response, out string result)
       {
          if (response.Length < 1)
@@ -150,6 +166,7 @@ namespace GameEngine
          return true;
       }
 
+      // As long as the string is not empty, returns the first char of the string
       public static bool InterpretChar(string response, out char result)
       {
          if (response.Length < 1)
@@ -161,6 +178,7 @@ namespace GameEngine
          return true;
       }
       
+      // Takes north, south, east, west and converts to (0, -1), (0, 1), (1, 0), (-1, 0), respectively
       public static bool InterpretDirection(string response, out Coord result)
       {
          if (InterpretString(response, new string[] { "north", "n" }, out _))
@@ -191,6 +209,7 @@ namespace GameEngine
          return true;
       }
 
+      // Very similar to InterpretDirection, but takes two strings
       public static bool InterpretAlphaNum(string x, string y, out Coord result)
       {
          if (Coord.FromAlphaNum(x, y, out result))
@@ -209,6 +228,8 @@ namespace GameEngine
             }
          }
       }
+      
+      // Overload: prompts user for x and y
       public static bool InterpretAlphaNum(out Coord result)
       {
          string x = GetUserResponse("Enter x coordinate");
@@ -230,6 +251,7 @@ namespace GameEngine
          }
       }
 
+      // Used in InterpretTile(). Prompts user for all aspects of Contents
       public static bool InterpretFloor(out Floor result)
       {
          result = null;
@@ -248,6 +270,7 @@ namespace GameEngine
          return true;
       }
 
+      // Used in InterpretTile() and other cases. Prompts user for all aspects of Contents
       public static bool InterpretContents(out Contents result)
       {
          result = null;
@@ -374,6 +397,7 @@ namespace GameEngine
          return true;
       }
       
+      // Uses InterpretFloor() and InterpretContents() and patches them together
       public static bool InterpretTile(out Tile result)
       {
          result = null;

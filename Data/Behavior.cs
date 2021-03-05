@@ -3,12 +3,10 @@ using System.Collections.Generic;
 
 namespace GameEngine
 {
+   // The Behavior class is used to determine specific actions that a contents may take upon the world updating
+   // It also has useful functions used in the saving & loading processes
    static class Behavior // <<<<----- Make sure this is the right file you're editing; **this looks very similar to UseActions.cs**
    {
-      // WARNING!!!! DO NOT REMOVE, SHUFFLE, OR CHANGE ANY OF THE CURRENT ACTIONS WITHIN THIS ARRAY
-      // YOU MAY ADD ACTIONS, BUT BE SURE TO DO SO AT THE END OF EACH ARRAY
-      // Please add a string that represents your command in the array: Identifiers in addition to adding the Action to CustomCommands
-
       // Array of Actions (see below the array of strings that represents the identifiers)
       public static (Action<Contents> Behavior, string Identifier)[] CustomCommands = new (Action<Contents>, string)[]
       {
@@ -28,6 +26,7 @@ namespace GameEngine
          }
          return identifiers.ToArray();
       }
+      
       // The following two functions make this work as a make-shift two-way Dictionary
       // It's highly dependant on the order of the two arrays staying fixed.
 
@@ -66,17 +65,7 @@ namespace GameEngine
          return false;
       }
 
-      public static string AllBehavior()
-      {
-         for(int idendifierIndex = 0; idendifierIndex < CustomCommands.Length; idendifierIndex++)
-         {
-            string identifier = CustomCommands[idendifierIndex].Identifier;
-            Console.WriteLine(identifier);
-         }
-         return string.Empty;
-      }
-      
-      // All custom Behaviors
+      // All custom Behaviors.. will be more fleshed out later
       public static void DoesNothing(Contents contents)
       {
 

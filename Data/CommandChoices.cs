@@ -3,16 +3,20 @@ using System.Collections.Generic;
 
 namespace GameEngine
 {
-   class CommandChoices
-   {
-      public List<Command> CommandList;
+    // The CommandChoices class only consists of a List<Command>, but its use is in the ways it manipulates this List<Command>
+    // A new CommandChoices must be defined in GameModeCommands for every new game mode (at the bottom of the file)
+    class CommandChoices
+    {
+        // The list of commands..
+        public List<Command> CommandList;
 
-      public CommandChoices(List<Command> commandList)
+        public CommandChoices(List<Command> commandList)
       {
          CommandList = commandList;
       }
 
-      public bool TryFindCommand(string identifier, out Command command)
+        // This is used to get a command, given a string
+        public bool TryFindCommand(string identifier, out Command command)
         {
             foreach (Command commandInList in CommandList)
             {
@@ -26,6 +30,7 @@ namespace GameEngine
             return false;
         }
 
+        // Returns a list of all the Command.Identifiers in CommandList
         public string ListCommands()
         {
             string commandString = string.Empty;
@@ -35,6 +40,9 @@ namespace GameEngine
             }
             return commandString;
         }
+        
+        // This takes in a string as input and evaluates whether it matches any commands in CommandList.
+        // If it does, it runs that command, passing in any parameters that were also entered
         public bool EvaluateCommand(string userCommand)
         {
             string[] splitCommand = userCommand.Split(' ');
