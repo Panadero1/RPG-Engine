@@ -1,2 +1,3 @@
 
-/bin/*
+bin/*
+bin/Debug/netcoreapp3.1/maps/demo.txt
