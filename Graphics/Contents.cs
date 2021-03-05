@@ -47,9 +47,9 @@ namespace GameEngine
       public Action<string[], Contents> UseAction;
 
       // The function this calls every time the world updates. (only when it is on a tile)
-      public Action<Contents> Behavior;
+      public Action<Contents>[] Behaviors;
 
-      public Contents(string name, char visualChar, bool transparent, int durability, int size, float weight, Action<string[], Contents> useAction, Action<Contents> behavior)
+      public Contents(string name, char visualChar, bool transparent, int durability, int size, float weight, Action<string[], Contents> useAction, Action<Contents>[] behaviors)
       {
          Name = name;
          VisualChar = visualChar;
@@ -58,10 +58,10 @@ namespace GameEngine
          Size = size;
          Weight = weight;
          UseAction = useAction;
-         Behavior = behavior;
+         Behaviors = behaviors;
       }
 
-      public Contents(string name, char visualChar, bool transparent, int durability, int size, float weight, bool container, int containerSpace, List<Contents> contained, Action<string[], Contents> useAction, Action<Contents> behavior) : this(name, visualChar, transparent, durability, size, weight, useAction, behavior)
+      public Contents(string name, char visualChar, bool transparent, int durability, int size, float weight, bool container, int containerSpace, List<Contents> contained, Action<string[], Contents> useAction, Action<Contents>[] behaviors) : this(name, visualChar, transparent, durability, size, weight, useAction, behaviors)
       {
          Container = container;
          ContainerSpace = containerSpace;
@@ -170,7 +170,7 @@ namespace GameEngine
                   ContainerSpace,
                   Contained,
                   UseActions.DoesNothing,
-                  GameEngine.Behavior.DoesNothing
+                  new Action<Contents>[] {GameEngine.Behavior.DoesNothing}
                   );
                destroyTile.Contents.Coordinates = destroyTile.Coordinates;
             }
@@ -186,7 +186,7 @@ namespace GameEngine
 
       public object Clone()
       {
-         return new Contents(this.Name, this.VisualChar, this.Transparent, this.Durability, this.Size, this.Weight, this.Container, this.ContainerSpace, this.Contained, this.UseAction, this.Behavior);
+         return new Contents(this.Name, this.VisualChar, this.Transparent, this.Durability, this.Size, this.Weight, this.Container, this.ContainerSpace, this.Contained, this.UseAction, this.Behaviors);
       }
    }
 }

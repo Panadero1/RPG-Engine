@@ -6,7 +6,7 @@ row 0 {
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -16,7 +16,7 @@ coordinates 0 0
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -26,7 +26,7 @@ coordinates 1 0
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -36,7 +36,7 @@ coordinates 2 0
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -46,7 +46,7 @@ coordinates 3 0
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -56,7 +56,7 @@ coordinates 4 0
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -66,7 +66,7 @@ coordinates 5 0
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -76,7 +76,7 @@ coordinates 6 0
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -86,7 +86,7 @@ coordinates 7 0
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -98,7 +98,7 @@ row 1 {
 tile {
 floor mud ~
 contents {
-hog H True 4 40 20 False 0 DoesNothing Aggressive
+hog H True 4 40 20 False 0 DoesNothing Aggressive,
 contained {
 null
 }
@@ -115,7 +115,7 @@ coordinates 1 1
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -146,7 +146,7 @@ coordinates 5 1
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -186,7 +186,7 @@ coordinates 1 2
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -203,7 +203,7 @@ coordinates 3 2
 tile {
 floor ground .
 contents {
-Player A True 50 10 50 True 100 DoesNothing DoesNothing
+Player A True 50 10 50 True 100 DoesNothing DoesNothing,
 contained {
 }
 }
@@ -219,7 +219,7 @@ coordinates 5 2
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -245,7 +245,7 @@ row 3 {
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -255,7 +255,7 @@ coordinates 0 3
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -265,7 +265,7 @@ coordinates 1 3
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -296,7 +296,7 @@ coordinates 5 3
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -306,7 +306,7 @@ coordinates 6 3
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -316,7 +316,7 @@ coordinates 7 3
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -342,7 +342,7 @@ coordinates 1 4
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -373,7 +373,7 @@ coordinates 5 4
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -390,7 +390,7 @@ coordinates 7 4
 tile {
 floor mudpit ~
 contents {
-hog H True 4 40 20 False 0 DoesNothing Aggressive
+hog H True 4 40 20 False 0 DoesNothing Aggressive,
 contained {
 null
 }
@@ -402,7 +402,7 @@ row 5 {
 tile {
 floor mud ~
 contents {
-hog H True 4 40 20 False 0 DoesNothing Aggressive
+hog H True 4 40 20 False 0 DoesNothing Aggressive,
 contained {
 null
 }
@@ -419,7 +419,7 @@ coordinates 1 5
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -450,7 +450,7 @@ coordinates 5 5
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -476,7 +476,7 @@ row 6 {
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -486,7 +486,7 @@ coordinates 0 6
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -496,7 +496,7 @@ coordinates 1 6
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -527,7 +527,7 @@ coordinates 5 6
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -537,7 +537,7 @@ coordinates 6 6
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -547,7 +547,7 @@ coordinates 7 6
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -810,7 +810,7 @@ coordinates 5 4
 tile {
 floor ground .
 contents {
-chicken > True 1 2 5 False 0 DoesNothing Wander
+chicken > True 1 2 5 False 0 DoesNothing Wander,
 contained {
 null
 }
@@ -933,7 +933,7 @@ coordinates 0 0
 tile {
 floor ground .
 contents {
-chicken > True 1 2 5 False 0 DoesNothing Wander
+chicken > True 1 2 5 False 0 DoesNothing Wander,
 contained {
 null
 }
@@ -1103,7 +1103,7 @@ coordinates 2 3
 tile {
 floor ground .
 contents {
-monster ! False 8 2000 3000 True 10 MonsterDialogue MonsterVictory
+monster ! False 8 2000 3000 True 10 MonsterDialogue MonsterVictory,
 contained {
 }
 }
@@ -1485,7 +1485,7 @@ coordinates 5 3
 tile {
 floor ground .
 contents {
-chicken > True 1 2 5 False 0 DoesNothing Wander
+chicken > True 1 2 5 False 0 DoesNothing Wander,
 contained {
 null
 }
@@ -1654,7 +1654,7 @@ row 0 {
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1664,7 +1664,7 @@ coordinates 0 0
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1681,7 +1681,7 @@ coordinates 2 0
 tile {
 floor ground .
 contents {
-person p True 1 1 1000 False 0 Rude Wander
+person p True 1 1 1000 False 0 Rude Wander,
 contained {
 null
 }
@@ -1705,7 +1705,7 @@ coordinates 5 0
 tile {
 floor ground .
 contents {
-gate - True 2000 10 12390 False 0 DoesNothing DoesNothing
+gate - True 2000 10 12390 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1738,7 +1738,7 @@ row 1 {
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1748,7 +1748,7 @@ coordinates 0 1
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1786,7 +1786,7 @@ coordinates 5 1
 tile {
 floor ground .
 contents {
-gate - True 2000 10 12390 False 0 DoesNothing DoesNothing
+gate - True 2000 10 12390 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1810,7 +1810,7 @@ coordinates 8 1
 tile {
 floor ground .
 contents {
-chicken > True 1 2 5 False 0 DoesNothing Wander
+chicken > True 1 2 5 False 0 DoesNothing Wander,
 contained {
 null
 }
@@ -1822,7 +1822,7 @@ row 2 {
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1832,7 +1832,7 @@ coordinates 0 2
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1870,7 +1870,7 @@ coordinates 5 2
 tile {
 floor ground .
 contents {
-gate - True 2000 10 12390 False 0 DoesNothing DoesNothing
+gate - True 2000 10 12390 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1880,7 +1880,7 @@ coordinates 6 2
 tile {
 floor ground .
 contents {
-gate - True 2000 10 12390 False 0 DoesNothing DoesNothing
+gate - True 2000 10 12390 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1890,7 +1890,7 @@ coordinates 7 2
 tile {
 floor ground .
 contents {
-gate - True 2000 10 12390 False 0 DoesNothing DoesNothing
+gate - True 2000 10 12390 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1900,7 +1900,7 @@ coordinates 8 2
 tile {
 floor ground .
 contents {
-gate - True 2000 10 12390 False 0 DoesNothing DoesNothing
+gate - True 2000 10 12390 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1912,7 +1912,7 @@ row 3 {
 tile {
 floor ground .
 contents {
-rock o True 4 1 3 False 0 DoesNothing DoesNothing
+rock o True 4 1 3 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -1922,7 +1922,7 @@ coordinates 0 3
 tile {
 floor ground .
 contents {
-person p True 1 1 1000 False 0 Rude Wander
+person p True 1 1 1000 False 0 Rude Wander,
 contained {
 null
 }
@@ -1939,7 +1939,7 @@ coordinates 2 3
 tile {
 floor ground .
 contents {
-person p True 1 1 1000 False 0 Rude Wander
+person p True 1 1 1000 False 0 Rude Wander,
 contained {
 null
 }
@@ -1963,7 +1963,7 @@ coordinates 5 3
 tile {
 floor ground .
 contents {
-lever L True 10 234 5151 False 0 Lever DoesNothing
+lever L True 10 234 5151 False 0 Lever DoesNothing,
 contained {
 null
 }
@@ -2059,7 +2059,7 @@ coordinates 8 4
 tile {
 floor ground .
 contents {
-person p True 1 1 1000 False 0 Rude Wander
+person p True 1 1 1000 False 0 Rude Wander,
 contained {
 null
 }
@@ -2071,7 +2071,7 @@ row 5 {
 tile {
 floor ground .
 contents {
-rock o True 4 1 3 False 0 DoesNothing DoesNothing
+rock o True 4 1 3 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2137,7 +2137,7 @@ coordinates 8 5
 tile {
 floor ground .
 contents {
-person p True 1 1 1000 False 0 Rude Wander
+person p True 1 1 1000 False 0 Rude Wander,
 contained {
 null
 }
@@ -2149,7 +2149,7 @@ row 6 {
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2159,7 +2159,7 @@ coordinates 0 6
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2169,7 +2169,7 @@ coordinates 1 6
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2221,7 +2221,7 @@ coordinates 8 6
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2247,7 +2247,7 @@ coordinates 1 7
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2264,7 +2264,7 @@ coordinates 3 7
 tile {
 floor ground .
 contents {
-chicken > True 1 2 5 False 0 DoesNothing Wander
+chicken > True 1 2 5 False 0 DoesNothing Wander,
 contained {
 null
 }
@@ -2295,7 +2295,7 @@ coordinates 7 7
 tile {
 floor ground .
 contents {
-rock o True 4 1 3 False 0 DoesNothing DoesNothing
+rock o True 4 1 3 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2305,7 +2305,7 @@ coordinates 8 7
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2317,7 +2317,7 @@ row 8 {
 tile {
 floor mudpit ~
 contents {
-hog H True 4 40 20 False 0 DoesNothing Aggressive
+hog H True 4 40 20 False 0 DoesNothing Aggressive,
 contained {
 null
 }
@@ -2334,7 +2334,7 @@ coordinates 1 8
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2358,7 +2358,7 @@ coordinates 4 8
 tile {
 floor ground .
 contents {
-person p True 1 1 1000 False 0 Rude Wander
+person p True 1 1 1000 False 0 Rude Wander,
 contained {
 null
 }
@@ -2382,7 +2382,7 @@ coordinates 7 8
 tile {
 floor ground .
 contents {
-rock o True 4 1 3 False 0 DoesNothing DoesNothing
+rock o True 4 1 3 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2392,7 +2392,7 @@ coordinates 8 8
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2418,7 +2418,7 @@ coordinates 1 9
 tile {
 floor ground .
 contents {
-fence + True 5 10000 60 False 0 DoesNothing DoesNothing
+fence + True 5 10000 60 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2442,7 +2442,7 @@ coordinates 4 9
 tile {
 floor ground .
 contents {
-person p True 1 1 1000 False 0 Rude Wander
+person p True 1 1 1000 False 0 Rude Wander,
 contained {
 null
 }
@@ -2473,7 +2473,7 @@ coordinates 8 9
 tile {
 floor ground .
 contents {
-wall # False 40 10000 400000 False 0 DoesNothing DoesNothing
+wall # False 40 10000 400000 False 0 DoesNothing DoesNothing,
 contained {
 null
 }
@@ -2784,7 +2784,7 @@ coordinates 5 5
 tile {
 floor ground .
 contents {
-chicken > True 1 2 5 False 0 DoesNothing Wander
+chicken > True 1 2 5 False 0 DoesNothing Wander,
 contained {
 null
 }
@@ -2810,7 +2810,7 @@ coordinates 1 6
 tile {
 floor ground .
 contents {
-chicken > True 1 2 5 False 0 DoesNothing Wander
+chicken > True 1 2 5 False 0 DoesNothing Wander,
 contained {
 null
 }
@@ -2880,7 +2880,7 @@ coordinates 3 0
 tile {
 floor ground .
 contents {
-ghost G True 1 50 2837 False 0 Boo Wander
+ghost G True 1 50 2837 False 0 Boo Wander,
 contained {
 null
 }
@@ -2913,7 +2913,7 @@ coordinates 0 1
 tile {
 floor ground .
 contents {
-tombstone n True 10 30 400 False 0 Tombstone DoesNothing
+tombstone n True 10 30 400 False 0 Tombstone DoesNothing,
 contained {
 null
 }
@@ -2930,7 +2930,7 @@ coordinates 2 1
 tile {
 floor ground .
 contents {
-tombstone n True 10 30 400 False 0 Tombstone DoesNothing
+tombstone n True 10 30 400 False 0 Tombstone DoesNothing,
 contained {
 null
 }
@@ -2947,7 +2947,7 @@ coordinates 4 1
 tile {
 floor ground .
 contents {
-tombstone n True 10 30 400 False 0 Tombstone DoesNothing
+tombstone n True 10 30 400 False 0 Tombstone DoesNothing,
 contained {
 null
 }
@@ -3008,7 +3008,7 @@ coordinates 5 2
 tile {
 floor ground .
 contents {
-ghost G True 1 50 2837 False 0 Boo Wander
+ghost G True 1 50 2837 False 0 Boo Wander,
 contained {
 null
 }
@@ -3027,7 +3027,7 @@ coordinates 0 3
 tile {
 floor ground .
 contents {
-tombstone n True 10 30 400 False 0 Tombstone DoesNothing
+tombstone n True 10 30 400 False 0 Tombstone DoesNothing,
 contained {
 null
 }
@@ -3044,7 +3044,7 @@ coordinates 2 3
 tile {
 floor ground .
 contents {
-tombstone n True 10 30 400 False 0 Tombstone DoesNothing
+tombstone n True 10 30 400 False 0 Tombstone DoesNothing,
 contained {
 null
 }
@@ -3061,7 +3061,7 @@ coordinates 4 3
 tile {
 floor ground .
 contents {
-tombstone n True 10 30 400 False 0 Tombstone DoesNothing
+tombstone n True 10 30 400 False 0 Tombstone DoesNothing,
 contained {
 null
 }
@@ -3080,7 +3080,7 @@ row 4 {
 tile {
 floor ground .
 contents {
-ghost G True 1 50 2837 False 0 Boo Wander
+ghost G True 1 50 2837 False 0 Boo Wander,
 contained {
 null
 }
@@ -3125,7 +3125,7 @@ coordinates 5 4
 tile {
 floor ground .
 contents {
-chicken > True 1 2 5 False 0 DoesNothing Wander
+chicken > True 1 2 5 False 0 DoesNothing Wander,
 contained {
 null
 }
@@ -3144,7 +3144,7 @@ coordinates 0 5
 tile {
 floor ground .
 contents {
-tombstone n True 10 30 400 False 0 Tombstone DoesNothing
+tombstone n True 10 30 400 False 0 Tombstone DoesNothing,
 contained {
 null
 }
@@ -3161,7 +3161,7 @@ coordinates 2 5
 tile {
 floor ground .
 contents {
-tombstone n True 10 30 400 False 0 Tombstone DoesNothing
+tombstone n True 10 30 400 False 0 Tombstone DoesNothing,
 contained {
 null
 }
@@ -3178,7 +3178,7 @@ coordinates 4 5
 tile {
 floor ground .
 contents {
-tombstone n True 10 30 400 False 0 Tombstone DoesNothing
+tombstone n True 10 30 400 False 0 Tombstone DoesNothing,
 contained {
 null
 }
@@ -3211,7 +3211,7 @@ coordinates 1 6
 tile {
 floor ground .
 contents {
-ghost G True 1 50 2837 False 0 Boo Wander
+ghost G True 1 50 2837 False 0 Boo Wander,
 contained {
 null
 }

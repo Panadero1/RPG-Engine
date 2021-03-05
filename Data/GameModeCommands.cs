@@ -754,7 +754,7 @@ namespace GameEngine
                 {
                     return;
                 }
-                if (!Behavior.TryGetIdentifier(contents.Behavior, out string behavior))
+                if (!Behavior.TryGetIdentifiers(contents.Behaviors, out string behaviors))
                 {
                     return;
                 }
@@ -775,7 +775,7 @@ namespace GameEngine
                     // v 6
                     "(Contents) Use Action: " + action,
                     // v 7
-                    "(Contents) Behavior: " + behavior,
+                    "(Contents) Behaviors: " + behaviors,
                     // v 8
                     "(Contents) Container: " + contents.Container,
                     // v 9
@@ -860,11 +860,11 @@ namespace GameEngine
                 else if (result == memberNames[7])
                 {
                     Console.WriteLine("Enter the behavior:");
-                    if (!(CommandInterpretation.InterpretString(Behavior.GetIdentifiers(), out string behaviorString) && Behavior.TryGetBehavior(behaviorString, out Action<Contents> _behavior)))
+                    if (!(CommandInterpretation.InterpretStringMC(Behavior.GetIdentifiers(), out string[] behaviorString) && Behavior.TryGetBehaviors(behaviorString, out Action<Contents>[] _behavior)))
                     {
                         return;
                     }
-                    contents.Behavior = _behavior;
+                    contents.Behaviors = _behavior;
                 }
                 else if (result == memberNames[8])
                 {

@@ -166,6 +166,38 @@ namespace GameEngine
          return true;
       }
 
+      
+      public static bool InterpretStringMC(string[] acceptedAnswers, out string[] result)
+      {
+         result = null;
+         List<string> results = new List<string>();
+         do
+         {
+            Console.WriteLine("Here are your options:");
+            for (int answerIndex = 0; answerIndex < acceptedAnswers.Length; answerIndex++)
+            {
+               string answer = acceptedAnswers[answerIndex];
+               Console.WriteLine(answerIndex + ". " + answer);
+            }
+            string response = GetUserResponse("Which do you choose?");
+            if (InterpretInt(response, 0, acceptedAnswers.Length - 1, out int intIndex))
+            {
+               results.Add(acceptedAnswers[intIndex]);
+            }
+            else
+            {
+               if (!InterpretString(response, acceptedAnswers, out string stringResponse))
+               {
+                  return false;
+               }
+               results.Add(stringResponse);
+            }
+         } while (CommandInterpretation.AskYesNo("Would you like to add more behaviors?"));
+
+         result = results.ToArray();
+         return true;
+      }
+
       // As long as the string is not empty, returns the first char of the string
       public static bool InterpretChar(string response, out char result)
       {
@@ -297,13 +329,17 @@ namespace GameEngine
          preContainerParamMap["Action"] = actionString;
 
          Console.WriteLine("Choose a behavior for this contents");
-         if (!CommandInterpretation.InterpretString(Behavior.GetIdentifiers(), out string behaviorString))
+         do
          {
-            Console.WriteLine("Behavior was not a valid response");
-            return false;
-         }
-         preContainerParamMap["Behavior"] = behaviorString;
-
+            if (!CommandInterpretation.InterpretString(Behavior.GetIdentifiers(), out string behaviorString))
+            {
+               Console.WriteLine("Behavior was not a valid response");
+               return false;
+            }
+            preContainerParamMap["Behavior"] += behaviorString + ",";
+         } while (CommandInterpretation.AskYesNo("Would you like to add any more behavior?"));
+         
+         preContainerParamMap["Behavior"].Trim(',');
 
          #region Checking params
          if (!InterpretInt(preContainerParamMap["Durability"], out int durability))
@@ -321,12 +357,13 @@ namespace GameEngine
             Console.WriteLine("Weight was not in float format");
             return false;
          }
-         if (!UseActions.TryGetAction(actionString, out Action<string[], Contents> action))
+
+         if (!UseActions.TryGetAction(preContainerParamMap["Action"], out Action<string[], Contents> action))
          {
             Console.WriteLine("Action was not found");
             return false;
          }
-         if (actionString == "Dialogue")
+         if (preContainerParamMap["Action"] == "Dialogue")
          {
             if (World.Dialogue.TryGetValue(preContainerParamMap["Name"], out string dialogue))
             {
@@ -340,7 +377,8 @@ namespace GameEngine
                World.Dialogue.Add(preContainerParamMap["Name"], dialogue);
             }
          }
-         if (!Behavior.TryGetBehavior(behaviorString, out Action<Contents> behavior))
+
+         if (!Behavior.TryGetBehaviors(preContainerParamMap["Behavior"].Split(","), out Action<Contents>[] behavior))
          {
             Console.WriteLine("Behavior was not found");
             return false;

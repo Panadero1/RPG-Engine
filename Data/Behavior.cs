@@ -37,8 +37,8 @@ namespace GameEngine
          string[] identifiers = GetIdentifiers();
          for (int identifierIndex = 0; identifierIndex < identifiers.Length; identifierIndex++)
          {
-                string identifier = identifiers[identifierIndex];
-                if (identifier.Equals(givenIdentifier))
+            string identifier = identifiers[identifierIndex];
+            if (identifier.Equals(givenIdentifier))
             {
                result = CustomCommands[identifierIndex].Behavior;
                return true;
@@ -46,6 +46,24 @@ namespace GameEngine
          }
          result = null;
          return false;
+      }
+      public static bool TryGetBehaviors(string[] givenIdentifiers, out Action<Contents>[] result)
+      {
+         List<Action<Contents>> allBehaviors = new List<Action<Contents>>();
+         string[] identifiers = GetIdentifiers();
+         foreach(string givenIdentifier in givenIdentifiers)
+         {
+            for (int identifierIndex = 0; identifierIndex < identifiers.Length; identifierIndex++)
+            {
+               string identifier = identifiers[identifierIndex];
+               if (identifier.Equals(givenIdentifier))
+               {
+                  allBehaviors.Add(CustomCommands[identifierIndex].Behavior);
+               }
+            }
+         }
+         result = allBehaviors.ToArray();
+         return true;
       }
       
       // Returns the identifier if its respective index of Action exists.
@@ -63,6 +81,25 @@ namespace GameEngine
          }
          result = null;
          return false;
+      }
+
+      public static bool TryGetIdentifiers(Action<Contents>[] givenActions, out string result)
+      {
+         result = "";
+         // Loops through, searching for a match. Returns true when it finds a match
+         foreach (Action<Contents> givenAction in givenActions)
+         {
+            for (int actionIndex = 0; actionIndex < CustomCommands.Length; actionIndex++)
+            {
+               Action<Contents> action = CustomCommands[actionIndex].Behavior;
+               if (action.Equals(givenAction))
+               {
+                  result += CustomCommands[actionIndex].Identifier + ",";
+               }
+            }
+         }
+         result.Trim(',');
+         return true;
       }
 
       // All custom Behaviors.. will be more fleshed out later

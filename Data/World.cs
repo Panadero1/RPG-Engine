@@ -13,7 +13,7 @@ namespace GameEngine
       private static readonly Coord _zeroZero = new Coord(0, 0);
 
       // The player is the controllable character. It is set as a default only for the purpose of satisfying a default player for levelEditor
-      public static Player Player = new Player(new Contents("Player", 'A', true, 50, 10, 50, true, 100, new List<Contents>(), UseActions.DoesNothing, Behavior.DoesNothing), null, 50);
+      public static Player Player = new Player(new Contents("Player", 'A', true, 50, 10, 50, true, 100, new List<Contents>(), UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}), null, 50);
 
       // Tile templates used to make the demo.txt file.. some are used in the tutorial. Not used for level editing whatsoever
       #region tile definitions
@@ -24,35 +24,35 @@ namespace GameEngine
 
       public static Tile Mud = new Tile(new Floor('~', "mud"), null, _zeroZero);
 
-      public static Tile Wall = new Tile(Ground, new Contents("wall", '#', false, 40, 10000, 400000, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
+      public static Tile Wall = new Tile(Ground, new Contents("wall", '#', false, 40, 10000, 400000, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
 
-      public static Tile Fence = new Tile(Ground, new Contents("fence", '+', true, 5, 10000, 60, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
+      public static Tile Fence = new Tile(Ground, new Contents("fence", '+', true, 5, 10000, 60, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
 
-      public static Tile Hog = new Tile(new Floor('~', "mudpit"), new Contents("hog", 'H', true, 4, 40, 20, UseActions.DoesNothing, Behavior.Aggressive), _zeroZero);
+      public static Tile Hog = new Tile(new Floor('~', "mudpit"), new Contents("hog", 'H', true, 4, 40, 20, UseActions.DoesNothing, new Action<Contents>[] {Behavior.Aggressive}), _zeroZero);
 
       public static Tile Plant = new Tile(new Floor('Y', "plant"), null, _zeroZero);
 
-      public static Tile Chicken = new Tile(Ground, new Contents("chicken", '>', true, 1, 2, 5, UseActions.DoesNothing, Behavior.Wander), _zeroZero);
+      public static Tile Chicken = new Tile(Ground, new Contents("chicken", '>', true, 1, 2, 5, UseActions.DoesNothing, new Action<Contents>[] {Behavior.Wander}), _zeroZero);
 
-      public static Tile Person = new Tile(Ground, new Contents("person", 'p', true, 1, 1, 1000, UseActions.Rude, Behavior.Wander), _zeroZero);
+      public static Tile Person = new Tile(Ground, new Contents("person", 'p', true, 1, 1, 1000, UseActions.Rude, new Action<Contents>[] {Behavior.Wander}), _zeroZero);
 
-      public static Tile Rock = new Tile(Ground, new Contents("rock", 'o', true, 4, 1, 3, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
+      public static Tile Rock = new Tile(Ground, new Contents("rock", 'o', true, 4, 1, 3, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
 
-      public static Tile Lever = new Tile(Ground, new Contents("lever", 'L', true, 10, 234, 5151, UseActions.Lever, Behavior.DoesNothing), _zeroZero);
+      public static Tile Lever = new Tile(Ground, new Contents("lever", 'L', true, 10, 234, 5151, UseActions.Lever, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
 
-      public static Tile Tombstone = new Tile(Ground, new Contents("tombstone", 'n', true, 10, 30, 400, UseActions.Tombstone, Behavior.DoesNothing), _zeroZero);
+      public static Tile Tombstone = new Tile(Ground, new Contents("tombstone", 'n', true, 10, 30, 400, UseActions.Tombstone, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
 
-      public static Tile Ghost = new Tile(Ground, new Contents("ghost", 'G', true, 1, 50, 2837, UseActions.Boo, Behavior.Wander), _zeroZero);
+      public static Tile Ghost = new Tile(Ground, new Contents("ghost", 'G', true, 1, 50, 2837, UseActions.Boo, new Action<Contents>[] {Behavior.Wander}), _zeroZero);
 
-      public static Tile Target = new Tile(Ground, new Contents("target", '@', true, 2, 1000, 1000, UseActions.DoesNothing, Behavior.Target), _zeroZero);
+      public static Tile Target = new Tile(Ground, new Contents("target", '@', true, 2, 1000, 1000, UseActions.DoesNothing, new Action<Contents>[] {Behavior.Target}), _zeroZero);
 
-      public static Tile GunTile = new Tile(Ground, new Contents("gun", 'r', true, 4, 4, 5, UseActions.Gun, Behavior.DoesNothing), _zeroZero);
+      public static Tile GunTile = new Tile(Ground, new Contents("gun", 'r', true, 4, 4, 5, UseActions.Gun, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
 
-      public static Tile Sign = new Tile(Ground, new Contents("sign", 'S', true, 4, 10000, 100000, UseActions.Dialogue, Behavior.DoesNothing), _zeroZero);
+      public static Tile Sign = new Tile(Ground, new Contents("sign", 'S', true, 4, 10000, 100000, UseActions.Dialogue, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
 
       public static Tile GateOpen = new Tile(new Floor('.', "retractedGate"), null, _zeroZero);
 
-      public static Tile GateClosed = new Tile(Ground, new Contents("gate", '-', true, 2000, 10, 12390, UseActions.DoesNothing, Behavior.DoesNothing), _zeroZero);
+      public static Tile GateClosed = new Tile(Ground, new Contents("gate", '-', true, 2000, 10, 12390, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
       #endregion
 
       // A dictionary mapping between content names and their respective dialogue lines
@@ -158,12 +158,12 @@ namespace GameEngine
                            100,
                            new List<Contents>()
                            {
-                              new Contents("coin", 'c', true, 3, 1, 1, UseActions.DoesNothing, Behavior.DoesNothing),
-                              new Contents("coin", 'c', true, 3, 1, 1, UseActions.DoesNothing, Behavior.DoesNothing),
-                              new Contents("coin", 'c', true, 3, 1, 1, UseActions.DoesNothing, Behavior.DoesNothing)
+                              new Contents("coin", 'c', true, 3, 1, 1, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}),
+                              new Contents("coin", 'c', true, 3, 1, 1, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}),
+                              new Contents("coin", 'c', true, 3, 1, 1, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing})
                            },
                            UseActions.DoesNothing,
-                           Behavior.DoesNothing), _zeroZero),
+                           new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero),
                      },
                      // row 2
                      new Tile[]
@@ -1151,7 +1151,7 @@ namespace GameEngine
                continue;
             }
             bool isContainer = bool.Parse(splitLine[6]);
-            if (UseActions.TryGetAction(splitLine[8], out Action<string[], Contents> actionResult) && Behavior.TryGetBehavior(splitLine[9], out Action<Contents> behaviorResult))
+            if (UseActions.TryGetAction(splitLine[8], out Action<string[], Contents> actionResult) && Behavior.TryGetBehaviors(splitLine[9].Split(","), out Action<Contents>[] behaviorResult))
             {
                contentsList.Add(new Contents(
                name: splitLine[0],
@@ -1163,7 +1163,7 @@ namespace GameEngine
                container: isContainer,
                containerSpace: int.Parse(splitLine[7]),
                useAction: actionResult,
-               behavior: behaviorResult,
+               behaviors: behaviorResult,
                contained: (isContainer ? GetAllContents(sr) : null)
                ));
                if (!isContainer)
@@ -1288,7 +1288,7 @@ namespace GameEngine
          }
          sw.Write(contentsAtCoords.Name + " " + contentsAtCoords.VisualChar + " "  + contentsAtCoords.Transparent + " " + contentsAtCoords.Durability + " " + contentsAtCoords.Size + " " + contentsAtCoords.Weight + " ");
          sw.Write(contentsAtCoords.Container + " " + contentsAtCoords.ContainerSpace + " ");
-         if (UseActions.TryGetIdentifier(contentsAtCoords.UseAction, out string actionResult) && Behavior.TryGetIdentifier(contentsAtCoords.Behavior, out string behaviorResult))
+         if (UseActions.TryGetIdentifier(contentsAtCoords.UseAction, out string actionResult) && Behavior.TryGetIdentifiers(contentsAtCoords.Behaviors, out string behaviorResult))
          {
             sw.Write(actionResult + " ");
             sw.WriteLine(behaviorResult);
@@ -1331,7 +1331,10 @@ namespace GameEngine
             }
             foreach (Contents updateContents in contentsToUpdate)
             {
-               updateContents.Behavior(updateContents);
+               foreach (Action<Contents> behavior in updateContents.Behaviors)
+               {
+                  behavior(updateContents);
+               }
             }
          }
          LoadedLevel = realLoadedLevel;

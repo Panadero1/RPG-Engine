@@ -28,7 +28,7 @@ namespace GameEngine
                }
                else
                {
-                  createdTiles[x, y] = new Tile(new Floor(oldFloor.VisualChar, oldFloor.Name), new Contents(oldContents.Name, oldContents.VisualChar, oldContents.Transparent, oldContents.Durability, oldContents.Size, oldContents.Weight, oldContents.Container, oldContents.ContainerSpace, oldContents.Contained, oldContents.UseAction, oldContents.Behavior), new Coord(x, y));
+                  createdTiles[x, y] = new Tile(new Floor(oldFloor.VisualChar, oldFloor.Name), new Contents(oldContents.Name, oldContents.VisualChar, oldContents.Transparent, oldContents.Durability, oldContents.Size, oldContents.Weight, oldContents.Container, oldContents.ContainerSpace, oldContents.Contained, oldContents.UseAction, oldContents.Behaviors), new Coord(x, y));
                   createdTiles[x, y].Contents.Coordinates = new Coord(x, y);
                   if (oldContents.Name == World.Player.Contents.Name)
                   {
@@ -59,7 +59,7 @@ namespace GameEngine
                }
                else
                {
-                  createdTiles[x, y] = new Tile(new Floor(oldFloor.VisualChar, oldFloor.Name), new Contents(oldContents.Name, oldContents.VisualChar, oldContents.Transparent, oldContents.Durability, oldContents.Size, oldContents.Weight, oldContents.Container, oldContents.ContainerSpace, oldContents.Contained, oldContents.UseAction, oldContents.Behavior), new Coord(x, y));
+                  createdTiles[x, y] = new Tile(new Floor(oldFloor.VisualChar, oldFloor.Name), new Contents(oldContents.Name, oldContents.VisualChar, oldContents.Transparent, oldContents.Durability, oldContents.Size, oldContents.Weight, oldContents.Container, oldContents.ContainerSpace, oldContents.Contained, oldContents.UseAction, oldContents.Behaviors), new Coord(x, y));
                   createdTiles[x, y].Contents.Coordinates = new Coord(x, y);
                   if (oldContents.Name == World.Player.Contents.Name)
                   {
