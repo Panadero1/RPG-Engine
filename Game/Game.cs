@@ -7,7 +7,7 @@ namespace GameEngine
    // The main class of the game. Contains references for each gamemode
    static class Game
    {
-      // TODO: map generation, remove temp, comments, title screen, VisibleAtLine() adapt for not just player, implement a bunch of behaviors & use actions, documentation so people understand what's happening in this chaos
+      // TODO: map generation, remove temp, title screen, implement a bunch of behaviors & use actions, documentation so people understand what's happening in this chaos
       public static bool Execute = true;
       public static string FilePath;
 

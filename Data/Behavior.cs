@@ -13,7 +13,10 @@ namespace GameEngine
          (DoesNothing, "DoesNothing"),
          (Wander, "Wander"),
          (MonsterVictory, "MonsterVictory"),
-         (Aggressive, "Aggressive"),
+         (AttackClose, "AttackClose"),
+         (AttackMed, "AttackMed"),
+         (AttackFar, "AttackFar"),
+         (MoveTowardsPlayer, "MoveTowardsPlayer"),
          (Target, "Target")
       };
       
@@ -59,6 +62,7 @@ namespace GameEngine
                if (identifier.Equals(givenIdentifier))
                {
                   allBehaviors.Add(CustomCommands[identifierIndex].Behavior);
+                  break;
                }
             }
          }
@@ -95,10 +99,11 @@ namespace GameEngine
                if (action.Equals(givenAction))
                {
                   result += CustomCommands[actionIndex].Identifier + ",";
+                  break;
                }
             }
          }
-         result.Trim(',');
+         result = result.Substring(0, result.Length - 1);
          return true;
       }
 
@@ -166,11 +171,35 @@ namespace GameEngine
             contents.Damage(1);
          }
       }
-      public static void Aggressive(Contents contents)
+      public static void AttackClose(Contents contents)
       {
-         Wander(contents);
-         Coord distCoord = World.Player.GetCoords().Subtract(contents.Coordinates);
-         if (World.LoadedLevel.Grid.TryFindContents(World.Player.Contents, out _) && (Math.Abs(distCoord.X) <= 1) && (Math.Abs(distCoord.Y) <= 1))
+         if (!(World.GetPlayerLevel(out Level playerLevel) && playerLevel.Equals(World.LoadedLevel)))
+         {
+            return;
+         }
+         if (World.Player.GetCoords().Distance(contents.Coordinates) <= 1)
+         {
+            World.Player.Contents.Damage(1);
+         }
+      }
+      public static void AttackMed(Contents contents)
+      {
+         if (!(World.GetPlayerLevel(out Level playerLevel) && playerLevel.Equals(World.LoadedLevel)))
+         {
+            return;
+         }
+         if (World.Player.GetCoords().Distance(contents.Coordinates) <= 2)
+         {
+            World.Player.Contents.Damage(1);
+         }
+      }
+      public static void AttackFar(Contents contents)
+      {
+         if (!(World.GetPlayerLevel(out Level playerLevel) && playerLevel.Equals(World.LoadedLevel)))
+         {
+            return;
+         }
+         if (World.Player.GetCoords().Distance(contents.Coordinates) <= 3)
          {
             World.Player.Contents.Damage(1);
          }
@@ -198,6 +227,52 @@ namespace GameEngine
             }
             contents.Durability = 2;
          }
+      }
+      public static void MoveTowardsPlayer(Contents contents)
+      {
+         if (!(World.GetPlayerLevel(out Level playerLevel) && playerLevel.Equals(World.LoadedLevel)))
+         {
+            return;
+         }
+         Coord playerCoords = World.Player.GetCoords();
+         if (!World.LoadedLevel.Grid.VisibleAtLine(contents.Coordinates, playerCoords.Subtract(contents.Coordinates)))
+         {
+            return;
+         }
+
+         Coord relativeCoord = playerCoords.Subtract(contents.Coordinates);
+         bool yMove = (Math.Abs(relativeCoord.Y) > Math.Abs(relativeCoord.X));
+         Coord currentMoveCoord;
+         if (relativeCoord.X == 0)
+         {
+            if (relativeCoord.Y == 0)
+            {
+               return;
+            }
+            else
+            {
+               int ySign = relativeCoord.Y / Math.Abs(relativeCoord.Y);
+               currentMoveCoord = new Coord(0, ySign);
+            }
+         }
+         else if (relativeCoord.Y == 0)
+         {
+            int xSign = relativeCoord.X / Math.Abs(relativeCoord.X);
+            currentMoveCoord = new Coord(xSign, 0);
+         }
+         else
+         {
+            int ySign = relativeCoord.Y / Math.Abs(relativeCoord.Y);
+            int xSign = relativeCoord.X / Math.Abs(relativeCoord.X);
+            currentMoveCoord = yMove ? new Coord(0, ySign) : new Coord(xSign, 0);
+         }
+
+         if (!(World.LoadedLevel.Grid.GetTileAtCoords(contents.Coordinates.Add(currentMoveCoord), out Tile tileAtCoords, false)) && tileAtCoords.Contents != null)
+         {
+            return;
+         }
+         World.LoadedLevel.Grid.MoveContents(contents, currentMoveCoord, false);
+
       }
    }
 }

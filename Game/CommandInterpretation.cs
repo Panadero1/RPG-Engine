@@ -339,7 +339,9 @@ namespace GameEngine
             preContainerParamMap["Behavior"] += behaviorString + ",";
          } while (CommandInterpretation.AskYesNo("Would you like to add any more behavior?"));
          
-         preContainerParamMap["Behavior"].Trim(',');
+         string tempBehavior = preContainerParamMap["Behavior"];
+
+         tempBehavior = tempBehavior.Substring(0, tempBehavior.Length - 1);
 
          #region Checking params
          if (!InterpretInt(preContainerParamMap["Durability"], out int durability))
@@ -378,7 +380,7 @@ namespace GameEngine
             }
          }
 
-         if (!Behavior.TryGetBehaviors(preContainerParamMap["Behavior"].Split(","), out Action<Contents>[] behavior))
+         if (!Behavior.TryGetBehaviors(tempBehavior.Split(","), out Action<Contents>[] behavior))
          {
             Console.WriteLine("Behavior was not found");
             return false;

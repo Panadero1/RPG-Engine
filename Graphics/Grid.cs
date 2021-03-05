@@ -72,7 +72,7 @@ namespace GameEngine
       }
 
       // Moves one contents to another tile
-      public void MoveContents(Contents startingContents, Coord changedLoc)
+      public void MoveContents(Contents startingContents, Coord changedLoc, bool output = true)
       {
          if (changedLoc.X == 0 && changedLoc.Y == 0)
          {
@@ -95,14 +95,20 @@ namespace GameEngine
                }
                if (levelToWest == null)
                {
-                  Console.WriteLine("You cannot move here");
+                  if (output)
+                  {
+                     Console.WriteLine("You cannot move here");
+                  }
                   return;
                }
                if (levelToWest.EastEntry != null && levelToWest.Grid.GetTileAtCoords(levelToWest.EastEntry, out Tile WestEntryTile))
                {
                   if (WestEntryTile.Contents != null)
                   {
-                     Console.WriteLine("Something is blocking this on the other side");
+                     if (output)
+                     {
+                        Console.WriteLine("Something is blocking this on the other side");
+                     }
                      return;
                   }
                   if (World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates, out Tile playerTile))
@@ -115,13 +121,19 @@ namespace GameEngine
                }
                else
                {
-                  Console.WriteLine("You cannot move here");
+                  if (output)
+                  {
+                     Console.WriteLine("You cannot move here");
+                  }
                   return;
                }
             }
             else
             {
-               Console.WriteLine("You cannot move here");
+               if (output)
+               {
+                  Console.WriteLine("You cannot move here");
+               }
                return;
             }
          }
@@ -138,14 +150,20 @@ namespace GameEngine
                }
                if (levelToEast == null)
                {
-                  Console.WriteLine("You cannot move here");
+                  if (output)
+                  {
+                     Console.WriteLine("You cannot move here");
+                  }
                   return;
                }
                if (levelToEast.WestEntry != null && levelToEast.Grid.GetTileAtCoords(levelToEast.WestEntry, out Tile eastEntryTile))
                {
                   if (eastEntryTile.Contents != null)
                   {
-                     Console.WriteLine("Something is blocking this on the other side");
+                     if (output)
+                     {
+                        Console.WriteLine("Something is blocking this on the other side");
+                     }
                      return;
                   }
                   if (World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates, out Tile playerTile))
@@ -158,13 +176,19 @@ namespace GameEngine
                }
                else
                {
-                  Console.WriteLine("You cannot move here");
+                  if (output)
+                  {
+                     Console.WriteLine("You cannot move here");
+                  }
                   return;
                }
             }
             else
             {
-               Console.WriteLine("You cannot move here");
+               if (output)
+               {
+                  Console.WriteLine("You cannot move here");
+               }
                return;
             }
          }
@@ -181,14 +205,20 @@ namespace GameEngine
                }
                if (levelToNorth == null)
                {
-                  Console.WriteLine("You cannot move here");
+                  if (output)
+                  {
+                     Console.WriteLine("You cannot move here");
+                  }
                   return;
                }
                if (levelToNorth.SouthEntry != null && levelToNorth.Grid.GetTileAtCoords(levelToNorth.SouthEntry, out Tile northEntryTile))
                {
                   if (northEntryTile.Contents != null)
                   {
-                     Console.WriteLine("Something is blocking this on the other side");
+                     if (output)
+                     {
+                        Console.WriteLine("Something is blocking this on the other side");
+                     }
                      return;
                   }
                   if (World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates, out Tile playerTile))
@@ -201,13 +231,19 @@ namespace GameEngine
                }
                else
                {
-                  Console.WriteLine("You cannot move here");
+                  if (output)
+                  {
+                     Console.WriteLine("You cannot move here");
+                  }
                   return;
                }
             }
             else
             {
-               Console.WriteLine("You cannot move here");
+               if (output)
+               {
+                  Console.WriteLine("You cannot move here");
+               }
                return;
             }
          }
@@ -224,14 +260,20 @@ namespace GameEngine
                }
                if (levelToSouth == null)
                {
-                  Console.WriteLine("You cannot move here");
+                  if (output)
+                  {
+                     Console.WriteLine("You cannot move here");
+                  }
                   return;
                }
                if (levelToSouth.NorthEntry != null && levelToSouth.Grid.GetTileAtCoords(levelToSouth.NorthEntry, out Tile southEntryTile))
                {
                   if (southEntryTile.Contents != null)
                   {
-                     Console.WriteLine("Something is blocking this on the other side");
+                     if (output)
+                     {
+                        Console.WriteLine("Something is blocking this on the other side");
+                     }
                      return;
                   }
                   if (World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates, out Tile playerTile))
@@ -244,13 +286,19 @@ namespace GameEngine
                }
                else
                {
-                  Console.WriteLine("You cannot move here");
+                  if (output)
+                  {
+                     Console.WriteLine("You cannot move here");
+                  }
                   return;
                }
             }
             else
             {
-               Console.WriteLine("You cannot move here");
+               if (output)
+               {
+                  Console.WriteLine("You cannot move here");
+               }
                return;
             }
          }
@@ -264,7 +312,10 @@ namespace GameEngine
             }
             if (endingTile.Contents != null)
             {
-               Console.WriteLine("Tile is occupied");
+               if (output)
+               {
+                  Console.WriteLine("Tile is occupied");
+               }
                return;
             }
             Contents removedContents = startingContents;
@@ -398,6 +449,10 @@ namespace GameEngine
          {
             for (; y != endingY; y += ySign)
             {
+               if (y == startCoord.Y + 0.5)
+               {
+                  continue;
+               }
                if (!World.LoadedLevel.Grid.GetTileAtCoords(new Coord((int)x, (int)y), out Tile tileAtCoords, false))
                {
                   return false;
@@ -415,6 +470,10 @@ namespace GameEngine
          {
             for (; x != endingX; x += xSign)
             {
+               if (x == startCoord.X + 0.5)
+               {
+                  continue;
+               }
                y = GetYTile(x - 0.1, (double)slope, startCoord);
 
                double tryY = GetYTile(x + 0.1, (double)slope, startCoord);
@@ -446,6 +505,10 @@ namespace GameEngine
          {
             for (; y != endingY; y += ySign)
             {
+               if (y == startCoord.Y + 0.5)
+               {
+                  continue;
+               }
                x = GetXTile(y - 0.1, (double)slope, startCoord);
 
                double tryX = GetXTile(y + 0.1, (double)slope, startCoord);

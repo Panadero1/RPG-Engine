@@ -28,7 +28,7 @@ namespace GameEngine
 
       public static Tile Fence = new Tile(Ground, new Contents("fence", '+', true, 5, 10000, 60, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
 
-      public static Tile Hog = new Tile(new Floor('~', "mudpit"), new Contents("hog", 'H', true, 4, 40, 20, UseActions.DoesNothing, new Action<Contents>[] {Behavior.Aggressive}), _zeroZero);
+      public static Tile Hog = new Tile(new Floor('~', "mudpit"), new Contents("hog", 'H', true, 4, 40, 20, UseActions.DoesNothing, new Action<Contents>[] {Behavior.AttackClose, Behavior.Wander, Behavior.MoveTowardsPlayer}), _zeroZero);
 
       public static Tile Plant = new Tile(new Floor('Y', "plant"), null, _zeroZero);
 
@@ -1117,6 +1117,8 @@ namespace GameEngine
          
          Player = new Player(tile.Contents, allContents[0], int.Parse(sr.ReadLine()));
 
+         Player.Contents.Coordinates = playerCoords;
+
          sr.ReadLine();
 
          ContentsIndex = GetAllContents(sr);
@@ -1345,6 +1347,10 @@ namespace GameEngine
         {
             foreach (Level level in World.WorldMap.LevelMap)
             {
+               if (level == null)
+               {
+                  continue;
+               }
                 if (level.Grid.TryFindContents(World.Player.Contents, out _))
                 {
                     result = level;

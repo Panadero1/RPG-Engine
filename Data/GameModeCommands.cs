@@ -193,7 +193,7 @@ namespace GameEngine
             }
         }
 
-        private static void Exit(string[] parameters)
+        private static void ExitEngine(string[] parameters)
         {
             if (CommandInterpretation.AskYesNo("Would you like to save before exiting?"))
             {
@@ -202,6 +202,15 @@ namespace GameEngine
             Game.Execute = false;
         }
 
+        private static void ExitEditor(string[] parameters)
+        {
+            if (CommandInterpretation.AskYesNo("Would you like to save before exiting?"))
+            {
+                SaveEditor(_emptyString);
+            }
+            Game.Execute = false;
+        }
+        
         private static void SaveEngine(string[] parameters)
         {
             if (CommandInterpretation.AskYesNo("Would you like to save the file as a different name?"))
@@ -343,14 +352,20 @@ namespace GameEngine
                     Console.WriteLine("There is nothing on the tile.");
                     return;
                 }
-                Console.WriteLine("The contents at this tile has these statistics:");
-                Console.WriteLine("Name: " + lookTile.Contents.Name);
+                if (!(UseActions.TryGetIdentifier(lookTile.Contents.UseAction, out string action) && Behavior.TryGetIdentifiers(lookTile.Contents.Behaviors, out string behavior)))
+                {
+                    return;
+                }
+                Console.WriteLine(" -- Contents: "  + lookTile.Contents.Name + " --\n");
                 Console.WriteLine("Size: " + lookTile.Contents.Size);
                 Console.WriteLine("Weight: " + lookTile.Contents.TotalWeight);
                 Console.WriteLine("Durability: " + lookTile.Contents.Durability);
 
                 Console.WriteLine("Transparent: " + lookTile.Contents.Transparent);
                 Console.WriteLine("Container: " + lookTile.Contents.Container);
+
+                Console.WriteLine("Use Action: " + action);
+                Console.WriteLine("Behaviors: " + behavior);
 
                 World.ContentsIndex.Add(lookTile.Contents);
             }
@@ -1199,18 +1214,11 @@ namespace GameEngine
             Drop,
             true);
 
-        private static readonly Command _exit = new Command(
+        private static readonly Command _exitEngine = new Command(
             "exit",
             "Closes the program and gives you an option to save.",
             _emptyString,
-            Exit,
-            false);
-
-        private static readonly Command _saveEngine = new Command(
-            "save",
-            "Saves the current state of the game into a file.",
-            _emptyString,
-            SaveEngine,
+            ExitEngine,
             false);
         private static readonly Command _saveEditor = new Command(
             "save",
@@ -1321,6 +1329,18 @@ namespace GameEngine
             false);
 
         // Editor commands
+        private static readonly Command _exitEditor = new Command(
+            "exit",
+            "Closes the program and gives you an option to save.",
+            _emptyString,
+            ExitEditor,
+            false);
+        private static readonly Command _saveEngine = new Command(
+            "save",
+            "Saves the current state of the game into a file.",
+            _emptyString,
+            SaveEngine,
+            false);
         private static readonly Command _newMap = new Command(
             "new",
             "creates a new world file",
@@ -1406,7 +1426,7 @@ namespace GameEngine
             _bag,
             _add,
             _drop,
-            _exit,
+            _exitEngine,
             _saveEngine,
             _engineHelp,
             _pick,
@@ -1426,7 +1446,7 @@ namespace GameEngine
             _bag,
             _add,
             _drop,
-            _exit,
+            _exitEngine,
             _tutorialHelp,
             _pick,
             _look,
@@ -1441,7 +1461,7 @@ namespace GameEngine
         {
            _saveEditor,
            _load,
-           _exit,
+           _exitEditor,
            _levelEditorHelp,
            _newMap,
            _expand,
