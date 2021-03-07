@@ -152,21 +152,21 @@ namespace GameEngine
             }
             else
             {
-               Console.WriteLine("> EW!!! That's so gross!!! >:( that tasted so bad");
+               Output.WriteLineTagged("EW!!! That's so gross!!! >:( that tasted so bad", Output.tag.Dialogue);
                contents.Contained.RemoveAt(0);
             }
          }
          if (chickens)
          {
-            Console.WriteLine("> Yummy! Thanks so much! That was delicious :)");
+            Output.WriteLineTagged("Yummy! Thanks so much! That was delicious :)", Output.tag.Dialogue);
             if (contents.Durability == 1)
             {
-               Console.WriteLine("Monster explodes...");
+               Output.WriteLineTagged("Monster explodes...", Output.tag.Dialogue);
             }
             else
             {
                contents.Contained.RemoveAt(0);
-               Console.WriteLine("> Could you please maybe bring me one more chicken? :(");
+               Output.WriteLineTagged("> Could you please maybe bring me one more chicken? :(", Output.tag.Dialogue);
             }
             contents.Damage(1);
          }
@@ -274,5 +274,6 @@ namespace GameEngine
          World.LoadedLevel.Grid.MoveContents(contents, currentMoveCoord, false);
 
       }
+
    }
 }

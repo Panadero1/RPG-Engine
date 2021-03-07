@@ -12,7 +12,7 @@ namespace GameEngine
       {
          if (tileGrid.GetLength(0) >= 260 || tileGrid.GetLength(1) >= 260)
          {
-            Console.WriteLine("Grid is too large!");
+            Output.WriteLineTagged("Grid is too large!", Output.tag.Error);
             return;
          }
          Tile[,] createdTiles = new Tile[tileGrid.GetLength(0), tileGrid.GetLength(1)];
@@ -43,7 +43,7 @@ namespace GameEngine
       {
          if (tileGrid.Length >= 260 || tileGrid[0].Length >= 260)
          {
-            Console.WriteLine("Grid is too large!");
+            Output.WriteLineTagged("Grid is too large!", Output.tag.Error);
             return;
          }
          Tile[,] createdTiles = new Tile[tileGrid[0].Length, tileGrid.Length];
@@ -97,7 +97,7 @@ namespace GameEngine
                {
                   if (output)
                   {
-                     Console.WriteLine("You cannot move here");
+                     Output.WriteLineTagged("You cannot move here", Output.tag.Error);
                   }
                   return;
                }
@@ -107,7 +107,7 @@ namespace GameEngine
                   {
                      if (output)
                      {
-                        Console.WriteLine("Something is blocking this on the other side");
+                        Output.WriteLineTagged("Something is blocking this on the other side", Output.tag.World);
                      }
                      return;
                   }
@@ -123,7 +123,7 @@ namespace GameEngine
                {
                   if (output)
                   {
-                     Console.WriteLine("You cannot move here");
+                     Output.WriteLineTagged("You cannot move here", Output.tag.Error);
                   }
                   return;
                }
@@ -132,7 +132,7 @@ namespace GameEngine
             {
                if (output)
                {
-                  Console.WriteLine("You cannot move here");
+                  Output.WriteLineTagged("You cannot move here", Output.tag.Error);
                }
                return;
             }
@@ -152,7 +152,7 @@ namespace GameEngine
                {
                   if (output)
                   {
-                     Console.WriteLine("You cannot move here");
+                     Output.WriteLineTagged("You cannot move here", Output.tag.Error);
                   }
                   return;
                }
@@ -162,7 +162,7 @@ namespace GameEngine
                   {
                      if (output)
                      {
-                        Console.WriteLine("Something is blocking this on the other side");
+                        Output.WriteLineTagged("Something is blocking this on the other side", Output.tag.World);
                      }
                      return;
                   }
@@ -178,7 +178,7 @@ namespace GameEngine
                {
                   if (output)
                   {
-                     Console.WriteLine("You cannot move here");
+                     Output.WriteLineTagged("You cannot move here", Output.tag.Error);
                   }
                   return;
                }
@@ -187,7 +187,7 @@ namespace GameEngine
             {
                if (output)
                {
-                  Console.WriteLine("You cannot move here");
+                  Output.WriteLineTagged("You cannot move here", Output.tag.Error);
                }
                return;
             }
@@ -207,7 +207,7 @@ namespace GameEngine
                {
                   if (output)
                   {
-                     Console.WriteLine("You cannot move here");
+                     Output.WriteLineTagged("You cannot move here", Output.tag.Error);
                   }
                   return;
                }
@@ -217,7 +217,7 @@ namespace GameEngine
                   {
                      if (output)
                      {
-                        Console.WriteLine("Something is blocking this on the other side");
+                        Output.WriteLineTagged("Something is blocking this on the other side", Output.tag.World);
                      }
                      return;
                   }
@@ -233,7 +233,7 @@ namespace GameEngine
                {
                   if (output)
                   {
-                     Console.WriteLine("You cannot move here");
+                     Output.WriteLineTagged("You cannot move here", Output.tag.Error);
                   }
                   return;
                }
@@ -242,7 +242,7 @@ namespace GameEngine
             {
                if (output)
                {
-                  Console.WriteLine("You cannot move here");
+                  Output.WriteLineTagged("You cannot move here", Output.tag.Error);
                }
                return;
             }
@@ -262,7 +262,7 @@ namespace GameEngine
                {
                   if (output)
                   {
-                     Console.WriteLine("You cannot move here");
+                     Output.WriteLineTagged("You cannot move here", Output.tag.Error);
                   }
                   return;
                }
@@ -272,7 +272,7 @@ namespace GameEngine
                   {
                      if (output)
                      {
-                        Console.WriteLine("Something is blocking this on the other side");
+                        Output.WriteLineTagged("Something is blocking this on the other side", Output.tag.World);
                      }
                      return;
                   }
@@ -288,7 +288,7 @@ namespace GameEngine
                {
                   if (output)
                   {
-                     Console.WriteLine("You cannot move here");
+                     Output.WriteLineTagged("You cannot move here", Output.tag.Error);
                   }
                   return;
                }
@@ -297,7 +297,7 @@ namespace GameEngine
             {
                if (output)
                {
-                  Console.WriteLine("You cannot move here");
+                  Output.WriteLineTagged("You cannot move here", Output.tag.Error);
                }
                return;
             }
@@ -314,7 +314,7 @@ namespace GameEngine
             {
                if (output)
                {
-                  Console.WriteLine("Tile is occupied");
+                  Output.WriteLineTagged("Tile is occupied", Output.tag.Error);
                }
                return;
             }
@@ -338,7 +338,7 @@ namespace GameEngine
          {
             if (consolePrint)
             {
-               Console.WriteLine("Coordinates given are out of range of the grid");
+               Output.WriteLineTagged("Coordinates given are out of range of the grid", Output.tag.Error);
             }
             result = null;
             return false;

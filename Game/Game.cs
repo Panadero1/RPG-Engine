@@ -11,6 +11,8 @@ namespace GameEngine
       public static bool Execute = true;
       public static string FilePath;
 
+      public const string Version = "v0.3.1";
+
       public static Dictionary<string, (Action action, CommandChoices commands)> GameModes = new Dictionary<string, (Action, CommandChoices)>() 
       {
          // If you wish to add a gamemode, make the key lowercase!!!
@@ -27,11 +29,9 @@ namespace GameEngine
       // Always runs. Prompts the user to enter a gamemode and runs that specific gamemode
       static void Main(string[] args)
       {
-         Console.WriteLine("Welcome. Current game modes are: ");
-         foreach (string gameMode in GameModes.Keys)
-         {
-            Console.WriteLine(gameMode);
-         }
+         Output.WriteLineToConsole("\n\nWelcome to RPG Engine (still in development)");
+
+         Output.WriteLineToConsole("Version: " + Version + "\n");
 
          string result;
          while (!CommandInterpretation.InterpretString(GameModes.Keys.ToArray(), out result))
@@ -59,12 +59,12 @@ namespace GameEngine
          // v This is for testing and designing worlds ONLY IMPLEMENTED FOR PRE-LEVEL EDITOR PURPOSES... if this is still around and the level editor exits, it means I forgot to remove it
          //World.SaveToFile(_filePath);
 
-         Console.WriteLine("Type \"exit\" at any time to close the game");
-         Console.WriteLine("Type \"help\" to view a list of commands");
+         Output.WriteLineToConsole("Type \"exit\" at any time to close the game");
+         Output.WriteLineToConsole("Type \"help\" to view a list of commands");
 
-         for (Console.WriteLine(World.LoadedLevel.Grid.GraphicString()); Execute; Console.WriteLine(World.LoadedLevel.Grid.GraphicString()))
+         for (Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString()); Execute; Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString()))
          {
-            Console.WriteLine("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name));
+            Output.WriteLineTagged("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name), Output.tag.World);
             if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
             {
                World.UpdateWorld();
@@ -116,9 +116,9 @@ namespace GameEngine
 
          WriteNextLine(lines, ref index);
 
-         for (Console.WriteLine(World.LoadedLevel.Grid.GraphicString()); Execute; Console.WriteLine(World.LoadedLevel.Grid.GraphicString()))
+         for (Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString()); Execute; Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString()))
          {
-            Console.WriteLine("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name));
+            Output.WriteLineTagged("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name), Output.tag.World);
             TutorialProgression(lines, ref index);
 
             if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
@@ -131,8 +131,8 @@ namespace GameEngine
       // Child function of Tutorial() for writing specific info to guide the user
       private static void WriteNextLine(string[] lines, ref int index)
       {
-         Console.WriteLine(lines[index]);
-         Console.WriteLine("\nPress any key to continue.\n");
+         Output.WriteLineTagged(lines[index], Output.tag.Tutorial);
+         Output.WriteLineTagged("\nPress any key to continue.\n", Output.tag.Prompt);
          Console.ReadKey(true);
          index++;
       }
@@ -200,7 +200,7 @@ namespace GameEngine
                }
                break;
             default:
-               Console.WriteLine("That is the end of the tutorial now. For more information on commands, type 'help'. Type 'exit' to leave");
+               Output.WriteLineTagged("That is the end of the tutorial now. For more information on commands, type 'help'. Type 'exit' to leave", Output.tag.Tutorial);
                break;
          }
       }
@@ -230,11 +230,11 @@ namespace GameEngine
             switch (Editor.EditorState)
             {
                case Editor.State.Map:
-                  Console.WriteLine(World.WorldMap.GraphicString());
+                  Output.WriteLineToConsole(World.WorldMap.GraphicString());
                   break;
                case Editor.State.Level:
-                  Console.WriteLine(World.LoadedLevel.Grid.GraphicString(false));
-            Console.WriteLine("Brush: " + (Editor.Brush == null ? "Nothing" : (Editor.Brush.Contents == null ? Editor.Brush.Floor.Name : Editor.Brush.Contents.Name)));
+                  Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString(false));
+            Output.WriteLineTagged("Brush: " + (Editor.Brush == null ? "Nothing" : (Editor.Brush.Contents == null ? Editor.Brush.Floor.Name : Editor.Brush.Contents.Name)), Output.tag.World);
                   break;
             }
             com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command: "));

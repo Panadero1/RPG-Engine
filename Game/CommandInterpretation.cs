@@ -11,7 +11,7 @@ namespace GameEngine
       // Same as Console.Readline, but makes it nice for message interception, if necessary
       public static string GetUserResponse(string message)
       {
-         Console.WriteLine(message);
+         Output.WriteLineTagged(message, Output.tag.Prompt);
          string response = Console.ReadLine();
          return response.Trim();
       }
@@ -110,7 +110,7 @@ namespace GameEngine
          {
             return false;
          }
-         Console.WriteLine("Message not understood. Default response: no");
+         Output.WriteLineTagged("Message not understood. Default response: no", Output.tag.Error);
          return false;
       }
 
@@ -139,11 +139,11 @@ namespace GameEngine
       // Overload: prompts the user after listing all elements of the array
       public static bool InterpretString(string[] acceptedAnswers, out string result)
       {
-         Console.WriteLine("Here are your options:");
+         Output.WriteLineTagged("Here are your options:", Output.tag.List);
          for (int answerIndex = 0; answerIndex < acceptedAnswers.Length; answerIndex++)
          {
             string answer = acceptedAnswers[answerIndex];
-            Console.WriteLine(answerIndex + ". " + answer);
+            Output.WriteLineToConsole(answerIndex + ". " + answer);
          }
          string response = GetUserResponse("Which do you choose?");
          if (int.TryParse(response, out int intIndex))
@@ -173,11 +173,11 @@ namespace GameEngine
          List<string> results = new List<string>();
          do
          {
-            Console.WriteLine("Here are your options:");
+            Output.WriteLineTagged("Here are your options:", Output.tag.List);
             for (int answerIndex = 0; answerIndex < acceptedAnswers.Length; answerIndex++)
             {
                string answer = acceptedAnswers[answerIndex];
-               Console.WriteLine(answerIndex + ". " + answer);
+               Output.WriteLineToConsole(answerIndex + ". " + answer);
             }
             string response = GetUserResponse("Which do you choose?");
             if (InterpretInt(response, 0, acceptedAnswers.Length - 1, out int intIndex))
@@ -286,6 +286,7 @@ namespace GameEngine
       // Used in InterpretTile(). Prompts user for all aspects of Contents
       public static bool InterpretFloor(out Floor result)
       {
+         Output.WriteLineToConsole("\nFloor");
          result = null;
 
          if (!InterpretString(GetUserResponse("Name (unique identifier)<string>:"), out string name))
@@ -305,6 +306,7 @@ namespace GameEngine
       // Used in InterpretTile() and other cases. Prompts user for all aspects of Contents
       public static bool InterpretContents(out Contents result)
       {
+         Output.WriteLineToConsole("\nContents");
          result = null;
          bool isContainer = AskYesNo("Will this contents be able to hold anything?");
 
@@ -320,20 +322,20 @@ namespace GameEngine
             {"Behavior", string.Empty},
          };
 
-         Console.WriteLine("Choose an action that this contents takes");
+         Output.WriteLineTagged("Choose an action that this contents takes", Output.tag.Prompt);
          if (!CommandInterpretation.InterpretString(UseActions.GetIdentifiers(), out string actionString))
          {
-            Console.WriteLine("Action was not a valid response");
+            Output.WriteLineTagged("Action was not a valid response", Output.tag.Error);
             return false;
          }
          preContainerParamMap["Action"] = actionString;
 
-         Console.WriteLine("Choose a behavior for this contents");
+         Output.WriteLineTagged("Choose a behavior for this contents", Output.tag.Error);
          do
          {
             if (!CommandInterpretation.InterpretString(Behavior.GetIdentifiers(), out string behaviorString))
             {
-               Console.WriteLine("Behavior was not a valid response");
+               Output.WriteLineTagged("Behavior was not a valid response", Output.tag.Error);
                return false;
             }
             preContainerParamMap["Behavior"] += behaviorString + ",";
@@ -346,35 +348,35 @@ namespace GameEngine
          #region Checking params
          if (!InterpretInt(preContainerParamMap["Durability"], out int durability))
          {
-            Console.WriteLine("Durability was not in integer format");
+            Output.WriteLineTagged("Durability was not in integer format", Output.tag.Error);
             return false;
          }
          if (!InterpretInt(preContainerParamMap["Size"], out int size))
          {
-            Console.WriteLine("Size was not in integer format");
+            Output.WriteLineTagged("Size was not in integer format", Output.tag.Error);
             return false;
          }
          if (!InterpretFloat(preContainerParamMap["Weight"], out float weight))
          {
-            Console.WriteLine("Weight was not in float format");
+            Output.WriteLineTagged("Weight was not in float format", Output.tag.Error);
             return false;
          }
 
          if (!UseActions.TryGetAction(preContainerParamMap["Action"], out Action<string[], Contents> action))
          {
-            Console.WriteLine("Action was not found");
+            Output.WriteLineTagged("Action was not found", Output.tag.Error);
             return false;
          }
          if (preContainerParamMap["Action"] == "Dialogue")
          {
             if (World.Dialogue.TryGetValue(preContainerParamMap["Name"], out string dialogue))
             {
-               Console.WriteLine("There is already a dialogue line for this content's name (give it a unique name to give it a unique dialogue)");
-               Console.WriteLine(dialogue);
+               Output.WriteLineTagged("There is already a dialogue line for this content's name (give it a unique name to give it a unique dialogue)", Output.tag.Error);
+               Output.WriteLineTagged(dialogue, Output.tag.Dialogue);
             }
             else
             {
-               Console.WriteLine("There is no current dialogue for this content's name. Please define it below");
+               Output.WriteLineTagged("There is no current dialogue for this content's name. Please define it below", Output.tag.Error);
                dialogue = Console.ReadLine();
                World.Dialogue.Add(preContainerParamMap["Name"], dialogue);
             }
@@ -382,7 +384,7 @@ namespace GameEngine
 
          if (!Behavior.TryGetBehaviors(tempBehavior.Split(","), out Action<Contents>[] behavior))
          {
-            Console.WriteLine("Behavior was not found");
+            Output.WriteLineTagged("Behavior was not found", Output.tag.Error);
             return false;
          }
          #endregion
@@ -409,7 +411,7 @@ namespace GameEngine
             {
                do
                {
-                  Console.WriteLine("Defining new contents\n");
+                  Output.WriteLineToConsole("Defining new contents\n");
                   if (!InterpretContents(out Contents contentsToAdd))
                   {
                      return false;

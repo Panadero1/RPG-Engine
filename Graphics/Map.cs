@@ -24,7 +24,7 @@ namespace GameEngine
          {
             if (printResponse)
             {
-               Console.WriteLine("Level is out of bounds of the map.");
+               Output.WriteLineTagged("Level is out of bounds of the map.", Output.tag.Error);
             }
             result = null;
             return false;

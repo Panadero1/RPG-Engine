@@ -935,7 +935,7 @@ namespace GameEngine
          }
          catch
          {
-            Console.WriteLine("Your 'maps' folder may be missing. We're making one now. Be sure to put all your world files in the folder named 'maps' within the directory of the executable");
+            Output.WriteLineTagged("Your 'maps' folder may be missing. We're making one now. Be sure to put all your world files in the folder named 'maps' within the directory of the executable", Output.tag.Error);
             Directory.CreateDirectory(tryFolder);
             result = null;
             return false;
@@ -953,7 +953,7 @@ namespace GameEngine
 
          DirectoryInfo directory = new DirectoryInfo(fileMouth);
 
-         Console.WriteLine("Here are the current world files");
+         Output.WriteLineTagged("Here are the current world files", Output.tag.List);
 
          Dictionary<string, FileInfo> files = new Dictionary<string, FileInfo>();
          foreach (FileInfo file in directory.GetFiles("*.txt"))
@@ -963,13 +963,13 @@ namespace GameEngine
 
          if (files.Count == 0)
          {
-            Console.WriteLine("It appears there are no files to load. Either download a world file, or try designing one in the level editor");
+            Output.WriteLineTagged("It appears there are no files to load. Either download a world file, or try designing one in the level editor", Output.tag.Error);
             return false;
          }
 
          string[] fileNames = files.Keys.ToArray();
 
-         Console.WriteLine("Choose a file from the options below.");
+         Output.WriteLineTagged("Choose a file from the options below.", Output.tag.Prompt);
          if (CommandInterpretation.InterpretString(fileNames, out string result))
          {
             Game.FilePath = files[result].FullName;
@@ -990,7 +990,7 @@ namespace GameEngine
       // <worldFile>.txt -> WorldMap
       public static void LoadFromFile(string filePath)
       {
-         Console.WriteLine("Loading file " + filePath + "...");
+         Output.WriteLineToConsole("Loading file " + filePath + "...");
          StreamReader sr;
          try
          {
@@ -998,7 +998,7 @@ namespace GameEngine
          }
          catch
          {
-            Console.WriteLine("File path is incorrect");
+            Output.WriteLineTagged("File path is incorrect", Output.tag.Error);
             return;
          }
 
@@ -1277,7 +1277,7 @@ namespace GameEngine
          sw.WriteLine("}");
 
          sw.Close();
-         Console.WriteLine("World file saved successfully as " + Game.FilePath);
+         Output.WriteLineToConsole("World file saved successfully as " + Game.FilePath);
       }
 
       // This is a child function of the one above. It does the inverse of GetAllContents

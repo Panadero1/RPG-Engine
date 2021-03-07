@@ -122,7 +122,7 @@ namespace GameEngine
       // Lists all containers within this container. Currently unused
       public string ListContainers()
       {
-         Console.WriteLine("Here are the containers of " + Name);
+         Output.WriteLineTagged("Here are the containers of " + Name, Output.tag.List);
 
          string output = "\n";
 
@@ -132,7 +132,7 @@ namespace GameEngine
             Contents contents = Contained[contentsIndex];
             if (contents.Container)
             {
-               Console.WriteLine((contentsIndex + 1) + ". " + contents.Name + "\tSize: " + contents.Size + "\tWeight: " + contents.Weight);
+               Output.WriteLineToConsole((contentsIndex + 1) + ". " + contents.Name + "\tSize: " + contents.Size + "\tWeight: " + contents.Weight);
             }
          }
          return output;
@@ -145,7 +145,7 @@ namespace GameEngine
          Durability -= damage;
          if (displayMessage)
          {
-            Console.WriteLine(Name + " was damaged for " + damage);
+            Output.WriteLineTagged(Name + " was damaged for " + damage, Output.tag.World);
          }
          if (Durability <= 0)
          {

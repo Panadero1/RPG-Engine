@@ -25,38 +25,38 @@ namespace GameEngine
          #region tests
          if (alphaNumX.Length < 2)
          {
-            Console.WriteLine("'x' was not in alphaNum format: <letter><number>");
+            Output.WriteLineTagged("'x' was not in alphaNum format: <letter><number>", Output.tag.Error);
             result = null;
             return false;
          }
          if (alphaNumY.Length < 2)
          {
-            Console.WriteLine("'y' was not in alphaNum format: <letter><number>");
+            Output.WriteLineTagged("'y' was not in alphaNum format: <letter><number>", Output.tag.Error);
             result = null;
             return false;
          }
          if (!int.TryParse(alphaNumX[1].ToString(), out int x))
          {
-            Console.WriteLine("'x' was not in alphaNum format: <letter><number>");
+            Output.WriteLineTagged("'x' was not in alphaNum format: <letter><number>", Output.tag.Error);
             result = null;
             return false;
          }
          if (!int.TryParse(alphaNumY[1].ToString(), out int y))
          {
-            Console.WriteLine("'y' was not in alphaNum format: <letter><number>");
+            Output.WriteLineTagged("'y' was not in alphaNum format: <letter><number>", Output.tag.Error);
             result = null;
             return false;
          }
 
          if (int.TryParse(alphaNumX[0].ToString(), out _))
          {
-            Console.WriteLine("This part of alphaNum format for 'x' should not be an integer: <letter><number>");
+            Output.WriteLineTagged("This part of alphaNum format for 'x' should not be an integer: <letter><number>", Output.tag.Error);
             result = null;
             return false;
          }
          if (int.TryParse(alphaNumY[0].ToString(), out _))
          {
-            Console.WriteLine("This part of alphaNum format for 'y' should not be an integer: <letter><number>");
+            Output.WriteLineTagged("This part of alphaNum format for 'y' should not be an integer: <letter><number>", Output.tag.Error);
             result = null;
             return false;
          }
