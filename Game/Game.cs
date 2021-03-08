@@ -20,7 +20,8 @@ namespace GameEngine
          // { "newGameMode", (ReferenceToAFunction, GameModeCommands.CommandChoiceForThisMode) }
          { "game", (GameEngine, GameModeCommands.EngineCommands) },
          { "tutorial", (Tutorial, GameModeCommands.TutorialCommands)},
-         { "level editor", (LevelEditor, GameModeCommands.EditorCommands) }
+         { "level editor", (LevelEditor, GameModeCommands.EditorCommands) },
+         { "exit", (Exit, null) }
       };
 
       // When a gamemode is loaded, com is defined by GameModes (^)
@@ -29,6 +30,7 @@ namespace GameEngine
       // Always runs. Prompts the user to enter a gamemode and runs that specific gamemode
       static void Main(string[] args)
       {
+         Execute = true;
          Output.WriteLineToConsole("\n\nWelcome to RPG Engine (still in development)");
 
          Output.WriteLineToConsole("Version: " + Version + "\n");
@@ -64,12 +66,13 @@ namespace GameEngine
 
          for (Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString()); Execute; Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString()))
          {
-            Output.WriteLineTagged("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name), Output.tag.World);
+            Output.WriteLineTagged("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name), Output.Tag.World);
             if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
             {
                World.UpdateWorld();
             }
          }
+         Main(new string[0]);
       }
       
       // Built-in tutorial
@@ -118,7 +121,7 @@ namespace GameEngine
 
          for (Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString()); Execute; Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString()))
          {
-            Output.WriteLineTagged("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name), Output.tag.World);
+            Output.WriteLineTagged("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name), Output.Tag.World);
             TutorialProgression(lines, ref index);
 
             if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
@@ -126,13 +129,14 @@ namespace GameEngine
                World.UpdateWorld();
             }
          }
+         Main(new string[0]);
       }
       
       // Child function of Tutorial() for writing specific info to guide the user
       private static void WriteNextLine(string[] lines, ref int index)
       {
-         Output.WriteLineTagged(lines[index], Output.tag.Tutorial);
-         Output.WriteLineTagged("\nPress any key to continue.\n", Output.tag.Prompt);
+         Output.WriteLineTagged(lines[index], Output.Tag.Tutorial);
+         Output.WriteLineTagged("\nPress any key to continue.\n", Output.Tag.Prompt);
          Console.ReadKey(true);
          index++;
       }
@@ -200,7 +204,7 @@ namespace GameEngine
                }
                break;
             default:
-               Output.WriteLineTagged("That is the end of the tutorial now. For more information on commands, type 'help'. Type 'exit' to leave", Output.tag.Tutorial);
+               Output.WriteLineTagged("That is the end of the tutorial now. For more information on commands, type 'help'. Type 'exit' to leave", Output.Tag.Tutorial);
                break;
          }
       }
@@ -234,17 +238,27 @@ namespace GameEngine
                   break;
                case Editor.State.Level:
                   Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString(false));
-            Output.WriteLineTagged("Brush: " + (Editor.Brush == null ? "Nothing" : (Editor.Brush.Contents == null ? Editor.Brush.Floor.Name : Editor.Brush.Contents.Name)), Output.tag.World);
+            Output.WriteLineTagged("Brush: " + (Editor.Brush == null ? "Nothing" : (Editor.Brush.Contents == null ? Editor.Brush.Floor.Name : Editor.Brush.Contents.Name)), Output.Tag.World);
                   break;
             }
             com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command: "));
          }
+         Main(new string[0]);
       }
       
+      // For exiting
+      static void Exit()
+      {
+
+      }
 
       // Defines the "help" command of any CommandChoices. If it were defined inside GameModeCommands, there would be circular reference.
       private static void SetupCom(ref CommandChoices com)
       {
+         if (com == null)
+         {
+            return;
+         }
          if (com.TryFindCommand("help", out Command command))
          {
             command.HelpLines[0] = com.ListCommands() + "Enter the command that you wish to learn about\n";

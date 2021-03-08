@@ -25,38 +25,38 @@ namespace GameEngine
          #region tests
          if (alphaNumX.Length < 2)
          {
-            Output.WriteLineTagged("'x' was not in alphaNum format: <letter><number>", Output.tag.Error);
+            Output.WriteLineTagged("'x' was not in alphaNum format: <letter><number>", Output.Tag.Error);
             result = null;
             return false;
          }
          if (alphaNumY.Length < 2)
          {
-            Output.WriteLineTagged("'y' was not in alphaNum format: <letter><number>", Output.tag.Error);
+            Output.WriteLineTagged("'y' was not in alphaNum format: <letter><number>", Output.Tag.Error);
             result = null;
             return false;
          }
          if (!int.TryParse(alphaNumX[1].ToString(), out int x))
          {
-            Output.WriteLineTagged("'x' was not in alphaNum format: <letter><number>", Output.tag.Error);
+            Output.WriteLineTagged("'x' was not in alphaNum format: <letter><number>", Output.Tag.Error);
             result = null;
             return false;
          }
          if (!int.TryParse(alphaNumY[1].ToString(), out int y))
          {
-            Output.WriteLineTagged("'y' was not in alphaNum format: <letter><number>", Output.tag.Error);
+            Output.WriteLineTagged("'y' was not in alphaNum format: <letter><number>", Output.Tag.Error);
             result = null;
             return false;
          }
 
          if (int.TryParse(alphaNumX[0].ToString(), out _))
          {
-            Output.WriteLineTagged("This part of alphaNum format for 'x' should not be an integer: <letter><number>", Output.tag.Error);
+            Output.WriteLineTagged("This part of alphaNum format for 'x' should not be an integer: <letter><number>", Output.Tag.Error);
             result = null;
             return false;
          }
          if (int.TryParse(alphaNumY[0].ToString(), out _))
          {
-            Output.WriteLineTagged("This part of alphaNum format for 'y' should not be an integer: <letter><number>", Output.tag.Error);
+            Output.WriteLineTagged("This part of alphaNum format for 'y' should not be an integer: <letter><number>", Output.Tag.Error);
             result = null;
             return false;
          }

@@ -935,7 +935,7 @@ namespace GameEngine
          }
          catch
          {
-            Output.WriteLineTagged("Your 'maps' folder may be missing. We're making one now. Be sure to put all your world files in the folder named 'maps' within the directory of the executable", Output.tag.Error);
+            Output.WriteLineTagged("Your 'maps' folder may be missing. We're making one now. Be sure to put all your world files in the folder named 'maps' within the directory of the executable", Output.Tag.Error);
             Directory.CreateDirectory(tryFolder);
             result = null;
             return false;
@@ -953,8 +953,6 @@ namespace GameEngine
 
          DirectoryInfo directory = new DirectoryInfo(fileMouth);
 
-         Output.WriteLineTagged("Here are the current world files", Output.tag.List);
-
          Dictionary<string, FileInfo> files = new Dictionary<string, FileInfo>();
          foreach (FileInfo file in directory.GetFiles("*.txt"))
          {
@@ -963,13 +961,13 @@ namespace GameEngine
 
          if (files.Count == 0)
          {
-            Output.WriteLineTagged("It appears there are no files to load. Either download a world file, or try designing one in the level editor", Output.tag.Error);
+            Output.WriteLineTagged("It appears there are no files to load. Either download a world file, or try designing one in the level editor", Output.Tag.Error);
             return false;
          }
 
          string[] fileNames = files.Keys.ToArray();
 
-         Output.WriteLineTagged("Choose a file from the options below.", Output.tag.Prompt);
+         Output.WriteLineTagged("Choose a file from the options below.", Output.Tag.Prompt);
          if (CommandInterpretation.InterpretString(fileNames, out string result))
          {
             Game.FilePath = files[result].FullName;
@@ -998,7 +996,7 @@ namespace GameEngine
          }
          catch
          {
-            Output.WriteLineTagged("File path is incorrect", Output.tag.Error);
+            Output.WriteLineTagged("File path is incorrect", Output.Tag.Error);
             return;
          }
 

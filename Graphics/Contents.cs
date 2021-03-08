@@ -122,7 +122,7 @@ namespace GameEngine
       // Lists all containers within this container. Currently unused
       public string ListContainers()
       {
-         Output.WriteLineTagged("Here are the containers of " + Name, Output.tag.List);
+         Output.WriteLineTagged("Here are the containers of " + Name, Output.Tag.List);
 
          string output = "\n";
 
@@ -142,10 +142,14 @@ namespace GameEngine
       // CURRENTLY ONLY WORKS IF THE TILE IS ON THE GRID (no held items, no contained items)
       public void Damage(int damage, bool displayMessage = true)
       {
+         if (Name == World.Player.Contents.Name)
+         {
+            Output.WriteLineTagged("You were damaged for " + damage, Output.Tag.World);
+         }
          Durability -= damage;
          if (displayMessage)
          {
-            Output.WriteLineTagged(Name + " was damaged for " + damage, Output.tag.World);
+            Output.WriteLineTagged(Name + " was damaged for " + damage, Output.Tag.World);
          }
          if (Durability <= 0)
          {

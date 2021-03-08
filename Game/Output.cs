@@ -6,17 +6,17 @@ namespace GameEngine
 {
     static class Output
     {
-        private static Dictionary<tag, string> tagMapping = new Dictionary<tag, string>()
+        private static Dictionary<Tag, string> _tagMapping = new Dictionary<Tag, string>()
         {
-            { tag.Dialogue, "Dialogue" },
-            { tag.Error, "Error" },
-            { tag.World, "World" },
-            { tag.Prompt, "Prompt" },
-            { tag.List, "List" },
-            { tag.Text, "Text" },
-            { tag.Tutorial, "Tutorial" }
+            { Tag.Dialogue, "Dialogue" },
+            { Tag.Error, "Error" },
+            { Tag.World, "World" },
+            { Tag.Prompt, "Prompt" },
+            { Tag.List, "List" },
+            { Tag.Text, "Text" },
+            { Tag.Tutorial, "Tutorial" }
         };
-        public enum tag
+        public enum Tag
         {
             Dialogue,
             Error,
@@ -26,9 +26,9 @@ namespace GameEngine
             Text,
             Tutorial,
         }
-        public static void WriteLineTagged(string line, tag tag)
+        public static void WriteLineTagged(string line, Tag tag)
         {
-            WriteLineToConsole("[" + tagMapping[tag] + "] " + line);
+            WriteLineToConsole("[" + _tagMapping[tag] + "] " + line);
         }
         public static void WriteLineToConsole(string line)
         {

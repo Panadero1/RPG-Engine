@@ -11,7 +11,7 @@ namespace GameEngine
       // Same as Console.Readline, but makes it nice for message interception, if necessary
       public static string GetUserResponse(string message)
       {
-         Output.WriteLineTagged(message, Output.tag.Prompt);
+         Output.WriteLineTagged(message, Output.Tag.Prompt);
          string response = Console.ReadLine();
          return response.Trim();
       }
@@ -110,7 +110,7 @@ namespace GameEngine
          {
             return false;
          }
-         Output.WriteLineTagged("Message not understood. Default response: no", Output.tag.Error);
+         Output.WriteLineTagged("Message not understood. Default response: no", Output.Tag.Error);
          return false;
       }
 
@@ -139,7 +139,7 @@ namespace GameEngine
       // Overload: prompts the user after listing all elements of the array
       public static bool InterpretString(string[] acceptedAnswers, out string result)
       {
-         Output.WriteLineTagged("Here are your options:", Output.tag.List);
+         Output.WriteLineTagged("Here are your options:", Output.Tag.List);
          for (int answerIndex = 0; answerIndex < acceptedAnswers.Length; answerIndex++)
          {
             string answer = acceptedAnswers[answerIndex];
@@ -173,7 +173,7 @@ namespace GameEngine
          List<string> results = new List<string>();
          do
          {
-            Output.WriteLineTagged("Here are your options:", Output.tag.List);
+            Output.WriteLineTagged("Here are your options:", Output.Tag.List);
             for (int answerIndex = 0; answerIndex < acceptedAnswers.Length; answerIndex++)
             {
                string answer = acceptedAnswers[answerIndex];
@@ -322,20 +322,20 @@ namespace GameEngine
             {"Behavior", string.Empty},
          };
 
-         Output.WriteLineTagged("Choose an action that this contents takes", Output.tag.Prompt);
+         Output.WriteLineTagged("Choose an action that this contents takes", Output.Tag.Prompt);
          if (!CommandInterpretation.InterpretString(UseActions.GetIdentifiers(), out string actionString))
          {
-            Output.WriteLineTagged("Action was not a valid response", Output.tag.Error);
+            Output.WriteLineTagged("Action was not a valid response", Output.Tag.Error);
             return false;
          }
          preContainerParamMap["Action"] = actionString;
 
-         Output.WriteLineTagged("Choose a behavior for this contents", Output.tag.Error);
+         Output.WriteLineTagged("Choose a behavior for this contents", Output.Tag.Prompt);
          do
          {
             if (!CommandInterpretation.InterpretString(Behavior.GetIdentifiers(), out string behaviorString))
             {
-               Output.WriteLineTagged("Behavior was not a valid response", Output.tag.Error);
+               Output.WriteLineTagged("Behavior was not a valid response", Output.Tag.Error);
                return false;
             }
             preContainerParamMap["Behavior"] += behaviorString + ",";
@@ -348,35 +348,35 @@ namespace GameEngine
          #region Checking params
          if (!InterpretInt(preContainerParamMap["Durability"], out int durability))
          {
-            Output.WriteLineTagged("Durability was not in integer format", Output.tag.Error);
+            Output.WriteLineTagged("Durability was not in integer format", Output.Tag.Error);
             return false;
          }
          if (!InterpretInt(preContainerParamMap["Size"], out int size))
          {
-            Output.WriteLineTagged("Size was not in integer format", Output.tag.Error);
+            Output.WriteLineTagged("Size was not in integer format", Output.Tag.Error);
             return false;
          }
          if (!InterpretFloat(preContainerParamMap["Weight"], out float weight))
          {
-            Output.WriteLineTagged("Weight was not in float format", Output.tag.Error);
+            Output.WriteLineTagged("Weight was not in float format", Output.Tag.Error);
             return false;
          }
 
          if (!UseActions.TryGetAction(preContainerParamMap["Action"], out Action<string[], Contents> action))
          {
-            Output.WriteLineTagged("Action was not found", Output.tag.Error);
+            Output.WriteLineTagged("Action was not found", Output.Tag.Error);
             return false;
          }
          if (preContainerParamMap["Action"] == "Dialogue")
          {
             if (World.Dialogue.TryGetValue(preContainerParamMap["Name"], out string dialogue))
             {
-               Output.WriteLineTagged("There is already a dialogue line for this content's name (give it a unique name to give it a unique dialogue)", Output.tag.Error);
-               Output.WriteLineTagged(dialogue, Output.tag.Dialogue);
+               Output.WriteLineTagged("There is already a dialogue line for this content's name (give it a unique name to give it a unique dialogue)", Output.Tag.Error);
+               Output.WriteLineTagged(dialogue, Output.Tag.Dialogue);
             }
             else
             {
-               Output.WriteLineTagged("There is no current dialogue for this content's name. Please define it below", Output.tag.Error);
+               Output.WriteLineTagged("There is no current dialogue for this content's name. Please define it below", Output.Tag.Error);
                dialogue = Console.ReadLine();
                World.Dialogue.Add(preContainerParamMap["Name"], dialogue);
             }
@@ -384,7 +384,7 @@ namespace GameEngine
 
          if (!Behavior.TryGetBehaviors(tempBehavior.Split(","), out Action<Contents>[] behavior))
          {
-            Output.WriteLineTagged("Behavior was not found", Output.tag.Error);
+            Output.WriteLineTagged("Behavior was not found", Output.Tag.Error);
             return false;
          }
          #endregion

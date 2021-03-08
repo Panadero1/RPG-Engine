@@ -70,11 +70,11 @@ namespace GameEngine
       // All custom Use Actions
       public static void DoesNothing(string[] parameters, Contents contents)
       {
-         Output.WriteLineTagged("The object does nothing.", Output.tag.World);
+         Output.WriteLineTagged("The object does nothing.", Output.Tag.World);
       }
       public static void MonsterDialogue(string[] parameters, Contents contents)
       {
-         Output.WriteLineTagged("Hello friend!!! I am very...hungry and need some chickens to eat. Can you bring some? Thanks friend!\nThey look like this!\t>", Output.tag.Dialogue);
+         Output.WriteLineTagged("Hello friend!!! I am very...hungry and need some chickens to eat. Can you bring some? Thanks friend!\nThey look like this!\t>", Output.Tag.Dialogue);
       }
       public static void Rude(string[] parameters, Contents contents)
       {
@@ -82,16 +82,16 @@ namespace GameEngine
          switch (rand.Next(6))
          {
             case 0:
-               Output.WriteLineTagged("You're in my way!", Output.tag.Dialogue);
+               Output.WriteLineTagged("You're in my way!", Output.Tag.Dialogue);
                break;
             case 1:
-               Output.WriteLineTagged("What are you looking at?", Output.tag.Dialogue);
+               Output.WriteLineTagged("What are you looking at?", Output.Tag.Dialogue);
                break;
             case 2:
-               Output.WriteLineTagged("Do I know you?", Output.tag.Dialogue);
+               Output.WriteLineTagged("Do I know you?", Output.Tag.Dialogue);
                break;
             case 3:
-               Output.WriteLineTagged("Don't bug me!", Output.tag.Dialogue);
+               Output.WriteLineTagged("Don't bug me!", Output.Tag.Dialogue);
                break;
             default:
                break;
@@ -121,17 +121,17 @@ namespace GameEngine
       {
          Random rand = new Random();
          string[] names = { "Jerry", "Larry", "Bob", "Betsy", "You", "Nobody. We just had too many gravestones :)" };
-         Output.WriteLineTagged("R.I.P " + names[rand.Next(names.Length)], Output.tag.Text);
+         Output.WriteLineTagged("R.I.P " + names[rand.Next(names.Length)], Output.Tag.Text);
       }
       public static void Boo(string[] parameters, Contents contents)
       {
-         Output.WriteLineTagged("Boo! :)", Output.tag.Dialogue);
+         Output.WriteLineTagged("Boo! :)", Output.Tag.Dialogue);
       }
       public static void Gun(string[] parameters, Contents contents)
       {
          if (World.Player.Holding.Name != contents.Name)
          {
-            Output.WriteLineTagged("You can't fire the weapon while it's on the ground.", Output.tag.World);
+            Output.WriteLineTagged("You can't fire the weapon while it's on the ground.", Output.Tag.World);
             return;
          }
          string x;
@@ -156,7 +156,7 @@ namespace GameEngine
          Coord playerCoord = World.Player.GetCoords();
          if (!World.LoadedLevel.Grid.VisibleAtLine(playerCoord, new Coord(targetCoord.X - playerCoord.X, targetCoord.Y - playerCoord.Y)))
          {
-            Output.WriteLineTagged("You cannot see this tile from here. Try moving", Output.tag.World);
+            Output.WriteLineTagged("You cannot see this tile from here. Try moving", Output.Tag.World);
             return;
          }
 
@@ -175,11 +175,11 @@ namespace GameEngine
       {
          if (World.Dialogue.TryGetValue(contents.Name, out string result))
          {
-            Output.WriteLineTagged(result, Output.tag.Dialogue);
+            Output.WriteLineTagged(result, Output.Tag.Dialogue);
          }
          else
          {
-            Output.WriteLineTagged("Inconsistency. The contents: " + contents.Name + " has a dialogue UseAction, but is not mapped to any dialogue in the world file.", Output.tag.Error);
+            Output.WriteLineTagged("Inconsistency. The contents: " + contents.Name + " has a dialogue UseAction, but is not mapped to any dialogue in the world file.", Output.Tag.Error);
          }
       }
    }
