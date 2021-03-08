@@ -136,7 +136,7 @@ namespace GameEngine
             Coord coord = wanderCoords[coordIndex];
             if (!World.LoadedLevel.Grid.GetTileAtCoords(coord.Add(contents.Coordinates), out Tile tileAtCoords, false))
             {
-               return;
+               continue;
             }
             if  (tileAtCoords == null || tileAtCoords.Contents != null)
             {
@@ -146,7 +146,7 @@ namespace GameEngine
          }
          wanderCoords.Add(new Coord(0, 0));
 
-         World.LoadedLevel.Grid.MoveContents(contents, wanderCoords[rand.Next(0, wanderCoords.Count)]);
+         World.LoadedLevel.Grid.MoveContents(contents, wanderCoords[rand.Next(0, wanderCoords.Count)], false);
       }
       public static void MonsterVictory(Contents contents)
       {

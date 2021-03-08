@@ -16,7 +16,9 @@ namespace GameEngine
          (Tombstone, "Tombstone"),
          (Boo, "Boo"),
          (Gun, "Gun"),
-         (Dialogue, "Dialogue")
+         (Dialogue, "Dialogue"),
+         (HealPlayer, "HealPlayer"),
+         (PoisonPlayer, "PoisonPlayer")
       };
 
       public static string[] GetIdentifiers()
@@ -181,6 +183,25 @@ namespace GameEngine
          {
             Output.WriteLineTagged("Inconsistency. The contents: " + contents.Name + " has a dialogue UseAction, but is not mapped to any dialogue in the world file.", Output.Tag.Error);
          }
+      }
+      public static void HealPlayer(string[] parameters, Contents contents)
+      {
+         if (World.Player.Holding.Equals(contents))
+         {
+            Output.WriteLineTagged("You must be holding this to use it", Output.Tag.World);
+            return;
+         }
+         World.Player.Contents.Damage(-5);
+      }
+      public static void PoisonPlayer(string[] parameters, Contents contents)
+      {
+         if (World.Player.Holding.Equals(contents))
+         {
+            Output.WriteLineTagged("You must be holding this to use it", Output.Tag.World);
+            return;
+         }
+         Output.WriteLineTagged("You drank poison!", Output.Tag.World);
+         World.Player.Contents.Damage(3);
       }
    }
 }
