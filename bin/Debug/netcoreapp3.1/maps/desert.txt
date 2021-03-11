@@ -1,11 +1,11 @@
 map desert {
 row 0 {
-level oasis 7 True 0,0 6,0 13,3 6,7 0,3 grid {
+level oasis 7 True 0,0 null 13,3 null null grid {
 row 0 {
 tile {
 floor ground .
 contents {
-Player A True 29 10 50 True 100 DoesNothing DoesNothing
+Player A True 29 10 4 True 100 DoesNothing DoesNothing
 contained {
 }
 }

@@ -36,26 +36,26 @@ namespace GameEngine
       // String to return that represents LevelMap
       public string GraphicString()
       {
-         string returnString = "   ";
+         string returnString = "    ";
          for (int repeat = 0; repeat < LevelMap.GetLength(0); repeat++)
          {
             returnString += ((repeat % 10 == 0) ? AlphabetIndex((repeat / 10)) : ' ') + Settings.Spacing;
          }
-         returnString += "\n   ";
+         returnString += "\n    ";
          for (int repeat = 0; repeat < LevelMap.GetLength(0); repeat++)
          {
             returnString += (repeat % 10) + Settings.Spacing;
          }
-         returnString += "\n   ";
-         for (int repeat = 0; repeat < (LevelMap.GetLength(0) * (Settings.Spacing.Length + 1)) - Settings.Spacing.Length; repeat++)
+         returnString += "\n  +";
+         for (int repeat = 0; repeat < (LevelMap.GetLength(0) * (Settings.Spacing.Length + 1) + 1); repeat++)
          {
             returnString += "-";
          }
-         returnString += "\n";
+         returnString += "+\n";
 
          for (int y = 0; y < LevelMap.GetLength(1); y++)
          {
-            returnString += ((y % 10 == 0) ? AlphabetIndex(y / 10) : ' ') + (y % 10 + "|");
+            returnString += ((y % 10 == 0) ? AlphabetIndex(y / 10) : ' ') + (y % 10 + "| ");
 
             for (int x = 0; x < LevelMap.GetLength(0); x++)
             {
@@ -69,8 +69,14 @@ namespace GameEngine
                   returnString += ((currentLevel.Equals(World.LoadedLevel)) ? World.Player.Contents.VisualChar : currentLevel.VisualChar) + Settings.Spacing;
                }
             }
-            returnString += "\n";
+            returnString += "|\n";
          }
+         returnString += "  +";
+         for (int repeat = 0; repeat < (LevelMap.GetLength(0) * (Settings.Spacing.Length + 1) + 1); repeat++)
+         {
+            returnString += "-";
+         }
+         returnString += "+\n";
          return returnString;
       }
 

@@ -70,7 +70,7 @@ namespace GameEngine
       // Converts from Coord to string representation
       public string ToAlphaNum()
       {
-         throw new NotImplementedException();
+         return (char)((X / 10) + 65) + "" + (X % 10) + " " + (char)((Y / 10) + 65) + "" + (Y % 10);
       }
 
       // Child function of FromAlphaNum()

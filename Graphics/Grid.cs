@@ -366,34 +366,44 @@ namespace GameEngine
       // The visual representation of the grid. Printed frequently to the console
       public string GraphicString(bool LOS = true)
       {
-         string returnString = "   ";
+         string returnString = "    ";
          for (int repeat = 0; repeat < TileGrid.GetLength(0); repeat++)
          {
             returnString += ((repeat % 10 == 0) ? AlphabetIndex((repeat / 10)) : ' ') + Settings.Spacing;
          }
-         returnString += "\n   ";
+         returnString += "\n    ";
          for (int repeat = 0; repeat < TileGrid.GetLength(0); repeat++)
          {
             returnString += (repeat % 10) + Settings.Spacing;
          }
-         returnString += "\n   ";
-         for (int repeat = 0; repeat < (TileGrid.GetLength(0) * (Settings.Spacing.Length + 1)) - Settings.Spacing.Length; repeat++)
+         returnString += "\n  +";
+         int maxRepeat = (TileGrid.GetLength(0) * (Settings.Spacing.Length + 1) + 1);
+         for (int repeat = 0; repeat < maxRepeat; repeat++)
          {
-            returnString += "-";
+            returnString += (World.LoadedLevel.NorthEntry != null && repeat == maxRepeat / 2) ? "^" : "-";
          }
-         returnString += "\n";
+         returnString += "+\n";
 
          for (int y = 0; y < TileGrid.GetLength(1); y++)
          {
-            returnString += ((y % 10 == 0) ? AlphabetIndex(y / 10) : ' ') + (y % 10 + "|");
+            returnString += ((y % 10 == 0) ? AlphabetIndex(y / 10) : ' ').ToString() + (y % 10);
+
+            returnString += (World.LoadedLevel.WestEntry != null && y == (TileGrid.GetLength(1) / 2)) ? "< " : "| ";
 
             for (int x = 0; x < TileGrid.GetLength(0); x++)
             {
                TileGrid[x, y].UpdateVisual(LOS);
                returnString += TileGrid[x, y].VisualChar + Settings.Spacing;
             }
+            returnString += (World.LoadedLevel.EastEntry != null && y == (TileGrid.GetLength(1) / 2)) ? ">" : "|";
             returnString += "\n";
          }
+         returnString += "  +";
+         for (int repeat = 0; repeat < maxRepeat; repeat++)
+         {
+            returnString += (World.LoadedLevel.SouthEntry != null && repeat == maxRepeat / 2) ? "v" : "-";
+         }
+         returnString += "+\n";
          return returnString;
       }
       

@@ -522,10 +522,43 @@ namespace GameEngine
                     #region Updating entry points
                     int levelWidth = World.LoadedLevel.Grid.TileGrid.GetLength(0);
                     int levelHeight = World.LoadedLevel.Grid.TileGrid.GetLength(1);
-                    World.LoadedLevel.WestEntry = new Coord(0, (levelHeight - 1) / 2);
-                    World.LoadedLevel.EastEntry = new Coord(levelWidth - 1, (levelHeight - 1) / 2);
-                    World.LoadedLevel.NorthEntry = new Coord((levelWidth - 1) / 2, 0);
-                    World.LoadedLevel.SouthEntry = new Coord((levelWidth - 1) / 2, levelHeight - 1);
+
+                    Coord levelCoord = World.LoadedLevel.LevelCoord;
+
+                    Level result;
+                    World.LoadedLevel.WestEntry = null;
+                    World.LoadedLevel.EastEntry = null;
+                    World.LoadedLevel.NorthEntry = null;
+                    World.LoadedLevel.SouthEntry = null;
+
+                    if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(1, 0)), out result, false))
+                    {
+                        if (result != null)
+                        {
+                            World.LoadedLevel.EastEntry = new Coord(levelWidth - 1, (levelHeight - 1) / 2);
+                        }
+                    }
+                    if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(-1, 0)), out result, false))
+                    {
+                        if (result != null)
+                        {
+                            World.LoadedLevel.WestEntry = new Coord(0, (levelHeight - 1) / 2);
+                        }
+                    }
+                    if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(0, 1)), out result, false))
+                    {
+                        if (result != null)
+                        {
+                            World.LoadedLevel.SouthEntry = new Coord((levelWidth - 1) / 2, levelHeight - 1);
+                        }
+                    }
+                    if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(0, -1)), out result, false))
+                    {
+                        if (result != null)
+                        {
+                            World.LoadedLevel.NorthEntry = new Coord((levelWidth - 1) / 2, 0);
+                        }
+                    }
                     #endregion
                     break;
             }
@@ -581,10 +614,44 @@ namespace GameEngine
                     #region Updating entry points
                     int levelWidth = World.LoadedLevel.Grid.TileGrid.GetLength(0);
                     int levelHeight = World.LoadedLevel.Grid.TileGrid.GetLength(1);
-                    World.LoadedLevel.WestEntry = new Coord(0, (levelHeight - 1) / 2);
-                    World.LoadedLevel.EastEntry = new Coord(levelWidth - 1, (levelHeight - 1) / 2);
-                    World.LoadedLevel.NorthEntry = new Coord((levelWidth - 1) / 2, 0);
-                    World.LoadedLevel.SouthEntry = new Coord((levelWidth - 1) / 2, levelHeight - 1);
+                    
+                    Coord levelCoord = World.LoadedLevel.LevelCoord;
+
+                    Level result;
+                    World.LoadedLevel.WestEntry = null;
+                    World.LoadedLevel.EastEntry = null;
+                    World.LoadedLevel.NorthEntry = null;
+                    World.LoadedLevel.SouthEntry = null;
+                    
+                    if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(1, 0)), out result, false))
+                    {
+                        if (result != null)
+                        {
+                            World.LoadedLevel.EastEntry = new Coord(levelWidth - 1, (levelHeight - 1) / 2);
+                        }
+                    }
+                    if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(-1, 0)), out result, false))
+                    {
+                        if (result != null)
+                        {
+                            World.LoadedLevel.WestEntry = new Coord(0, (levelHeight - 1) / 2);
+                        }
+                    }
+                    if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(0, 1)), out result, false))
+                    {
+                        if (result != null)
+                        {
+                            World.LoadedLevel.SouthEntry = new Coord((levelWidth - 1) / 2, levelHeight - 1);
+                        }
+                    }
+                    if (World.WorldMap.GetLevelAtCoords(levelCoord.Add(new Coord(0, -1)), out result, false))
+                    {
+                        if (result != null)
+                        {
+                            World.LoadedLevel.NorthEntry = new Coord((levelWidth - 1) / 2, 0);
+                        }
+                    }
+                    
                     #endregion
                     break;
             }
@@ -714,14 +781,15 @@ namespace GameEngine
                     }
                     do
                     {
+                        Output.WriteLineToConsole(levelAtCoords.Grid.GraphicString(false));
                         string[] memberNames = new string[]
                         {
                             "(Level) Name: " + levelAtCoords.Name,
                             "(Level) Visual Character: " + levelAtCoords.VisualChar,
-                            "(Level) North Entry: " + levelAtCoords.NorthEntry == null ? "null" : (levelAtCoords.NorthEntry.X + " " + levelAtCoords.NorthEntry.Y),
-                            "(Level) East Entry: " + levelAtCoords.EastEntry == null ? "null" : (levelAtCoords.EastEntry.X + " " + levelAtCoords.EastEntry.Y),
-                            "(Level) South Entry: " + levelAtCoords.SouthEntry == null ? "null" : (levelAtCoords.SouthEntry.X + " " + levelAtCoords.SouthEntry.Y),
-                            "(Level) West Entry: " + levelAtCoords.WestEntry == null ? "null" : (levelAtCoords.WestEntry.X + " " + levelAtCoords.WestEntry.Y),
+                            "(Level) North Entry: " + (levelAtCoords.NorthEntry == null ? "null" : (levelAtCoords.NorthEntry.ToAlphaNum())),
+                            "(Level) East Entry: " + (levelAtCoords.EastEntry == null ? "null" : (levelAtCoords.EastEntry.ToAlphaNum())),
+                            "(Level) South Entry: " + (levelAtCoords.SouthEntry == null ? "null" : (levelAtCoords.SouthEntry.ToAlphaNum())),
+                            "(Level) West Entry: " + (levelAtCoords.WestEntry == null ? "null" : (levelAtCoords.WestEntry.ToAlphaNum())),
                         };
                         if (CommandInterpretation.InterpretString(memberNames, out string result))
                         {
@@ -729,7 +797,7 @@ namespace GameEngine
                             {
                                 if (!CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse("Enter the tile's name:"), out string tileName))
                                 {
-                                    return;
+                                    continue;
                                 }
                                 levelAtCoords.Name = tileName;
                             }
@@ -737,7 +805,7 @@ namespace GameEngine
                             {
                                 if (!CommandInterpretation.InterpretChar(CommandInterpretation.GetUserResponse("Enter the tile's visual character:"), out char visualChar))
                                 {
-                                    return;
+                                    continue;
                                 }
                                 levelAtCoords.VisualChar = visualChar;
                             }
@@ -745,11 +813,11 @@ namespace GameEngine
                             {
                                 if (!CommandInterpretation.InterpretAlphaNum(out Coord northEntry))
                                 {
-                                    return;
+                                    continue;
                                 }
                                 if (!levelAtCoords.Grid.GetTileAtCoords(northEntry, out _))
                                 {
-                                    return;
+                                    continue;
                                 }
                                 levelAtCoords.NorthEntry = northEntry;
                             }
@@ -757,11 +825,11 @@ namespace GameEngine
                             {
                                 if (!CommandInterpretation.InterpretAlphaNum(out Coord eastEntry))
                                 {
-                                    return;
+                                    continue;
                                 }
                                 if (!levelAtCoords.Grid.GetTileAtCoords(eastEntry, out _))
                                 {
-                                    return;
+                                    continue;
                                 }
                                 levelAtCoords.EastEntry = eastEntry;
                             }
@@ -769,11 +837,11 @@ namespace GameEngine
                             {
                                 if (!CommandInterpretation.InterpretAlphaNum(out Coord southEntry))
                                 {
-                                    return;
+                                    continue;
                                 }
                                 if (!levelAtCoords.Grid.GetTileAtCoords(southEntry, out _))
                                 {
-                                    return;
+                                    continue;
                                 }
                                 levelAtCoords.SouthEntry = southEntry;
                             }
@@ -781,11 +849,11 @@ namespace GameEngine
                             {
                                 if (!CommandInterpretation.InterpretAlphaNum(out Coord westEntry))
                                 {
-                                    return;
+                                    continue;
                                 }
                                 if (!levelAtCoords.Grid.GetTileAtCoords(westEntry, out _))
                                 {
-                                    return;
+                                    continue;
                                 }
                                 levelAtCoords.WestEntry = westEntry;
                             }
@@ -981,27 +1049,46 @@ namespace GameEngine
                 {
                     Contents referenceContents;
                     Dictionary<string, Contents> nameContentsMapping = new Dictionary<string, Contents>();
+                    Output.WriteLineTagged("Current items in this contents are: ", Output.Tag.List);
                     foreach (Contents contained in contents.Contained)
                     {
                         nameContentsMapping.Add(contained.Name, contained);
                     }
-                    if (!CommandInterpretation.InterpretString(nameContentsMapping.Keys.ToArray(), out string contentsName))
-                    {
-                        return;
-                    }
-                    referenceContents = nameContentsMapping[contentsName];
-                    if (CommandInterpretation.InterpretString(new string[] { "delete", "edit", "duplicate" }, out string response))
+                    string contentsName;
+                    if (CommandInterpretation.InterpretString(new string[] { "delete", "edit", "duplicate", "add" }, out string response))
                     {
                         switch (response)
                         {
                             case "delete":
+                                if (!CommandInterpretation.InterpretString(nameContentsMapping.Keys.ToArray(), out contentsName))
+                                {
+                                    return;
+                                }
+                                referenceContents = nameContentsMapping[contentsName];
                                 contents.Contained.Remove(referenceContents);
                                 break;
                             case "edit":
+                                if (!CommandInterpretation.InterpretString(nameContentsMapping.Keys.ToArray(), out contentsName))
+                                {
+                                    return;
+                                }
+                                referenceContents = nameContentsMapping[contentsName];
                                 EditContents(ref referenceContents);
                                 break;
                             case "duplicate":
+                                if (!CommandInterpretation.InterpretString(nameContentsMapping.Keys.ToArray(), out contentsName))
+                                {
+                                    return;
+                                }
+                                referenceContents = nameContentsMapping[contentsName];
                                 contents.Contained.Add((Contents)referenceContents.Clone());
+                                break;
+                            case "add":
+                                if (!CommandInterpretation.InterpretContents(out Contents contentsToAdd))
+                                {
+                                    return;
+                                }
+                                contents.Contained.Add(contentsToAdd);
                                 break;
                         }
                     }
@@ -1021,7 +1108,16 @@ namespace GameEngine
                 Output.WriteLineTagged("Brush is empty", Output.Tag.Error);
                 return;
             }
-            if (CommandInterpretation.InterpretString(new string[] { "rectangle", "box", "line", "point", "circle" }, out string result))
+            string[] shapeChoices = new string[]
+            {
+                "rectangle",
+                "box",
+                "line",
+                "point",
+                "circle"
+            };
+            string result;
+            if (parameters.Length > 0 ? CommandInterpretation.InterpretString(parameters[0], shapeChoices, out result) : CommandInterpretation.InterpretString(shapeChoices, out result))
             {
                 switch (result)
                 {
@@ -1095,6 +1191,7 @@ namespace GameEngine
                             {
                                 World.LoadedLevel.Grid.SetTileAtCoords(new Coord((int)lineX, (int)lineY), (Tile)Editor.Brush.Clone());
                             }
+                            World.LoadedLevel.Grid.SetTileAtCoords(new Coord((int)endingX, (int)endingY), (Tile)Editor.Brush.Clone());
                             return;
                         }
                         bool xMove = Math.Abs(relativeCoord.X) > Math.Abs(relativeCoord.Y);
@@ -1129,6 +1226,7 @@ namespace GameEngine
                                 World.LoadedLevel.Grid.SetTileAtCoords(new Coord((int)lineX, (int)lineY), (Tile)Editor.Brush.Clone());
                             }
                         }
+                        World.LoadedLevel.Grid.SetTileAtCoords(new Coord((int)endingX, (int)endingY), (Tile)Editor.Brush.Clone());
                         break;
                     case "point":
                         if (!CommandInterpretation.InterpretAlphaNum(CommandInterpretation.GetUserResponse("Enter x coordinate"), CommandInterpretation.GetUserResponse("Enter y coordinate"), out Coord pointCoord))

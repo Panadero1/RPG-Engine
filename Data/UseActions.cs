@@ -192,6 +192,7 @@ namespace GameEngine
             return;
          }
          World.Player.Contents.Damage(-5);
+         World.Player.Holding = null;
       }
       public static void PoisonPlayer(string[] parameters, Contents contents)
       {
@@ -202,6 +203,7 @@ namespace GameEngine
          }
          Output.WriteLineTagged("You drank poison!", Output.Tag.World);
          World.Player.Contents.Damage(3);
+         World.Player.Holding = null;
       }
    }
 }

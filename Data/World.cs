@@ -645,6 +645,11 @@ namespace GameEngine
             }
          }
          LoadedLevel = realLoadedLevel;
+         if (World.Player.Contents.Durability <= 0)
+         {
+            Output.WriteLineTagged("You've been defeated.", Output.Tag.World);
+            Game.Execute = false;
+         }
       }
 
       // Returns the specific level that the player is in
