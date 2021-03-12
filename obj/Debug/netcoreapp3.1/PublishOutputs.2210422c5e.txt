@@ -1,5 +1,0 @@
-C:\Coding-Projects\RPG\Code\RPG-Engine\bin\Debug\netcoreapp3.1\publish\A.exe
-C:\Coding-Projects\RPG\Code\RPG-Engine\bin\Debug\netcoreapp3.1\publish\A.dll
-C:\Coding-Projects\RPG\Code\RPG-Engine\bin\Debug\netcoreapp3.1\publish\A.deps.json
-C:\Coding-Projects\RPG\Code\RPG-Engine\bin\Debug\netcoreapp3.1\publish\A.runtimeconfig.json
-C:\Coding-Projects\RPG\Code\RPG-Engine\bin\Debug\netcoreapp3.1\publish\A.pdb
