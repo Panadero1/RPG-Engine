@@ -22,8 +22,6 @@ namespace GameEngine
 
       public static Tile Empty = new Tile(Ground, null, _zeroZero);
 
-      public static Tile Mud = new Tile(new Floor('~', "mud"), null, _zeroZero);
-
       public static Tile Wall = new Tile(Ground, new Contents("wall", '#', false, 40, 10000, 400000, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
 
       public static Tile Fence = new Tile(Ground, new Contents("fence", '+', true, 5, 10000, 60, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
@@ -40,10 +38,6 @@ namespace GameEngine
 
       public static Tile Lever = new Tile(Ground, new Contents("lever", 'L', true, 10, 234, 5151, UseActions.Lever, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
 
-      public static Tile Tombstone = new Tile(Ground, new Contents("tombstone", 'n', true, 10, 30, 400, UseActions.Tombstone, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
-
-      public static Tile Ghost = new Tile(Ground, new Contents("ghost", 'G', true, 1, 50, 2837, UseActions.Boo, new Action<Contents>[] {Behavior.Wander}), _zeroZero);
-
       public static Tile Target = new Tile(Ground, new Contents("target", '@', true, 2, 1000, 1000, UseActions.DoesNothing, new Action<Contents>[] {Behavior.Target}), _zeroZero);
 
       public static Tile GunTile = new Tile(Ground, new Contents("gun", 'r', true, 4, 4, 5, UseActions.Gun, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
@@ -54,6 +48,24 @@ namespace GameEngine
 
       public static Tile GateClosed = new Tile(Ground, new Contents("gate", '-', true, 2000, 10, 12390, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
       #endregion
+
+      public static Dictionary<string, Tile> Palette = new Dictionary<string, Tile>()
+      {
+         { "Empty", Empty },
+         { "Wall", Wall },
+         { "Fence", Fence },
+         { "Hog", Hog },
+         { "Plant", Plant },
+         { "Chicken", Chicken },
+         { "Person", Person },
+         { "Rock", Rock },
+         { "Lever", Lever },
+         { "Target", Target },
+         { "Gun", GunTile},
+         { "Gate(open)", GateOpen},
+         { "Gate(closed)", GateClosed }
+      };
+
 
       // A dictionary mapping between content names and their respective dialogue lines
       // This means that two contents with Dialogue as the UseAction

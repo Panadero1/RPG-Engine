@@ -664,35 +664,52 @@ namespace GameEngine
                 Output.WriteLineTagged("You are not viewing any level currently", Output.Tag.Error);
                 return;
             }
-            if (CommandInterpretation.InterpretString(parameters[0], new string[] { "tile", "new" }, out string result))
+            string result;
+            if (parameters.Length > 0)
             {
-                switch (result)
+                if (!CommandInterpretation.InterpretString(parameters[0], new string[] { "tile", "new", "palette" }, out result))
                 {
-                    case "tile":
-                        Coord coord;
-                        if (!CommandInterpretation.InterpretAlphaNum(CommandInterpretation.GetUserResponse("Enter the x coordinate of the tile"), CommandInterpretation.GetUserResponse("Enter the y coordinate of the tile"), out coord))
-                        {
-                            return;
-                        }
-                        if (!World.LoadedLevel.Grid.GetTileAtCoords(coord, out Tile tileAtCoords, false))
-                        {
-                            return;
-                        }
-                        if (tileAtCoords == null)
-                        {
-                            return;
-                        }
-                        Editor.Brush = tileAtCoords;
-
-                        break;
-                    case "new":
-                        if (!CommandInterpretation.InterpretTile(out Editor.Brush))
-                        {
-                            return;
-                        }
-                        break;
+                    return;
                 }
             }
+            else if (!CommandInterpretation.InterpretString(new string[] { "tile", "new", "palette" }, out result))
+            {
+                Output.WriteLineToConsole("Either make a new Brush, define one from an existing tile, or take one from the palette");
+                return;
+            }
+            switch (result)
+            {
+                case "tile":
+                    Coord coord;
+                    if (!CommandInterpretation.InterpretAlphaNum(CommandInterpretation.GetUserResponse("Enter the x coordinate of the tile"), CommandInterpretation.GetUserResponse("Enter the y coordinate of the tile"), out coord))
+                    {
+                        return;
+                    }
+                    if (!World.LoadedLevel.Grid.GetTileAtCoords(coord, out Tile tileAtCoords, false))
+                    {
+                        return;
+                    }
+                    if (tileAtCoords == null)
+                    {
+                        return;
+                    }
+                    Editor.Brush = tileAtCoords;
+
+                    break;
+                case "new":
+                    if (!CommandInterpretation.InterpretTile(out Editor.Brush))
+                    {
+                        return;
+                    }
+                    break;
+                case "palette":
+                    if (!CommandInterpretation.InterpretString(World.Palette.Keys.ToArray(), out string paletteChoice))
+                    {
+                        return;
+                    }
+                    Editor.Brush = (Tile)World.Palette[paletteChoice].Clone();
+                    break;
+                }
         }
 
         private static void SwitchMap(string[] parameters)
@@ -1570,7 +1587,7 @@ namespace GameEngine
             "Sets the brush for drawing with tiles",
             new string[]
             {
-                "Type \"tile\" if you would like to pick a tile on the grid. Type \"new\" if you would like to make a new tile for the brush",
+
             },
             MakeBrush,
             false);
