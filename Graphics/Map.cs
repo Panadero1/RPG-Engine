@@ -36,6 +36,7 @@ namespace GameEngine
       // String to return that represents LevelMap
       public string GraphicString()
       {
+         Output.WriteLineToConsole("Map");
          string returnString = "    ";
          for (int repeat = 0; repeat < LevelMap.GetLength(0); repeat++)
          {

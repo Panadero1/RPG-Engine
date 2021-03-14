@@ -51,19 +51,20 @@ namespace GameEngine
             {
                 if (splitCommand[0].Equals(commandItem.Identifier, StringComparison.OrdinalIgnoreCase))
                 {
-                List<string> responses = new List<string>();
-                int commandParameter;
-                for (commandParameter = 1; commandParameter < splitCommand.Length; commandParameter++)
-                {
-                    responses.Add(splitCommand[commandParameter]);
-                }
-                for (int helpLineIndex = commandParameter; helpLineIndex < commandItem.HelpLines.Length + 1; helpLineIndex++)
-                {
-                    string helpLine = commandItem.HelpLines[helpLineIndex - 1];
-                    responses.Add(CommandInterpretation.GetUserResponse(helpLine));
-                }
-                commandItem.CustomCommand(responses.ToArray());
-                return commandItem.TakesTime;
+                    List<string> responses = new List<string>();
+                    int commandParameter;
+                    for (commandParameter = 1; commandParameter < splitCommand.Length; commandParameter++)
+                    {
+                        responses.Add(splitCommand[commandParameter]);
+                    }
+                    for (int helpLineIndex = commandParameter; helpLineIndex < commandItem.HelpLines.Length + 1; helpLineIndex++)
+                    {
+                        string helpLine = commandItem.HelpLines[helpLineIndex - 1];
+                        Output.WriteLineToConsole(helpLine);
+                        responses.Add(CommandInterpretation.GetUserResponse());
+                    }
+                    commandItem.CustomCommand(responses.ToArray());
+                    return commandItem.TakesTime;
                 }
             }
             return false;

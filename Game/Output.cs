@@ -30,6 +30,10 @@ namespace GameEngine
         {
             WriteLineToConsole("[" + _tagMapping[tag] + "] " + line);
         }
+        public static void WriteToConsole(string text)
+        {
+            Console.Write(text);
+        }
         public static void WriteLineToConsole(string line)
         {
             Console.WriteLine(line);

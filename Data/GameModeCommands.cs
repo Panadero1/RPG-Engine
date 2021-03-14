@@ -435,21 +435,21 @@ namespace GameEngine
                 }
             }
             longestName++;
-            Output.WriteLineToConsole("\nName");
+            Output.WriteToConsole("\nName");
 
             for (int space = 4; space <= longestName; space++)
             {
-                Output.WriteLineToConsole(" ");
+                Output.WriteToConsole(" ");
             }
             Output.WriteLineToConsole("Symbol");
 
             foreach (Contents contents in World.ContentsIndex)
             {
                 string contentsName = contents.Name;
-                Output.WriteLineToConsole(contentsName);
+                Output.WriteToConsole(contentsName);
                 for (int space = contentsName.Length; space <= longestName; space++)
                 {
-                    Output.WriteLineToConsole(" ");
+                    Output.WriteToConsole(" ");
                 }
                 Output.WriteLineToConsole(contents.VisualChar.ToString());
             }

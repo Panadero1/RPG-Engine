@@ -366,6 +366,7 @@ namespace GameEngine
       // The visual representation of the grid. Printed frequently to the console
       public string GraphicString(bool LOS = true)
       {
+         Output.WriteLineToConsole("Level");
          string returnString = "    ";
          for (int repeat = 0; repeat < TileGrid.GetLength(0); repeat++)
          {
