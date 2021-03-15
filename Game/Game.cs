@@ -25,7 +25,7 @@ namespace GameEngine
       };
 
       // When a gamemode is loaded, com is defined by GameModes (^)
-      public static CommandChoices com;
+      public static CommandChoices Com;
 
       // Always runs. Prompts the user to enter a gamemode and runs that specific gamemode
       static void Main(string[] args)
@@ -43,8 +43,7 @@ namespace GameEngine
                return;
             }
          }
-         com = GameModes[result.ToLower()].commands;
-         SetupCom(ref com);
+         Com = GameModes[result.ToLower()].commands;
          GameModes[result.ToLower()].action();
       }
       
@@ -67,7 +66,7 @@ namespace GameEngine
          for (Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString()); Execute; Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString()))
          {
             Output.WriteLineTagged("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name), Output.Tag.World);
-            if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
+            if (Com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
             {
                World.UpdateWorld();
             }
@@ -124,7 +123,7 @@ namespace GameEngine
             Output.WriteLineTagged("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name), Output.Tag.World);
             TutorialProgression(lines, ref index);
 
-            if (com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
+            if (Com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
             {
                World.UpdateWorld();
             }
@@ -215,7 +214,7 @@ namespace GameEngine
          Editor.EditorState = Editor.State.Map;
          if (CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse("Would you like to make a \"new\" file or would you like to \"load\" one?"), new string[] { "new", "load" }, out string result))
          {
-            com.EvaluateCommand(result);
+            Com.EvaluateCommand(result);
          }
          else
          {
@@ -241,7 +240,7 @@ namespace GameEngine
             Output.WriteLineTagged("Brush: " + (Editor.Brush == null ? "Nothing" : (Editor.Brush.Contents == null ? Editor.Brush.Floor.Name : Editor.Brush.Contents.Name)), Output.Tag.World);
                   break;
             }
-            com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command: "));
+            Com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command: "));
          }
          Main(new string[0]);
       }
@@ -252,17 +251,5 @@ namespace GameEngine
 
       }
 
-      // Defines the "help" command of any CommandChoices. If it were defined inside GameModeCommands, there would be circular reference.
-      private static void SetupCom(ref CommandChoices com)
-      {
-         if (com == null)
-         {
-            return;
-         }
-         if (com.TryFindCommand("help", out Command command))
-         {
-            command.HelpLines[0] = com.ListCommands() + "Enter the command that you wish to learn about\n";
-         }
-      }
    }
 }

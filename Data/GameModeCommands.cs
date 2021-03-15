@@ -236,7 +236,7 @@ namespace GameEngine
             {
                 if(CommandInterpretation.AskYesNo("Player location is not defined. Would you like to indicate their location now?\nNot doing so will result in the overriding of a a tile"))
                 {
-                    Game.com.EvaluateCommand("player move");
+                    Game.Com.EvaluateCommand("player move");
                 }
                 else
                 {
@@ -258,27 +258,29 @@ namespace GameEngine
             }
         }
         
-        private static void EngineHelp(string[] parameters)
+        private static void Help(string[] parameters)
         {
-            if (EngineCommands.TryFindCommand(parameters[0], out Command result))
+            if (parameters.Length > 0)
             {
+                if (!Game.Com.TryFindCommand(parameters[0], out Command result))
+                {
+                    return;
+                }
                 Output.WriteLineToConsole("\n" + result.HelpText + "\n");
+                return;
             }
-        }
-        
-        private static void TutorialHelp(string[] parameters)
-        {
-            if (TutorialCommands.TryFindCommand(parameters[0], out Command result))
+            List<string> commandIdentifiers = new List<string>();
+
+            foreach(Command command in EngineCommands.CommandList)
             {
-                Output.WriteLineToConsole("\n" + result.HelpText + "\n");
+                commandIdentifiers.Add(command.Identifier);
             }
-        }
-        
-        private static void LevelEditorHelp(string[] parameters)
-        {
-            if (EditorCommands.TryFindCommand(parameters[0], out Command result))
+            if (CommandInterpretation.InterpretString(commandIdentifiers.ToArray(), out string response))
             {
-                Output.WriteLineToConsole("\n" + result.HelpText + "\n");
+                if (!Game.Com.TryFindCommand(response, out Command result))
+                {
+                    return;
+                }
             }
         }
 
@@ -1428,33 +1430,11 @@ namespace GameEngine
             SaveEditor,
             false);
 
-        private static readonly Command _engineHelp = new Command(
+         private static readonly Command _help = new Command(
             "help",
             "Displays the help index for each command",
-            new string[]
-            {
-                ""
-            },
-            EngineHelp,
-            false);
-
-        private static readonly Command _tutorialHelp = new Command(
-            "help",
-            "Displays the help index for each command",
-            new string[]
-            {
-                ""
-            },
-            TutorialHelp,
-            false);
-         private static readonly Command _levelEditorHelp = new Command(
-            "help",
-            "Displays the help index for each command",
-            new string[]
-            {
-                ""
-            },
-            LevelEditorHelp,
+            _emptyString,
+            Help,
             false);
 
         private static readonly Command _pick = new Command(
@@ -1629,7 +1609,7 @@ namespace GameEngine
             _drop,
             _exitEngine,
             _saveEngine,
-            _engineHelp,
+            _help,
             _pick,
             _load,
             _look,
@@ -1648,7 +1628,7 @@ namespace GameEngine
             _add,
             _drop,
             _exitEngine,
-            _tutorialHelp,
+            _help,
             _pick,
             _look,
             _use,
@@ -1663,7 +1643,7 @@ namespace GameEngine
            _saveEditor,
            _load,
            _exitEditor,
-           _levelEditorHelp,
+           _help,
            _newMap,
            _expand,
            _shrink,

@@ -139,6 +139,7 @@ namespace GameEngine
       // Overload: prompts the user after listing all elements of the array
       public static bool InterpretString(string[] acceptedAnswers, out string result)
       {
+         result = null;
          Output.WriteLineTagged("Here are your options:", Output.Tag.List);
          for (int answerIndex = 0; answerIndex < acceptedAnswers.Length; answerIndex++)
          {
@@ -148,6 +149,10 @@ namespace GameEngine
          string response = GetUserResponse("Which do you choose?");
          if (int.TryParse(response, out int intIndex))
          {
+            if (intIndex >= acceptedAnswers.Length)
+            {
+               return false;
+            }
             result = acceptedAnswers[intIndex];
             return true;
          }
