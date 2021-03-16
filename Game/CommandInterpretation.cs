@@ -171,7 +171,7 @@ namespace GameEngine
          return true;
       }
 
-      
+      // Does the same thing as InterpretString(), but accepts and returns multiple responses.
       public static bool InterpretStringMC(string[] acceptedAnswers, out string[] result)
       {
          result = null;
@@ -197,7 +197,7 @@ namespace GameEngine
                }
                results.Add(stringResponse);
             }
-         } while (CommandInterpretation.AskYesNo("Would you like to add more behaviors?"));
+         } while (CommandInterpretation.AskYesNo("Would you like to add any more options?"));
 
          result = results.ToArray();
          return true;
@@ -396,6 +396,7 @@ namespace GameEngine
 
          result = new Contents(
             preContainerParamMap["Name"],
+            Contents.UniqueID(),
             preContainerParamMap["VisualChar"][0],
             InterpretYesNo(preContainerParamMap["Transparent"]),
             durability,

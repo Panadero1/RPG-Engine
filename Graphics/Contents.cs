@@ -6,11 +6,17 @@ namespace GameEngine
    // Data class Contents represents just about any object in the game
    class Contents : ICloneable
    {
+      // Used for unique contents identification
+      private static int uniqueIndex = 0;
+
       // The coordinates of the contents
       public Coord Coordinates;
 
       // A unique identifier for the contents
       public string Name;
+
+      // A **Guaranteed** unique integer for this specific contents
+      public int ID;
       
       // The letter, number or symbol that represents the contents
       public char VisualChar;
@@ -49,9 +55,12 @@ namespace GameEngine
       // The function this calls every time the world updates. (only when it is on a tile)
       public Action<Contents>[] Behaviors;
 
-      public Contents(string name, char visualChar, bool transparent, int durability, int size, float weight, Action<string[], Contents> useAction, Action<Contents>[] behaviors)
+      public string[] Tags;
+
+      public Contents(string name, int id, char visualChar, bool transparent, int durability, int size, float weight, Action<string[], Contents> useAction, Action<Contents>[] behaviors)
       {
          Name = name;
+         ID = id;
          VisualChar = visualChar;
          Transparent = transparent;
          Durability = durability;
@@ -61,7 +70,7 @@ namespace GameEngine
          Behaviors = behaviors;
       }
 
-      public Contents(string name, char visualChar, bool transparent, int durability, int size, float weight, bool container, int containerSpace, List<Contents> contained, Action<string[], Contents> useAction, Action<Contents>[] behaviors) : this(name, visualChar, transparent, durability, size, weight, useAction, behaviors)
+      public Contents(string name, int id, char visualChar, bool transparent, int durability, int size, float weight, bool container, int containerSpace, List<Contents> contained, Action<string[], Contents> useAction, Action<Contents>[] behaviors) : this(name, id, visualChar, transparent, durability, size, weight, useAction, behaviors)
       {
          Container = container;
          ContainerSpace = containerSpace;
@@ -165,6 +174,7 @@ namespace GameEngine
                destroyTile.Contents = new Contents
                   (
                   name: "bag",
+                  UniqueID(),
                   visualChar: 'b',
                   true,
                   1,
@@ -190,7 +200,13 @@ namespace GameEngine
 
       public object Clone()
       {
-         return new Contents(this.Name, this.VisualChar, this.Transparent, this.Durability, this.Size, this.Weight, this.Container, this.ContainerSpace, this.Contained, this.UseAction, this.Behaviors);
+         return new Contents(this.Name, UniqueID(), this.VisualChar, this.Transparent, this.Durability, this.Size, this.Weight, this.Container, this.ContainerSpace, this.Contained, this.UseAction, this.Behaviors);
+      }
+   
+      public static int UniqueID()
+      {
+         uniqueIndex++;
+         return uniqueIndex;
       }
    }
 }

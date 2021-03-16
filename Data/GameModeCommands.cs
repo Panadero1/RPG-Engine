@@ -967,7 +967,9 @@ namespace GameEngine
                     // v 9
                     "(Contents) Container Space: " + contents.ContainerSpace,
                     // v 10
-                    "(Contents) Contained: " + (contents.Contained != null ? (contents.Contained.Count + " items.") : "No objects contained.")
+                    "(Contents) Contained: " + (contents.Contained != null ? (contents.Contained.Count + " items.") : "No objects contained."),
+                    // v 11
+                    "(Contents) Tags: " + string.Join(", ", contents.Tags)
                 };
 
                 

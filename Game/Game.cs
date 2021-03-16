@@ -31,6 +31,9 @@ namespace GameEngine
       static void Main(string[] args)
       {
          Execute = true;
+         World.Dialogue = new Dictionary<string, string>();
+         World.ContentsIndex = new List<Contents>();
+
          Output.WriteLineToConsole("\n\nWelcome to RPG Engine (still in development)");
 
          Output.WriteLineToConsole("Version: " + Version + "\n");
