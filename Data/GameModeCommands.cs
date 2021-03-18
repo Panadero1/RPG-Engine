@@ -1114,6 +1114,15 @@ namespace GameEngine
                         }
                     }
                 }
+                else if (result == memberNames[11])
+                {
+                    List<string> newTags = new List<string>();
+                    do
+                    {
+                        newTags.Add(CommandInterpretation.GetUserResponse("What tag would you like to assign? (case is irrelevant)"));
+                    } while (CommandInterpretation.InterpretYesNo("Would you like to add any more?"));
+                    contents.Tags = newTags.ToArray();
+                }
             }
         }
 

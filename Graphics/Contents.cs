@@ -55,7 +55,7 @@ namespace GameEngine
       // The function this calls every time the world updates. (only when it is on a tile)
       public Action<Contents>[] Behaviors;
 
-      public string[] Tags;
+      public string[] Tags = new string[0];
 
       public Contents(string name, int id, char visualChar, bool transparent, int durability, int size, float weight, Action<string[], Contents> useAction, Action<Contents>[] behaviors)
       {
@@ -89,6 +89,18 @@ namespace GameEngine
          }
       }
       
+      public bool HasTag(string compareTag)
+      {
+         foreach(string tag in Tags)
+         {
+            if (tag.Equals(compareTag, StringComparison.OrdinalIgnoreCase))
+            {
+               return true;
+            }
+         }
+         return false;
+      }
+
       // Removes all null members of contained
       private void CleanOut()
       {
@@ -151,6 +163,14 @@ namespace GameEngine
       // CURRENTLY ONLY WORKS IF THE TILE IS ON THE GRID (no held items, no contained items)
       public void Damage(int damage, bool displayMessage = true)
       {
+         if (HasTag("invulnerable"))
+         {
+            if (displayMessage)
+            {
+               Output.WriteLineTagged("This contents is invulnerable", Output.Tag.World);
+            }
+            return;
+         }
          if (Name == World.Player.Contents.Name)
          {
             Output.WriteLineTagged("You were damaged for " + damage, Output.Tag.World);
@@ -162,6 +182,10 @@ namespace GameEngine
          }
          if (Durability <= 0)
          {
+            if (HasTag("explode"))
+            {
+               Behavior.DamageAllAround(this);
+            }
             if (Container && Contained.Count > 0)
             {
                if (!World.LoadedLevel.Grid.GetTileAtCoords(Coordinates, out Tile destroyTile))

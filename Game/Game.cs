@@ -15,13 +15,12 @@ namespace GameEngine
 
       public static Dictionary<string, (Action action, CommandChoices commands)> GameModes = new Dictionary<string, (Action, CommandChoices)>() 
       {
-         // If you wish to add a gamemode, make the key lowercase!!!
          // For new gamemodes, add a new entry to this table
          // { "newGameMode", (ReferenceToAFunction, GameModeCommands.CommandChoiceForThisMode) }
-         { "game", (GameEngine, GameModeCommands.EngineCommands) },
-         { "tutorial", (Tutorial, GameModeCommands.TutorialCommands)},
-         { "level editor", (LevelEditor, GameModeCommands.EditorCommands) },
-         { "exit", (Exit, null) }
+         { "Game", (GameEngine, GameModeCommands.EngineCommands) },
+         { "Tutorial", (Tutorial, GameModeCommands.TutorialCommands)},
+         { "Level Editor", (LevelEditor, GameModeCommands.EditorCommands) },
+         { "Exit", (Exit, null) }
       };
 
       // When a gamemode is loaded, com is defined by GameModes (^)
@@ -46,8 +45,8 @@ namespace GameEngine
                return;
             }
          }
-         Com = GameModes[result.ToLower()].commands;
-         GameModes[result.ToLower()].action();
+         Com = GameModes[result].commands;
+         GameModes[result].action();
       }
       
       // Gamemode-specific functions
