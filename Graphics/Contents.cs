@@ -171,7 +171,7 @@ namespace GameEngine
             }
             return;
          }
-         if (Name == World.Player.Contents.Name)
+         if (ID == World.Player.Contents.ID)
          {
             Output.WriteLineTagged("You were damaged for " + damage, Output.Tag.World);
          }
@@ -224,7 +224,9 @@ namespace GameEngine
 
       public object Clone()
       {
-         return new Contents(this.Name, UniqueID(), this.VisualChar, this.Transparent, this.Durability, this.Size, this.Weight, this.Container, this.ContainerSpace, this.Contained, this.UseAction, this.Behaviors);
+         Contents contentsToClone = new Contents(this.Name, UniqueID(), this.VisualChar, this.Transparent, this.Durability, this.Size, this.Weight, this.Container, this.ContainerSpace, this.Contained, this.UseAction, this.Behaviors);
+         contentsToClone.Tags = this.Tags;
+         return contentsToClone;
       }
    
       public static int UniqueID()

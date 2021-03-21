@@ -309,6 +309,11 @@ namespace GameEngine
                     Output.WriteLineTagged("There is nothing on that tile", Output.Tag.Error);
                     return;
                 }
+                if (tileAtCoords.Contents.HasTag("nopick"))
+                {
+                    Output.WriteLineTagged("You cannot pick this up", Output.Tag.World);
+                    return;
+                }
                 if (World.Player.Strength < tileAtCoords.Contents.TotalWeight)
                 {
                     Output.WriteLineTagged("You're not strong enough to lift this", Output.Tag.World);
@@ -335,9 +340,7 @@ namespace GameEngine
                     Output.WriteLineTagged("Tile is not visible", Output.Tag.World);
                     return;
                 }
-
-                Output.WriteLineTagged("Observing tile " + paramters[0] + " " + paramters[1], Output.Tag.World);
-
+                
                 if (!World.LoadedLevel.Grid.GetTileAtCoords(result, out Tile lookTile))
                 {
                     return;
@@ -348,11 +351,17 @@ namespace GameEngine
                     return;
                 }
 
+                Output.WriteLineTagged("Observing tile " + paramters[0] + " " + paramters[1], Output.Tag.World);
+
                 Output.WriteLineTagged("The floor appears to be " + lookTile.Floor.Name, Output.Tag.World);
                 if (lookTile.Contents == null)
                 {
                     Output.WriteLineTagged("There is nothing on the tile.", Output.Tag.World);
                     return;
+                }
+                if (lookTile.Contents.HasTag("nolook"))
+                {
+                    
                 }
                 if (!(UseActions.TryGetIdentifier(lookTile.Contents.UseAction, out string action) && Behavior.TryGetIdentifiers(lookTile.Contents.Behaviors, out string behavior)))
                 {
@@ -1031,7 +1040,7 @@ namespace GameEngine
                     }
                     if (actionString == "Dialogue")
                     {
-                        if (World.Dialogue.TryGetValue(contents.Name, out string dialogue))
+                        if (World.Dialogue.TryGetValue(contents.ID, out string dialogue))
                         {
                         Output.WriteLineTagged("There is already a dialogue line for this content's name (give it a unique name to give it a unique dialogue)", Output.Tag.Error);
                         Output.WriteLineTagged(dialogue, Output.Tag.Dialogue);
@@ -1040,7 +1049,7 @@ namespace GameEngine
                         {
                         Output.WriteLineTagged("There is no current dialogue for this content's name. Please define it below", Output.Tag.Error);
                         dialogue = Console.ReadLine();
-                        World.Dialogue.Add(contents.Name, dialogue);
+                        World.Dialogue.Add(contents.ID, dialogue);
                         }
                     }
                     contents.UseAction = _action;

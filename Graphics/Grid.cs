@@ -415,7 +415,7 @@ namespace GameEngine
       }
 
       // Finds the first instance of a contents in this grid
-      public bool TryFindContents(Contents compareContents, out Coord coords)
+      public bool TryFindContentsFromName(string name, out Coord coords)
       {
          for (int y = 0; y < TileGrid.GetLength(1); y++)
          {
@@ -425,7 +425,7 @@ namespace GameEngine
                {
                   continue;
                }
-               if (TileGrid[x, y].Contents.Name == compareContents.Name)
+               if (TileGrid[x, y].Contents.Name == name)
                {
                   coords = new Coord(x, y);
                   return true;

@@ -175,7 +175,7 @@ namespace GameEngine
       }
       public static void Dialogue(string[] parameters, Contents contents)
       {
-         if (World.Dialogue.TryGetValue(contents.Name, out string result))
+         if (World.Dialogue.TryGetValue(contents.ID, out string result))
          {
             Output.WriteLineTagged(result, Output.Tag.Dialogue);
          }

@@ -42,7 +42,7 @@ namespace GameEngine
 
       public static Tile GunTile = new Tile(Ground, new Contents("gun", 0, 'r', true, 4, 4, 5, UseActions.Gun, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
 
-      public static Tile Sign = new Tile(Ground, new Contents("sign", 0, 'S', true, 4, 10000, 100000, UseActions.Dialogue, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
+      public static Tile Sign = new Tile(Ground, new Contents("sign", 130, 'S', true, 4, 10000, 100000, UseActions.Dialogue, new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero);
 
       public static Tile GateOpen = new Tile(new Floor('.', "retractedGate"), null, _zeroZero);
 
@@ -69,7 +69,7 @@ namespace GameEngine
 
       // A dictionary mapping between content names and their respective dialogue lines
       // This means that two contents with Dialogue as the UseAction
-      public static Dictionary<string, string> Dialogue = new Dictionary<string, string>();
+      public static Dictionary<int, string> Dialogue = new Dictionary<int, string>();
 
       // WorldMap is referenced as the current Map in play. This gets defined in LoadFromFile
       public static Map WorldMap;
@@ -451,7 +451,7 @@ namespace GameEngine
                restOfLine += splitLine[splitLineIndex] + " ";
             }
             restOfLine.Trim();
-            Dialogue.Add(splitLine[0], restOfLine);
+            Dialogue.Add(int.Parse(splitLine[0]), restOfLine);
          }
 
          sr.Close();
@@ -594,7 +594,7 @@ namespace GameEngine
 
          sw.WriteLine("Dialogue {");
 
-         foreach (string key in Dialogue.Keys)
+         foreach (int key in Dialogue.Keys)
          {
             sw.WriteLine(key + " " + Dialogue[key]);
          }
@@ -687,7 +687,7 @@ namespace GameEngine
                {
                   continue;
                }
-                if (level.Grid.TryFindContents(World.Player.Contents, out _))
+                if (level.Grid.TryFindContentsFromName("Player", out _))
                 {
                     result = level;
                     return true;

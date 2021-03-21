@@ -11,7 +11,7 @@ namespace GameEngine
       public static bool Execute = true;
       public static string FilePath;
 
-      public const string Version = "v0.4.1";
+      public const string Version = "v0.5.0";
 
       public static Dictionary<string, (Action action, CommandChoices commands)> GameModes = new Dictionary<string, (Action, CommandChoices)>() 
       {
@@ -29,8 +29,9 @@ namespace GameEngine
       // Always runs. Prompts the user to enter a gamemode and runs that specific gamemode
       static void Main(string[] args)
       {
+         //World.WorldMap = null;
          Execute = true;
-         World.Dialogue = new Dictionary<string, string>();
+         World.Dialogue = new Dictionary<int, string>();
          World.ContentsIndex = new List<Contents>();
 
          Output.WriteLineToConsole("\n\nWelcome to RPG Engine (still in development)");
@@ -79,6 +80,7 @@ namespace GameEngine
       // Built-in tutorial
       static void Tutorial()
       {
+
          string[] lines = new string[]
          {
             // v 0
@@ -108,9 +110,9 @@ namespace GameEngine
             // v 12
             "Nice work! You've solidified the basic skills needed to understand and manipualte your surroundings.\nRemember to use 'help' if you need a refresher on what commands to use."
          };
-         World.Dialogue = new Dictionary<string, string>()
+         World.Dialogue = new Dictionary<int, string>()
          {
-            { "sign", "Treasure is past these gates, but beware! Flip that lever and you will release the beast!!!\n\nTry to trap it then shoot it from afar."}
+            { 22, "Treasure is past these gates, but beware! Flip that lever and you will release the beast!!!\n\nTry to trap it then shoot it from afar."}
          };
 
          World.WorldMap = World.TutorialLevel;
@@ -185,7 +187,7 @@ namespace GameEngine
                WriteNextLine(lines, ref index);
                break;
             case 11:
-               if (World.LoadedLevel == World.TutorialLevel.LevelMap[1, 0] && !World.LoadedLevel.Grid.TryFindContents(World.Hog.Contents, out _))
+               if (World.LoadedLevel == World.TutorialLevel.LevelMap[1, 0] && !World.LoadedLevel.Grid.TryFindContentsFromName("hog", out _))
                {
                   WriteNextLine(lines, ref index);
                }

@@ -326,7 +326,6 @@ namespace GameEngine
             {"Action", string.Empty},
             {"Behavior", string.Empty},
          };
-
          Output.WriteLineTagged("Choose an action that this contents takes", Output.Tag.Prompt);
          if (!CommandInterpretation.InterpretString(UseActions.GetIdentifiers(), out string actionString))
          {
@@ -372,19 +371,11 @@ namespace GameEngine
             Output.WriteLineTagged("Action was not found", Output.Tag.Error);
             return false;
          }
+         int uniqueID = Contents.UniqueID();
          if (preContainerParamMap["Action"] == "Dialogue")
          {
-            if (World.Dialogue.TryGetValue(preContainerParamMap["Name"], out string dialogue))
-            {
-               Output.WriteLineTagged("There is already a dialogue line for this content's name (give it a unique name to give it a unique dialogue)", Output.Tag.Error);
-               Output.WriteLineTagged(dialogue, Output.Tag.Dialogue);
-            }
-            else
-            {
-               Output.WriteLineTagged("There is no current dialogue for this content's name. Please define it below", Output.Tag.Error);
-               dialogue = Console.ReadLine();
-               World.Dialogue.Add(preContainerParamMap["Name"], dialogue);
-            }
+            string dialogue = CommandInterpretation.GetUserResponse("Please enter the line of dialogue for this contents");
+            World.Dialogue.Add(uniqueID, dialogue);
          }
 
          if (!Behavior.TryGetBehaviors(tempBehavior.Split(","), out Action<Contents>[] behavior))
@@ -396,7 +387,7 @@ namespace GameEngine
 
          result = new Contents(
             preContainerParamMap["Name"],
-            Contents.UniqueID(),
+            uniqueID,
             preContainerParamMap["VisualChar"][0],
             InterpretYesNo(preContainerParamMap["Transparent"]),
             durability,
