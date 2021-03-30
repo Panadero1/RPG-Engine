@@ -313,7 +313,6 @@ namespace GameEngine
       {
          Output.WriteLineToConsole("\nContents");
          result = null;
-         bool isContainer = AskYesNo("Will this contents be able to hold anything?");
 
          Dictionary<string, string> preContainerParamMap = new Dictionary<string, string>()
          {
@@ -325,6 +324,7 @@ namespace GameEngine
             {"Weight", GetUserResponse("Weight (Depending on player strength, they may or may not be able to pick this up)<float>:\nCurrent player strength is " + World.Player.Strength)},
             {"Action", string.Empty},
             {"Behavior", string.Empty},
+            {"Tags", string.Empty}
          };
          Output.WriteLineTagged("Choose an action that this contents takes", Output.Tag.Prompt);
          if (!CommandInterpretation.InterpretString(UseActions.GetIdentifiers(), out string actionString))
@@ -383,6 +383,19 @@ namespace GameEngine
             Output.WriteLineTagged("Behavior was not found", Output.Tag.Error);
             return false;
          }
+
+         Output.WriteLineTagged("Enter as many tags as you like.", Output.Tag.Prompt);
+         string response;
+         List<string> tags = new List<string>();
+         while (true)
+         {
+            response = CommandInterpretation.GetUserResponse("Enter a tag here. Type \"Done\" when you are done.");
+            if (response.Equals("done", StringComparison.OrdinalIgnoreCase))
+            {
+               break;
+            }
+            tags.Add(response);
+         }
          #endregion
 
          result = new Contents(
@@ -396,6 +409,8 @@ namespace GameEngine
             action,
             behavior
          );
+         result.Tags = tags.ToArray();
+         bool isContainer = AskYesNo("Will this contents be able to hold anything?");
          if (isContainer)
          {
             result.Container = true;

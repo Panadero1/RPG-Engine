@@ -7,7 +7,7 @@ namespace GameEngine
    class Contents : ICloneable
    {
       // Used for unique contents identification
-      private static int uniqueIndex = 0;
+      public static int uniqueIndex = 0;
 
       // The coordinates of the contents
       public Coord Coordinates;
@@ -163,28 +163,32 @@ namespace GameEngine
       // CURRENTLY ONLY WORKS IF THE TILE IS ON THE GRID (no held items, no contained items)
       public void Damage(int damage, bool displayMessage = true)
       {
-         if (HasTag("invulnerable"))
+         // Are things breaking and not dying when they should be?
+         // This statement is why... ;)
+         if (Durability <= 0)
          {
-            if (displayMessage)
-            {
-               Output.WriteLineTagged("This contents is invulnerable", Output.Tag.World);
-            }
+            return;
+         }
+         if (EventHandler.IdentifierEventMapping["OnContentsDamaged"].RunEvent(new object[] {this, damage, displayMessage}) == EventHandler.EventResult.TerminateAction)
+         {
             return;
          }
          if (ID == World.Player.Contents.ID)
          {
             Output.WriteLineTagged("You were damaged for " + damage, Output.Tag.World);
          }
+
          Durability -= damage;
+
          if (displayMessage)
          {
             Output.WriteLineTagged(Name + " was damaged for " + damage, Output.Tag.World);
          }
          if (Durability <= 0)
          {
-            if (HasTag("explode"))
+            if (EventHandler.IdentifierEventMapping["OnContentsDestroyed"].RunEvent(new object[] {this, damage, displayMessage}) == EventHandler.EventResult.TerminateAction)
             {
-               Behavior.DamageAllAround(this);
+               return;
             }
             if (Container && Contained.Count > 0)
             {

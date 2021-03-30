@@ -396,7 +396,7 @@ namespace GameEngine
          };
          foreach (Coord damageCoord in damageCoords)
          {
-            if (!World.LoadedLevel.Grid.GetTileAtCoords(damageCoord, out Tile tileAtCoords, false))
+            if (!World.LoadedLevel.Grid.GetTileAtCoords(contents.Coordinates.Add(damageCoord), out Tile tileAtCoords, false))
             {
                continue;
             }

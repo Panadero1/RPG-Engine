@@ -13,7 +13,7 @@ namespace GameEngine
       private static readonly Coord _zeroZero = new Coord(0, 0);
 
       // The player is the controllable character. It is set as a default only for the purpose of satisfying a default player for levelEditor
-      public static Player Player = new Player(new Contents("Player", 0, 'A', true, 50, 10, 50, true, 100, new List<Contents>(), UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}), null, 50);
+      public static Player Player = new Player(new Contents("Player", 0, 'A', true, 10, 10, 50, true, 100, new List<Contents>(){}, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}), null, 50);
 
       // Tile templates used to make the demo.txt file.. some are used in the tutorial. Not used for level editing whatsoever
       #region tile definitions
@@ -248,12 +248,13 @@ namespace GameEngine
       public static bool TryGetMapsFolder(out string result)
       {
          string tryFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\maps\";
-         try
+
+         if (Directory.Exists(tryFolder))
          {
             result = tryFolder;
             return true;
          }
-         catch
+         else
          {
             Output.WriteLineTagged("Your 'maps' folder may be missing. We're making one now. Be sure to put all your world files in the folder named 'maps' within the directory of the executable", Output.Tag.Error);
             Directory.CreateDirectory(tryFolder);
@@ -451,7 +452,13 @@ namespace GameEngine
                restOfLine += splitLine[splitLineIndex] + " ";
             }
             restOfLine.Trim();
-            Dialogue.Add(int.Parse(splitLine[0]), restOfLine);
+            int id = int.Parse(splitLine[0]);
+            Dialogue.Add(id, restOfLine);
+            
+            if (id > Contents.uniqueIndex)
+            {
+               Contents.uniqueIndex = id;
+            }
          }
 
          sr.Close();
@@ -470,12 +477,17 @@ namespace GameEngine
                contentsList.Add(null);
                continue;
             }
+            int id = int.Parse(splitLine[1]);
+            if (id > Contents.uniqueIndex)
+            {
+               Contents.uniqueIndex = id;
+            }
             bool isContainer = bool.Parse(splitLine[7]);
             if (UseActions.TryGetAction(splitLine[9], out Action<string[], Contents> actionResult) && Behavior.TryGetBehaviors(splitLine[10].Split(","), out Action<Contents>[] behaviorResult))
             {
                contentsList.Add(new Contents(
                name: splitLine[0],
-               id: int.Parse(splitLine[1]),
+               id: id,
                visualChar: splitLine[2][0],
                transparent: bool.Parse(splitLine[3]),
                durability: int.Parse(splitLine[4]),
@@ -493,12 +505,13 @@ namespace GameEngine
                   sr.ReadLine();
                   sr.ReadLine();
                }
-               sr.ReadLine();
                List<string> contentTags = new List<string>();
+               sr.ReadLine();
                for (splitLine = SplitNextLine(sr); splitLine[0] != "}"; splitLine = SplitNextLine(sr))
                {
                   contentTags.Add(splitLine[0]);
                }
+               contentsList[contentsList.Count - 1].Tags = contentTags.ToArray();
             }
          }
          return contentsList;
@@ -632,12 +645,12 @@ namespace GameEngine
                ListAllContents(contained, sw);
             }
          }
+         sw.WriteLine("}");
          sw.WriteLine("tags {");
          foreach (string tag in contentsAtCoords.Tags)
          {
             sw.WriteLine(tag);
          }
-         sw.WriteLine("}");
          sw.WriteLine("}");
       }
 

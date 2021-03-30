@@ -23,31 +23,38 @@ namespace GameEngine
          { "Exit", (Exit, null) }
       };
 
+      public static string GameMode;
+
       // When a gamemode is loaded, com is defined by GameModes (^)
       public static CommandChoices Com;
 
       // Always runs. Prompts the user to enter a gamemode and runs that specific gamemode
       static void Main(string[] args)
       {
-         //World.WorldMap = null;
-         Execute = true;
-         World.Dialogue = new Dictionary<int, string>();
-         World.ContentsIndex = new List<Contents>();
-
-         Output.WriteLineToConsole("\n\nWelcome to RPG Engine (still in development)");
-
-         Output.WriteLineToConsole("Version: " + Version + "\n");
-
-         string result;
-         while (!CommandInterpretation.InterpretString(GameModes.Keys.ToArray(), out result))
+         do
          {
-            if (!CommandInterpretation.AskYesNo("Could not identify gamemode. Would you like to try again?"))
+            GameMode = null;
+            //World.WorldMap = null;
+            Execute = true;
+            World.Dialogue = new Dictionary<int, string>();
+            World.ContentsIndex = new List<Contents>();
+
+            Output.WriteLineToConsole("\n\nWelcome to RPG Engine (still in development)");
+
+            Output.WriteLineToConsole("Version: " + Version + "\n");
+
+            string result;
+            while (!CommandInterpretation.InterpretString(GameModes.Keys.ToArray(), out result))
             {
-               return;
+               if (!CommandInterpretation.AskYesNo("Could not identify gamemode. Would you like to try again?"))
+               {
+                  return;
+               }
             }
-         }
-         Com = GameModes[result].commands;
-         GameModes[result].action();
+            GameMode = result;
+            Com = GameModes[result].commands;
+            GameModes[result].action();
+         } while (GameMode != "Exit");
       }
       
       // Gamemode-specific functions
@@ -74,7 +81,6 @@ namespace GameEngine
                World.UpdateWorld();
             }
          }
-         Main(new string[0]);
       }
       
       // Built-in tutorial
@@ -132,7 +138,6 @@ namespace GameEngine
                World.UpdateWorld();
             }
          }
-         Main(new string[0]);
       }
       
       // Child function of Tutorial() for writing specific info to guide the user
@@ -215,6 +220,7 @@ namespace GameEngine
       // Level editor gamemode
       static void LevelEditor()
       {
+         Editor.Brush = null;
          Editor.EditorState = Editor.State.Map;
          if (CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse("Would you like to make a \"new\" file or would you like to \"load\" one?"), new string[] { "new", "load" }, out string result))
          {
@@ -246,7 +252,6 @@ namespace GameEngine
             }
             Com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command: "));
          }
-         Main(new string[0]);
       }
       
       // For exiting
