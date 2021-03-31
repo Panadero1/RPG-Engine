@@ -169,7 +169,7 @@ namespace GameEngine
          {
             return;
          }
-         if (EventHandler.IdentifierEventMapping["OnContentsDamaged"].RunEvent(new object[] {this, damage, displayMessage}) == EventHandler.EventResult.TerminateAction)
+         if (EventHandler.IdentifierEventMapping["OnContentsDamaged"].RunEvent(this.ID, new object[] {this, damage, displayMessage}) == EventHandler.EventResult.TerminateAction)
          {
             return;
          }
@@ -186,7 +186,7 @@ namespace GameEngine
          }
          if (Durability <= 0)
          {
-            if (EventHandler.IdentifierEventMapping["OnContentsDestroyed"].RunEvent(new object[] {this, damage, displayMessage}) == EventHandler.EventResult.TerminateAction)
+            if (EventHandler.IdentifierEventMapping["OnContentsDestroyed"].RunEvent(this.ID, new object[] {this, damage, displayMessage}) == EventHandler.EventResult.TerminateAction)
             {
                return;
             }

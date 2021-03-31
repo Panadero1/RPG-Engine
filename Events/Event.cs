@@ -15,16 +15,19 @@ namespace GameEngine
             _eventAction = eventAction;
         }
 
-        private void RunConnections()
+        private void RunConnections(int triggerID)
         {
             foreach(Connection connection in ConnectionList)
             {
-                connection.PerformResult();
+                if (connection.TriggerContentsID == triggerID)
+                {
+                    connection.PerformResult();
+                }
             }
         }
-        public EventHandler.EventResult RunEvent(object[] parameters = null)
+        public EventHandler.EventResult RunEvent(int triggerID, object[] parameters = null)
         {
-            RunConnections();
+            RunConnections(triggerID);
             return _eventAction(parameters);
         }
     }

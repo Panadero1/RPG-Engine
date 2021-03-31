@@ -4,23 +4,23 @@ namespace GameEngine
 {
     class Connection
     {
-        int ContentsID;
+        public int TriggerContentsID;
+        public int ResultContentsID;
         public string ResultType;
-        string ResultInformation;
+        public string ResultInformation;
 
-        public Connection(int contentsId, string eventIdentifier, string resultType, string resultInformation)
+        public Connection(int triggerContentsID, int resultContentsID, string resultType, string resultInformation)
         {
-            ContentsID = contentsId;
+            TriggerContentsID = triggerContentsID;
+            ResultContentsID = resultContentsID;
             
-            // add to EventHandler
-
             ResultType = resultType;
             ResultInformation = resultInformation;
         }
 
         public void PerformResult()
         {
-            if (!World.GetContentsFromID(ContentsID, out Contents contents))
+            if (!World.GetContentsFromID(ResultContentsID, out Contents contents))
             {
                 // Contents was destroyed - or does not exist
                 return;

@@ -460,6 +460,16 @@ namespace GameEngine
                Contents.uniqueIndex = id;
             }
          }
+         sr.ReadLine();
+         
+         for (splitLine = SplitNextLine(sr); splitLine[0] != "}"; splitLine = SplitNextLine(sr))
+         {
+            string currentEvent = splitLine[0];
+            for (splitLine = SplitNextLine(sr); splitLine[0] != "}"; splitLine = SplitNextLine(sr))
+            {
+               EventHandler.IdentifierEventMapping[currentEvent].ConnectionList.Add(new Connection(int.Parse(splitLine[0]), int.Parse(splitLine[1]), splitLine[2], string.Join(' ', splitLine, 3, splitLine.Length - 3)));
+            }
+         }
 
          sr.Close();
       }
@@ -610,6 +620,22 @@ namespace GameEngine
          foreach (int key in Dialogue.Keys)
          {
             sw.WriteLine(key + " " + Dialogue[key]);
+         }
+
+         sw.WriteLine("}");
+
+         sw.WriteLine("Connections {");
+
+         foreach (string key in EventHandler.IdentifierEventMapping.Keys)
+         {
+            sw.WriteLine(key + " {");
+
+            foreach (Connection connection in EventHandler.IdentifierEventMapping[key].ConnectionList)
+            {
+               sw.WriteLine(connection.TriggerContentsID + " " + connection.ResultContentsID + " " + connection.ResultType + " " + connection.ResultInformation);
+            }
+
+            sw.WriteLine("}");
          }
 
          sw.WriteLine("}");

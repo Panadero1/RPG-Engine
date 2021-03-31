@@ -33,11 +33,7 @@ namespace GameEngine
       {
          do
          {
-            GameMode = null;
-            //World.WorldMap = null;
-            Execute = true;
-            World.Dialogue = new Dictionary<int, string>();
-            World.ContentsIndex = new List<Contents>();
+            ClearEverything();
 
             Output.WriteLineToConsole("\n\nWelcome to RPG Engine (still in development)");
 
@@ -57,6 +53,19 @@ namespace GameEngine
          } while (GameMode != "Exit");
       }
       
+      private static void ClearEverything()
+      {
+         foreach (string key in EventHandler.IdentifierEventMapping.Keys)
+         {
+            EventHandler.IdentifierEventMapping[key].ConnectionList.Clear();
+         }
+         GameMode = null;
+         World.WorldMap = null;
+         Execute = true;
+         World.Dialogue = new Dictionary<int, string>();
+         World.ContentsIndex = new List<Contents>();
+      }
+
       // Gamemode-specific functions
 
       // Base game

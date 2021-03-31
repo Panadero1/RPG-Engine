@@ -271,7 +271,7 @@ namespace GameEngine
             }
             List<string> commandIdentifiers = new List<string>();
 
-            foreach(Command command in EngineCommands.CommandList)
+            foreach(Command command in Game.Com.CommandList)
             {
                 commandIdentifiers.Add(command.Identifier);
             }
@@ -281,6 +281,7 @@ namespace GameEngine
                 {
                     return;
                 }
+                Output.WriteLineTagged(result.HelpText, Output.Tag.Info);
             }
         }
 
@@ -1386,6 +1387,95 @@ namespace GameEngine
             }
         }
         
+        private static void AddConnection(string[] parameters)
+        {
+            int triggerContentsID;
+            int resultContentsID;
+            string eventType;
+            string resultType;
+            string resultInformation;
+
+            Output.WriteLineToConsole(World.WorldMap.GraphicString());
+            Output.WriteLineTagged("Enter coordinates of the level of the trigger contents", Output.Tag.Prompt);
+            if (!(CommandInterpretation.InterpretAlphaNum(out Coord triggerLevelCoord) && World.WorldMap.GetLevelAtCoords(triggerLevelCoord, out Level triggerContentsLevel)))
+            {
+                return;
+            }
+            Output.WriteLineToConsole(triggerContentsLevel.Grid.GraphicString(false));
+            Output.WriteLineTagged("Enter coordinates of the tile of the trigger contents", Output.Tag.Prompt);
+            if (!(CommandInterpretation.InterpretAlphaNum(out Coord triggerTileCoord) && triggerContentsLevel.Grid.GetTileAtCoords(triggerTileCoord, out Tile triggerContentsTile)))
+            {
+                return;
+            }
+            if (triggerContentsTile.Contents == null)
+            {
+                Output.WriteLineTagged("The selected tile must have a contents", Output.Tag.Error);
+                return;
+            }
+            
+            triggerContentsID = triggerContentsTile.Contents.ID;
+            
+            Output.WriteLineToConsole(World.WorldMap.GraphicString());
+            Output.WriteLineTagged("Enter coordinates of the level of the result contents", Output.Tag.Prompt);
+            if (!(CommandInterpretation.InterpretAlphaNum(out Coord resultLevelCoord) && World.WorldMap.GetLevelAtCoords(resultLevelCoord, out Level resultContentsLevel)))
+            {
+                return;
+            }
+            Output.WriteLineToConsole(resultContentsLevel.Grid.GraphicString(false));
+            Output.WriteLineTagged("Enter coordinates of the tile of the result contents", Output.Tag.Prompt);
+            if (!(CommandInterpretation.InterpretAlphaNum(out Coord resultTileCoord) && resultContentsLevel.Grid.GetTileAtCoords(resultTileCoord, out Tile resultContentsTile)))
+            {
+                return;
+            }
+            if (resultContentsTile.Contents == null)
+            {
+                Output.WriteLineTagged("The selected tile must have a contents", Output.Tag.Error);
+                return;
+            }
+
+            resultContentsID = resultContentsTile.Contents.ID;
+
+            if (!CommandInterpretation.InterpretString(EventHandler.IdentifierEventMapping.Keys.ToArray(), out eventType))
+            {
+                return;
+            }
+
+            string[] resultTypes = new string[]
+            {
+                "Behavior",
+                "Interact",
+                "Display"
+                // TODO: Add Edit contents
+            };
+
+            if (!CommandInterpretation.InterpretString(resultTypes, out resultType))
+            {
+                return;
+            }
+            switch (resultType)
+            {
+                case "Behavior":
+                    if (!CommandInterpretation.InterpretStringMC(Behavior.GetIdentifiers(), out string[] behaviors))
+                    {
+                        return;
+                    }
+                    resultInformation = string.Join(',', behaviors);
+                    break;
+                case "Interact":
+                    // No information needs to be assigned to resultInformation in this instance. Keeping this to clarify that
+                    resultInformation = string.Empty;
+                    break;
+                case "Display":
+                    resultInformation = CommandInterpretation.GetUserResponse("Please enter the line of text to display.");
+                    break;
+                // v Compiler error if I do not include this
+                default:
+                    resultInformation = string.Empty;
+                    break;
+            }
+            EventHandler.IdentifierEventMapping[eventType].ConnectionList.Add(new Connection(triggerContentsID, resultContentsID, resultType, resultInformation));
+        }
+
         #endregion
 
         // The list of all Commands.
@@ -1617,6 +1707,14 @@ namespace GameEngine
             },
             ChangePlayer,
             false);
+
+        private static readonly Command _addConnection = new Command(
+            "connect",
+            "Creates an event-based connection between two contents",
+            _emptyString,
+            AddConnection,
+            false);
+
         #endregion
 
         // Each CommandChoices represents a gamemode
@@ -1672,7 +1770,8 @@ namespace GameEngine
            _makeBrush,
            _edit,
            _draw,
-           _changePlayer
+           _changePlayer,
+           _addConnection
         });
     }
 }

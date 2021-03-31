@@ -14,7 +14,8 @@ namespace GameEngine
             { Tag.Prompt, "Prompt" },
             { Tag.List, "List" },
             { Tag.Text, "Text" },
-            { Tag.Tutorial, "Tutorial" }
+            { Tag.Tutorial, "Tutorial" },
+            { Tag.Info, "Info" }
         };
         public enum Tag
         {
@@ -25,6 +26,7 @@ namespace GameEngine
             List,
             Text,
             Tutorial,
+            Info,
         }
         public static void WriteLineTagged(string line, Tag tag)
         {

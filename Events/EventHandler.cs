@@ -94,7 +94,7 @@ namespace GameEngine
                         }
                         if (target.ID == World.Player.Contents.ID)
                         {
-                            IdentifierEventMapping["OnPlayerDamaged"].RunEvent(parameters);
+                            IdentifierEventMapping["OnPlayerDamaged"].RunEvent(target.ID, parameters);
                         }
                         return EventResult.Nothing;
                     }
