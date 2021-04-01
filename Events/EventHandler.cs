@@ -149,17 +149,6 @@ namespace GameEngine
                     }
                 )
             },
-            {
-                "OnContentsRemoved",
-                new Event
-                (
-                    // Contents removedContents
-                    (parameters) =>
-                    {
-                        return EventResult.Nothing;
-                    }
-                )
-            },
         };
     }
 }
