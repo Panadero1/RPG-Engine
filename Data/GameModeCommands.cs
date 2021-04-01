@@ -84,10 +84,13 @@ namespace GameEngine
             if (CommandInterpretation.InterpretInt(index, 0, container.Contained.Count - 1, out int result))
             {
                 Contents removedContents = container.Contained[result];
+                if (EventHandler.IdentifierEventMapping["OnContentsRemoved"].RunEvent(container.ID, new object[] { removedContents }) == EventHandler.EventResult.TerminateAction)
+                {
+                    return;
+                }
                 container.Contained.RemoveAt(result);
                 Output.WriteLineTagged(removedContents.Name + " was removed!", Output.Tag.World);
                 World.Player.Holding = removedContents;
-                EventHandler.IdentifierEventMapping["OnContentsRemoved"].RunEvent(container.ID, new object[] { removedContents });
             }
         }
 
@@ -153,9 +156,13 @@ namespace GameEngine
                 Output.WriteLineTagged("Parameter entered is wrong. You may enter a cardinal direction or 'self'", Output.Tag.Error);
                 return;
             }
+            
+            if (EventHandler.IdentifierEventMapping["OnContentsAdded"].RunEvent(container.ID, new object[] { World.Player.Holding }) == EventHandler.EventResult.TerminateAction)
+            {
+                return;
+            }
 
             Output.WriteLineTagged(World.Player.Holding.Name + " was added to " + container.Name, Output.Tag.World);
-            EventHandler.IdentifierEventMapping["OnContentsAdded"].RunEvent(container.ID, new object[] { World.Player.Holding });
             container.Contained.Add(World.Player.Holding);
             World.Player.Holding = null;
         }
@@ -392,7 +399,10 @@ namespace GameEngine
                 Output.WriteLineTagged("You aren't holding anything", Output.Tag.Error);
                 return;
             }
-            EventHandler.IdentifierEventMapping["OnUse"].RunEvent(World.Player.Holding.ID, new object[] { World.Player.Holding });
+            if (EventHandler.IdentifierEventMapping["OnUse"].RunEvent(World.Player.Holding.ID, new object[] { World.Player.Holding }) == EventHandler.EventResult.TerminateAction)
+            {
+                return;
+            }
             World.Player.Holding.UseAction(parameters, World.Player.Holding);
         }
 
@@ -423,7 +433,10 @@ namespace GameEngine
                 }
                 else
                 {
-                    EventHandler.IdentifierEventMapping["OnInteract"].RunEvent(tileAtCoords.Contents.ID, new object[] { tileAtCoords.Contents });
+                    if (EventHandler.IdentifierEventMapping["OnInteract"].RunEvent(tileAtCoords.Contents.ID, new object[] { tileAtCoords.Contents }) == EventHandler.EventResult.TerminateAction)
+                    {
+                        return;
+                    }
                     tileAtCoords.Contents.UseAction(parameters, tileAtCoords.Contents);
                 }
             }

@@ -30,8 +30,14 @@ namespace GameEngine
                     (parameters) =>
                     {
                         Contents target = (Contents)parameters[0];
+
+                        bool displayMessage = (bool)parameters[2];
                         if (target.HasTag("invulnerable"))
                         {
+                            if (displayMessage)
+                            {
+                                Output.WriteLineTagged("Object is invulnerable", Output.Tag.World);
+                            }
                             return EventResult.TerminateAction;
                         }
                         return EventResult.Nothing;
@@ -42,11 +48,18 @@ namespace GameEngine
                 "OnContentsDestroyed",
                 new Event
                 (
+                    // Contents target, int damage, bool displayMessage
                     (parameters) =>
                     {
                         Contents contents = (Contents)parameters[0];
+
+                        bool displayMessage = (bool)parameters[2];
                         if (contents.HasTag("nodestroy"))
                         {
+                            if (displayMessage)
+                            {
+                                Output.WriteLineTagged("Object is invulnerable", Output.Tag.World);
+                            }
                             return EventResult.TerminateAction;
                         }
                         if (contents.HasTag("explode"))
@@ -55,7 +68,7 @@ namespace GameEngine
                         }
                         if (contents.ID == World.Player.Contents.ID)
                         {
-                            IdentifierEventMapping["OnPlayerDied"].RunEvent(World.Player.Contents.ID);
+                            return IdentifierEventMapping["OnPlayerDied"].RunEvent(World.Player.Contents.ID);
                         }
                         return EventResult.Nothing;
                     }

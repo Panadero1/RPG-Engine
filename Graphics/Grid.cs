@@ -112,6 +112,10 @@ namespace GameEngine
                      }
                      return;
                   }
+                  if (EventHandler.IdentifierEventMapping["OnContentsNewLevel"].RunEvent(id, new object[] { new Coord(-1, 0) }) == EventHandler.EventResult.TerminateAction)
+                  {
+                     return;
+                  }
                   if (World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates, out Tile playerTile))
                   {
                      playerTile.Contents = null;
@@ -119,7 +123,6 @@ namespace GameEngine
                   World.LoadedLevel = levelToWest;
                   startingContents.Coordinates = World.LoadedLevel.EastEntry;
                   WestEntryTile.Contents = startingContents;
-                  EventHandler.IdentifierEventMapping["OnContentsNewLevel"].RunEvent(id, new object[] { new Coord(-1, 0) });
                }
                else
                {
@@ -168,6 +171,10 @@ namespace GameEngine
                      }
                      return;
                   }
+                  if (EventHandler.IdentifierEventMapping["OnContentsNewLevel"].RunEvent(id, new object[] { new Coord(1, 0) }) == EventHandler.EventResult.TerminateAction)
+                  {
+                     return;
+                  }
                   if (World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates, out Tile playerTile))
                   {
                      playerTile.Contents = null;
@@ -175,7 +182,6 @@ namespace GameEngine
                   World.LoadedLevel = levelToEast;
                   startingContents.Coordinates = World.LoadedLevel.WestEntry;
                   eastEntryTile.Contents = startingContents;
-                  EventHandler.IdentifierEventMapping["OnContentsNewLevel"].RunEvent(id, new object[] { new Coord(1, 0) });
                }
                else
                {
@@ -224,6 +230,10 @@ namespace GameEngine
                      }
                      return;
                   }
+                  if (EventHandler.IdentifierEventMapping["OnContentsNewLevel"].RunEvent(id, new object[] { new Coord(0, -1) }) == EventHandler.EventResult.TerminateAction)
+                  {
+                     return;
+                  }
                   if (World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates, out Tile playerTile))
                   {
                      playerTile.Contents = null;
@@ -231,7 +241,6 @@ namespace GameEngine
                   World.LoadedLevel = levelToNorth;
                   startingContents.Coordinates = World.LoadedLevel.SouthEntry;
                   northEntryTile.Contents = startingContents;
-                  EventHandler.IdentifierEventMapping["OnContentsNewLevel"].RunEvent(id, new object[] { new Coord(0, -1) });
                }
                else
                {
@@ -280,6 +289,10 @@ namespace GameEngine
                      }
                      return;
                   }
+                  if (EventHandler.IdentifierEventMapping["OnContentsNewLevel"].RunEvent(id, new object[] { new Coord(0, 1) }) == EventHandler.EventResult.TerminateAction)
+                  {
+                     return;
+                  }
                   if (World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates, out Tile playerTile))
                   {
                      playerTile.Contents = null;
@@ -287,7 +300,6 @@ namespace GameEngine
                   World.LoadedLevel = levelToSouth;
                   startingContents.Coordinates = World.LoadedLevel.NorthEntry;
                   southEntryTile.Contents = startingContents;
-                  EventHandler.IdentifierEventMapping["OnContentsNewLevel"].RunEvent(id, new object[] { new Coord(0, 1) });
                }
                else
                {
@@ -325,6 +337,12 @@ namespace GameEngine
             }
             Contents removedContents = startingContents;
             Coord newCoord = startingContents.Coordinates.Add(direction);
+
+            if (EventHandler.IdentifierEventMapping["OnContentsMove"].RunEvent(id, new object[] { direction }) == EventHandler.EventResult.TerminateAction)
+            {
+               return;
+            }
+
             removedContents.Coordinates = newCoord;
             endingTile.Contents = removedContents;
             if (removedContents.Name == World.Player.Contents.Name)
@@ -332,7 +350,6 @@ namespace GameEngine
                World.Player.Contents = removedContents;
             }
             World.LoadedLevel.Grid.TileGrid[startingCoord.X, startingCoord.Y].Contents = null;
-            EventHandler.IdentifierEventMapping["OnContentsMove"].RunEvent(id, new object[] { direction });
          }
 
       }
