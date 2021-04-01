@@ -12,7 +12,7 @@ namespace GameEngine
       public static string GetUserResponse(string message)
       {
          Output.WriteLineTagged(message, Output.Tag.Prompt);
-         string response = Console.ReadLine();
+         string response = GetUserResponse();
          return response.Trim();
       }
 
@@ -20,6 +20,7 @@ namespace GameEngine
       public static string GetUserResponse()
       {
          string response = Console.ReadLine();
+         Output.WriteLineToConsole("");
          return response.Trim();
       }
 

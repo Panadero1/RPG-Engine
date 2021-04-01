@@ -191,6 +191,7 @@ namespace GameEngine
             Output.WriteLineTagged("You must be holding this to use it", Output.Tag.World);
             return;
          }
+         EventHandler.IdentifierEventMapping["OnPlayerHealed"].RunEvent(World.Player.Contents.ID);
          World.Player.Contents.Damage(-5);
          World.Player.Holding = null;
       }

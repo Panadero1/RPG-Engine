@@ -72,16 +72,17 @@ namespace GameEngine
       }
 
       // Moves one contents to another tile
-      public void MoveContents(Contents startingContents, Coord changedLoc, bool output = true)
+      public void MoveContents(Contents startingContents, Coord direction, bool output = true)
       {
-         if (changedLoc.X == 0 && changedLoc.Y == 0)
+         int id = startingContents.ID;
+         if (direction.X == 0 && direction.Y == 0)
          {
             return;
          }
-         Coord endingCoord = startingContents.Coordinates.Add(changedLoc);
+         Coord endingCoord = startingContents.Coordinates.Add(direction);
 
 
-         // This chain of 'if's in combination with the 'else' statments DOES NOT WORK WITH DIAGONAL MOVEMENT. This is intentional as of 2/11/2021
+         // This chain of 'if's in combination with the 'else' statments DOES NOT WORK WITH DIAGONAL MOVEMENT. This is intentional. Gotta rework the logic a bit if you want this to work
          if (endingCoord.X < 0)
          {
             // Changing levels to the west
@@ -118,6 +119,7 @@ namespace GameEngine
                   World.LoadedLevel = levelToWest;
                   startingContents.Coordinates = World.LoadedLevel.EastEntry;
                   WestEntryTile.Contents = startingContents;
+                  EventHandler.IdentifierEventMapping["OnContentsNewLevel"].RunEvent(id, new object[] { new Coord(-1, 0) });
                }
                else
                {
@@ -173,6 +175,7 @@ namespace GameEngine
                   World.LoadedLevel = levelToEast;
                   startingContents.Coordinates = World.LoadedLevel.WestEntry;
                   eastEntryTile.Contents = startingContents;
+                  EventHandler.IdentifierEventMapping["OnContentsNewLevel"].RunEvent(id, new object[] { new Coord(1, 0) });
                }
                else
                {
@@ -228,6 +231,7 @@ namespace GameEngine
                   World.LoadedLevel = levelToNorth;
                   startingContents.Coordinates = World.LoadedLevel.SouthEntry;
                   northEntryTile.Contents = startingContents;
+                  EventHandler.IdentifierEventMapping["OnContentsNewLevel"].RunEvent(id, new object[] { new Coord(0, -1) });
                }
                else
                {
@@ -283,6 +287,7 @@ namespace GameEngine
                   World.LoadedLevel = levelToSouth;
                   startingContents.Coordinates = World.LoadedLevel.NorthEntry;
                   southEntryTile.Contents = startingContents;
+                  EventHandler.IdentifierEventMapping["OnContentsNewLevel"].RunEvent(id, new object[] { new Coord(0, 1) });
                }
                else
                {
@@ -306,7 +311,7 @@ namespace GameEngine
          {
             Coord startingCoord = new Coord(startingContents.Coordinates.X, startingContents.Coordinates.Y);
             Tile endingTile;
-            if (!World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates.Add(changedLoc), out endingTile))
+            if (!World.LoadedLevel.Grid.GetTileAtCoords(startingContents.Coordinates.Add(direction), out endingTile))
             {
                return;
             }
@@ -319,7 +324,7 @@ namespace GameEngine
                return;
             }
             Contents removedContents = startingContents;
-            Coord newCoord = startingContents.Coordinates.Add(changedLoc);
+            Coord newCoord = startingContents.Coordinates.Add(direction);
             removedContents.Coordinates = newCoord;
             endingTile.Contents = removedContents;
             if (removedContents.Name == World.Player.Contents.Name)
@@ -327,6 +332,7 @@ namespace GameEngine
                World.Player.Contents = removedContents;
             }
             World.LoadedLevel.Grid.TileGrid[startingCoord.X, startingCoord.Y].Contents = null;
+            EventHandler.IdentifierEventMapping["OnContentsMove"].RunEvent(id, new object[] { direction });
          }
 
       }

@@ -20,64 +20,6 @@ namespace GameEngine
             }
         );
 
-#region temp
-        public static EventResult OnPlayerHealed()
-        {
-
-            return EventResult.Nothing;
-        }
-
-        public static EventResult OnPlayerEnterNewLevel()
-        {
-
-            return EventResult.Nothing;
-        }
-        public static EventResult OnPlayerMove()
-        {
-            
-            return EventResult.Nothing;
-        }
-        public static EventResult OnPlayerUse()
-        {
-
-            return EventResult.Nothing;
-        }
-        public static EventResult OnPlayerInteract()
-        {
-
-            return EventResult.Nothing;
-        }
-        public static EventResult OnPlayerDied()
-        {
-
-            return EventResult.Nothing;
-        }
-
-
-        // Contents events
-        public static EventResult OnAddContents()
-        {
-
-            return EventResult.Nothing;
-        }
-        public static EventResult OnRemoveContents()
-        {
-            return EventResult.Nothing;
-        }
-        public static EventResult OnContentsDestroyed(Contents target)
-        {
-            if (target.HasTag("explode"))
-            {
-                Behavior.DamageAllAround(target);
-            }
-            return EventResult.Nothing;
-        }
-        public static EventResult OnContentsMoved()
-        {
-
-            return EventResult.Nothing;
-        }
-        #endregion
         public static Dictionary<string, Event> IdentifierEventMapping = new Dictionary<string, Event>()
         {
             {
@@ -92,20 +34,6 @@ namespace GameEngine
                         {
                             return EventResult.TerminateAction;
                         }
-                        if (target.ID == World.Player.Contents.ID)
-                        {
-                            IdentifierEventMapping["OnPlayerDamaged"].RunEvent(target.ID, parameters);
-                        }
-                        return EventResult.Nothing;
-                    }
-                )
-            },
-            {
-                "OnPlayerDamaged",
-                new Event
-                (
-                    (parameters) => 
-                    {
                         return EventResult.Nothing;
                     }
                 )
@@ -117,10 +45,117 @@ namespace GameEngine
                     (parameters) =>
                     {
                         Contents contents = (Contents)parameters[0];
+                        if (contents.HasTag("nodestroy"))
+                        {
+                            return EventResult.TerminateAction;
+                        }
                         if (contents.HasTag("explode"))
                         {
                             Behavior.DamageAllAround(contents);
                         }
+                        if (contents.ID == World.Player.Contents.ID)
+                        {
+                            IdentifierEventMapping["OnPlayerDied"].RunEvent(World.Player.Contents.ID);
+                        }
+                        return EventResult.Nothing;
+                    }
+                )
+            },
+            {
+                "OnPlayerHealed",
+                new Event
+                (
+                    // No parameters yet
+                    (parameters) =>
+                    {
+                        return EventResult.Nothing;
+                    }
+                )
+            },
+            {
+                "OnContentsNewLevel",
+                new Event
+                (
+                    // Coord direction
+                    (parameters) =>
+                    {
+                        return EventResult.Nothing;
+                    }
+                )
+            },
+            {
+                "OnContentsMove",
+                new Event
+                (
+                    // Coord direction
+                    (parameters) =>
+                    {
+                        return EventResult.Nothing;
+                    }
+                )
+            },
+            {
+                "OnUse",
+                new Event
+                (
+                    // Contents holding
+                    (parameters) =>
+                    {
+                        return EventResult.Nothing;
+                    }
+                )
+            },
+            {
+                "OnInteract",
+                new Event
+                (
+                    // Contents interactContents
+                    (parameters) =>
+                    {
+                        return EventResult.Nothing;
+                    }
+                )
+            },
+            {
+                "OnPlayerDied",
+                new Event
+                (
+                    // No params
+                    (parameters) =>
+                    {
+                        return EventResult.Nothing;
+                    }
+                )
+            },
+            {
+                "OnContentsAdded",
+                new Event
+                (
+                    // Contents addedContents
+                    (parameters) =>
+                    {
+                        return EventResult.Nothing;
+                    }
+                )
+            },
+            {
+                "OnContentsRemoved",
+                new Event
+                (
+                    // Contents removedContents
+                    (parameters) =>
+                    {
+                        return EventResult.Nothing;
+                    }
+                )
+            },
+            {
+                "OnContentsRemoved",
+                new Event
+                (
+                    // Contents removedContents
+                    (parameters) =>
+                    {
                         return EventResult.Nothing;
                     }
                 )

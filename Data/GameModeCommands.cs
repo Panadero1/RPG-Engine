@@ -87,6 +87,7 @@ namespace GameEngine
                 container.Contained.RemoveAt(result);
                 Output.WriteLineTagged(removedContents.Name + " was removed!", Output.Tag.World);
                 World.Player.Holding = removedContents;
+                EventHandler.IdentifierEventMapping["OnContentsRemoved"].RunEvent(container.ID, new object[] { removedContents });
             }
         }
 
@@ -154,6 +155,7 @@ namespace GameEngine
             }
 
             Output.WriteLineTagged(World.Player.Holding.Name + " was added to " + container.Name, Output.Tag.World);
+            EventHandler.IdentifierEventMapping["OnContentsAdded"].RunEvent(container.ID, new object[] { World.Player.Holding });
             container.Contained.Add(World.Player.Holding);
             World.Player.Holding = null;
         }
@@ -390,6 +392,7 @@ namespace GameEngine
                 Output.WriteLineTagged("You aren't holding anything", Output.Tag.Error);
                 return;
             }
+            EventHandler.IdentifierEventMapping["OnUse"].RunEvent(World.Player.Holding.ID, new object[] { World.Player.Holding });
             World.Player.Holding.UseAction(parameters, World.Player.Holding);
         }
 
@@ -420,6 +423,7 @@ namespace GameEngine
                 }
                 else
                 {
+                    EventHandler.IdentifierEventMapping["OnInteract"].RunEvent(tileAtCoords.Contents.ID, new object[] { tileAtCoords.Contents });
                     tileAtCoords.Contents.UseAction(parameters, tileAtCoords.Contents);
                 }
             }
@@ -1387,93 +1391,184 @@ namespace GameEngine
             }
         }
         
-        private static void AddConnection(string[] parameters)
+        private static void EditConnection(string[] parameters)
         {
-            int triggerContentsID;
-            int resultContentsID;
-            string eventType;
-            string resultType;
-            string resultInformation;
+            if (!CommandInterpretation.InterpretString(new string[] { "add", "remove" }, out string commandType))
+            {
+                return;
+            }
+            switch (commandType)
+            {
+                case "add":
+                    int triggerContentsID;
+                    int resultContentsID;
+                    string eventType;
+                    string resultType;
+                    string resultInformation;
 
-            Output.WriteLineToConsole(World.WorldMap.GraphicString());
-            Output.WriteLineTagged("Enter coordinates of the level of the trigger contents", Output.Tag.Prompt);
-            if (!(CommandInterpretation.InterpretAlphaNum(out Coord triggerLevelCoord) && World.WorldMap.GetLevelAtCoords(triggerLevelCoord, out Level triggerContentsLevel)))
-            {
-                return;
-            }
-            Output.WriteLineToConsole(triggerContentsLevel.Grid.GraphicString(false));
-            Output.WriteLineTagged("Enter coordinates of the tile of the trigger contents", Output.Tag.Prompt);
-            if (!(CommandInterpretation.InterpretAlphaNum(out Coord triggerTileCoord) && triggerContentsLevel.Grid.GetTileAtCoords(triggerTileCoord, out Tile triggerContentsTile)))
-            {
-                return;
-            }
-            if (triggerContentsTile.Contents == null)
-            {
-                Output.WriteLineTagged("The selected tile must have a contents", Output.Tag.Error);
-                return;
-            }
-            
-            triggerContentsID = triggerContentsTile.Contents.ID;
-            
-            Output.WriteLineToConsole(World.WorldMap.GraphicString());
-            Output.WriteLineTagged("Enter coordinates of the level of the result contents", Output.Tag.Prompt);
-            if (!(CommandInterpretation.InterpretAlphaNum(out Coord resultLevelCoord) && World.WorldMap.GetLevelAtCoords(resultLevelCoord, out Level resultContentsLevel)))
-            {
-                return;
-            }
-            Output.WriteLineToConsole(resultContentsLevel.Grid.GraphicString(false));
-            Output.WriteLineTagged("Enter coordinates of the tile of the result contents", Output.Tag.Prompt);
-            if (!(CommandInterpretation.InterpretAlphaNum(out Coord resultTileCoord) && resultContentsLevel.Grid.GetTileAtCoords(resultTileCoord, out Tile resultContentsTile)))
-            {
-                return;
-            }
-            if (resultContentsTile.Contents == null)
-            {
-                Output.WriteLineTagged("The selected tile must have a contents", Output.Tag.Error);
-                return;
-            }
-
-            resultContentsID = resultContentsTile.Contents.ID;
-
-            if (!CommandInterpretation.InterpretString(EventHandler.IdentifierEventMapping.Keys.ToArray(), out eventType))
-            {
-                return;
-            }
-
-            string[] resultTypes = new string[]
-            {
-                "Behavior",
-                "Interact",
-                "Display"
-                // TODO: Add Edit contents
-            };
-
-            if (!CommandInterpretation.InterpretString(resultTypes, out resultType))
-            {
-                return;
-            }
-            switch (resultType)
-            {
-                case "Behavior":
-                    if (!CommandInterpretation.InterpretStringMC(Behavior.GetIdentifiers(), out string[] behaviors))
+                    Output.WriteLineToConsole(World.WorldMap.GraphicString());
+                    Output.WriteLineTagged("Enter coordinates of the level of the trigger contents", Output.Tag.Prompt);
+                    if (!(CommandInterpretation.InterpretAlphaNum(out Coord triggerLevelCoord) && World.WorldMap.GetLevelAtCoords(triggerLevelCoord, out Level triggerContentsLevel)))
                     {
                         return;
                     }
-                    resultInformation = string.Join(',', behaviors);
+                    Output.WriteLineToConsole(triggerContentsLevel.Grid.GraphicString(false));
+                    Output.WriteLineTagged("Enter coordinates of the tile of the trigger contents", Output.Tag.Prompt);
+                    if (!(CommandInterpretation.InterpretAlphaNum(out Coord triggerTileCoord) && triggerContentsLevel.Grid.GetTileAtCoords(triggerTileCoord, out Tile triggerContentsTile)))
+                    {
+                        return;
+                    }
+                    if (triggerContentsTile.Contents == null)
+                    {
+                        Output.WriteLineTagged("The selected tile must have a contents", Output.Tag.Error);
+                        return;
+                    }
+                    
+                    triggerContentsID = triggerContentsTile.Contents.ID;
+                    
+                    Output.WriteLineToConsole(World.WorldMap.GraphicString());
+                    Output.WriteLineTagged("Enter coordinates of the level of the result contents", Output.Tag.Prompt);
+                    if (!(CommandInterpretation.InterpretAlphaNum(out Coord resultLevelCoord) && World.WorldMap.GetLevelAtCoords(resultLevelCoord, out Level resultContentsLevel)))
+                    {
+                        return;
+                    }
+                    Output.WriteLineToConsole(resultContentsLevel.Grid.GraphicString(false));
+                    Output.WriteLineTagged("Enter coordinates of the tile of the result contents", Output.Tag.Prompt);
+                    if (!(CommandInterpretation.InterpretAlphaNum(out Coord resultTileCoord) && resultContentsLevel.Grid.GetTileAtCoords(resultTileCoord, out Tile resultContentsTile)))
+                    {
+                        return;
+                    }
+                    if (resultContentsTile.Contents == null)
+                    {
+                        Output.WriteLineTagged("The selected tile must have a contents", Output.Tag.Error);
+                        return;
+                    }
+
+                    resultContentsID = resultContentsTile.Contents.ID;
+
+                    if (!CommandInterpretation.InterpretString(EventHandler.IdentifierEventMapping.Keys.ToArray(), out eventType))
+                    {
+                        return;
+                    }
+
+                    string[] resultTypes = new string[]
+                    {
+                        "Behavior",
+                        "Interact",
+                        "Display"
+                        // TODO: Add Edit contents
+                    };
+
+                    if (!CommandInterpretation.InterpretString(resultTypes, out resultType))
+                    {
+                        return;
+                    }
+                    switch (resultType)
+                    {
+                        case "Behavior":
+                            if (!CommandInterpretation.InterpretStringMC(Behavior.GetIdentifiers(), out string[] behaviors))
+                            {
+                                return;
+                            }
+                            resultInformation = string.Join(',', behaviors);
+                            break;
+                        case "Interact":
+                            // No information needs to be assigned to resultInformation in this instance. Keeping this to clarify that
+                            resultInformation = string.Empty;
+                            break;
+                        case "Display":
+                            resultInformation = CommandInterpretation.GetUserResponse("Please enter the line of text to display.");
+                            break;
+                        // v Compiler error if I do not include this
+                        default:
+                            resultInformation = string.Empty;
+                            break;
+                    }
+                    EventHandler.IdentifierEventMapping[eventType].ConnectionList.Add(new Connection(triggerContentsID, resultContentsID, resultType, resultInformation));
                     break;
-                case "Interact":
-                    // No information needs to be assigned to resultInformation in this instance. Keeping this to clarify that
-                    resultInformation = string.Empty;
-                    break;
-                case "Display":
-                    resultInformation = CommandInterpretation.GetUserResponse("Please enter the line of text to display.");
-                    break;
-                // v Compiler error if I do not include this
-                default:
-                    resultInformation = string.Empty;
+                case "remove":
+                    
+                    if (!CommandInterpretation.InterpretString(EventHandler.IdentifierEventMapping.Keys.ToArray(), out eventType))
+                    {
+                        return;
+                    }
+
+                    
+                    Output.WriteLineTagged("Please identify the index of the connection you would like to remove", Output.Tag.Prompt);
+                    for (int connectionIndex = 0; connectionIndex < EventHandler.IdentifierEventMapping[eventType].ConnectionList.Count; connectionIndex++)
+                    {
+                        Connection connection = EventHandler.IdentifierEventMapping[eventType].ConnectionList[connectionIndex];
+                        string contentsName;
+                        if (World.GetContentsFromID(connection.TriggerContentsID, out Contents result))
+                        {
+                            contentsName = result.Name;
+                        }
+                        else
+                        {
+                            contentsName = "(destroyed)";
+                        }
+                        Output.WriteLineToConsole(connectionIndex + ". " + contentsName + ": " + eventType + " " + connection.ResultType + " " + connection.ResultInformation);
+                    }
+                    Output.WriteLineToConsole("");
+
+                    if (!CommandInterpretation.InterpretInt(0, EventHandler.IdentifierEventMapping[eventType].ConnectionList.Count - 1, out int index))
+                    {
+                        return;
+                    }
+
+                    EventHandler.IdentifierEventMapping[eventType].ConnectionList.RemoveAt(index);
+
                     break;
             }
-            EventHandler.IdentifierEventMapping[eventType].ConnectionList.Add(new Connection(triggerContentsID, resultContentsID, resultType, resultInformation));
+        }
+
+        private static void EditDialogue(string[] parameters)
+        {
+            if (World.Dialogue.Count == 0)
+            {
+                Output.WriteLineTagged("There are no dialogue lines currently", Output.Tag.Error);
+                return;
+            }
+
+            string[] lines = World.Dialogue.Values.ToArray();
+
+            Output.WriteLineTagged("Select the line of dialogue", Output.Tag.Prompt);
+
+            if (!CommandInterpretation.InterpretString(lines, out string selectedLine))
+            {
+                return;
+            }
+            // v temporary assignment. This will *never* make it past as this value
+            int key = -1;
+            foreach (int tryKey in World.Dialogue.Keys)
+            {
+                if (World.Dialogue[tryKey] == selectedLine)
+                {
+                    key = tryKey;
+                    break;
+                }
+            }
+            
+
+            if (!CommandInterpretation.InterpretString(new string[] { "remove", "edit" }, out string response))
+            {
+                return;
+            }
+            switch (response)
+            {
+                case "remove":
+                    World.Dialogue.Remove(key);
+                    break;
+                case "edit":
+                    if (!CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse(), out string newDialogue))
+                    {
+                        return;
+                    }
+
+                    World.Dialogue[key] = newDialogue;
+
+                    break;
+            }
         }
 
         #endregion
@@ -1708,11 +1803,18 @@ namespace GameEngine
             ChangePlayer,
             false);
 
-        private static readonly Command _addConnection = new Command(
-            "connect",
-            "Creates an event-based connection between two contents",
+        private static readonly Command _editConnection = new Command(
+            "connection",
+            "Creates or removes an event-based connection between two contents",
             _emptyString,
-            AddConnection,
+            EditConnection,
+            false);
+        
+        private static readonly Command _editDialogue = new Command(
+            "dialogue",
+            "Edits or removes currently defined dialogue lines",
+            _emptyString,
+            EditDialogue,
             false);
 
         #endregion
@@ -1771,7 +1873,8 @@ namespace GameEngine
            _edit,
            _draw,
            _changePlayer,
-           _addConnection
+           _editConnection,
+           _editDialogue
         });
     }
 }

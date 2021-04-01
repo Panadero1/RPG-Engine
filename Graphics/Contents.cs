@@ -165,6 +165,7 @@ namespace GameEngine
       {
          // Are things breaking and not dying when they should be?
          // This statement is why... ;)
+         // Just an easy fix to an annoying problem
          if (Durability <= 0)
          {
             return;
@@ -190,6 +191,25 @@ namespace GameEngine
             {
                return;
             }
+            
+            // Deleting all connections associated with contents
+            foreach (string eventKey in EventHandler.IdentifierEventMapping.Keys)
+            {
+               for (int connectionIndex = 0; connectionIndex < EventHandler.IdentifierEventMapping[eventKey].ConnectionList.Count; connectionIndex++)
+               {
+                  Connection connection = EventHandler.IdentifierEventMapping[eventKey].ConnectionList[connectionIndex];
+                  if (connection.TriggerContentsID == ID)
+                  {
+                     EventHandler.IdentifierEventMapping[eventKey].ConnectionList.Remove(connection);
+                     // v So that it doesn't skip anything
+                     connectionIndex--;
+                  }
+               }
+            }
+
+            // Deleting dialogue line if it exists
+            World.Dialogue.Remove(ID);
+
             if (Container && Contained.Count > 0)
             {
                if (!World.LoadedLevel.Grid.GetTileAtCoords(Coordinates, out Tile destroyTile))
