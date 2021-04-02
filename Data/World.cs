@@ -715,6 +715,7 @@ namespace GameEngine
             Output.WriteLineTagged("You've been defeated.", Output.Tag.World);
             Game.Execute = false;
          }
+         Event.currentCallCount = 0;
       }
 
       // Returns the specific level that the player is in

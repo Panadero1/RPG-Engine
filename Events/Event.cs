@@ -4,6 +4,10 @@ namespace GameEngine
 {
     class Event
     {
+        public static readonly int callMaximum = 1022;
+
+        public static int currentCallCount = 0;
+
         public delegate EventHandler.EventResult EventActionDelegate(object[] parameters);
 
         private EventActionDelegate _eventAction;
@@ -25,10 +29,19 @@ namespace GameEngine
                 }
             }
         }
+
         public EventHandler.EventResult RunEvent(int triggerID, object[] parameters = null)
         {
+            currentCallCount++;
+            if (currentCallCount > callMaximum)
+            {
+                Output.WriteLineTagged("Game is manually breaking out of event system to prevent stack overflow (too many events at once)", Output.Tag.Error);
+                return EventHandler.EventResult.Nothing;
+            }
             RunConnections(triggerID);
-            return _eventAction(parameters);
+            EventHandler.EventResult result = _eventAction(parameters);
+            currentCallCount--;
+            return result;
         }
     }
 }

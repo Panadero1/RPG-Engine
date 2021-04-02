@@ -64,6 +64,8 @@ namespace GameEngine
          Execute = true;
          World.Dialogue = new Dictionary<int, string>();
          World.ContentsIndex = new List<Contents>();
+
+         Event.currentCallCount = 0;
       }
 
       // Gamemode-specific functions
