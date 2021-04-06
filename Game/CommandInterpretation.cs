@@ -177,6 +177,10 @@ namespace GameEngine
 		{
 			result = null;
 			List<string> results = new List<string>();
+			if (AskYesNo("Would you like to choose none of them?"))
+			{
+				return true;
+			}
 			do
 			{
 				Output.WriteLineTagged("Here are your options:", Output.Tag.List);
