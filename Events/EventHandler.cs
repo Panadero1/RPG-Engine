@@ -100,9 +100,18 @@ namespace GameEngine
 					"OnContentsMove",
 					new Event
 					(
-						// Coord direction
+						// Contents moveContents Coord direction
+						
 						(parameters) =>
 						{
+							Contents moveContents = (Contents)parameters[0];
+							Coord direction = (Coord)parameters[1];
+
+							if (moveContents.HasTag("nomove"))
+							{
+								Output.WriteLineTagged("Object cannot be moved", Output.Tag.World);
+								return EventResult.TerminateAction;
+							}
 							return EventResult.Nothing;
 						}
 					)
@@ -114,6 +123,13 @@ namespace GameEngine
 						// Contents holding
 						(parameters) =>
 						{
+							Contents holding = (Contents)parameters[0];
+
+							if (holding.HasTag("nouse"))
+							{
+								Output.WriteLineTagged("Object cannot be used", Output.Tag.World);
+								return EventResult.TerminateAction;
+							}
 							return EventResult.Nothing;
 						}
 					)
@@ -125,6 +141,31 @@ namespace GameEngine
 						// Contents interactContents
 						(parameters) =>
 						{
+							Contents interactContents = (Contents)parameters[0];
+
+							if (interactContents.HasTag("nointeract"))
+							{
+								Output.WriteLineTagged("Object cannot be interacted with", Output.Tag.World);
+								return EventResult.TerminateAction;
+							}
+							return EventResult.Nothing;
+						}
+					)
+				},
+				{
+					"OnLooked",
+					new Event
+					(
+						// Contents lookContents
+
+						(parameters) =>
+						{
+							Contents lookContents = (Contents)parameters[0];
+							if (lookContents.HasTag("nolook"))
+							{
+								Output.WriteLineTagged("Contents on tile are indescribable/unnoticable", Output.Tag.World);
+								return EventResult.TerminateAction;
+							}
 							return EventResult.Nothing;
 						}
 					)
@@ -157,6 +198,13 @@ namespace GameEngine
 						// Contents addedContents
 						(parameters) =>
 						{
+							Contents addedContents = (Contents)parameters[0];
+
+							if (addedContents.HasTag("noadd"))
+							{
+								Output.WriteLineTagged("Contents cannot be added to a container", Output.Tag.World);
+								return EventResult.TerminateAction;
+							}
 							return EventResult.Nothing;
 						}
 					)
@@ -168,6 +216,13 @@ namespace GameEngine
 						// Contents removedContents
 						(parameters) =>
 						{
+							Contents removedContents = (Contents)parameters[0];
+
+							if (removedContents.HasTag("noadd"))
+							{
+								Output.WriteLineTagged("Contents cannot be removed from its container", Output.Tag.World);
+								return EventResult.TerminateAction;
+							}
 							return EventResult.Nothing;
 						}
 					)

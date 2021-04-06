@@ -111,7 +111,7 @@ namespace GameEngine
 					{
 						if (tileAtCoords.Contents != null)
 						{
-							EventHandler.IdentifierEventMapping["OnPlayerMovedNear"].RunEvent(tileAtCoords.Contents.ID);
+							EventHandler.IdentifierEventMapping["OnPlayerMovedNear"].RunEvent(tileAtCoords.Contents.ID, new object[] { tileAtCoords.Contents });
 						}
 					}
 				}
@@ -377,6 +377,7 @@ namespace GameEngine
 					return;
 				}
 
+
 				Output.WriteLineTagged("Observing tile " + paramters[0] + " " + paramters[1], Output.Tag.World);
 
 				Output.WriteLineTagged("The floor appears to be " + lookTile.Floor.Name, Output.Tag.World);
@@ -385,9 +386,9 @@ namespace GameEngine
 					Output.WriteLineTagged("There is nothing on the tile.", Output.Tag.World);
 					return;
 				}
-				if (lookTile.Contents.HasTag("nolook"))
+				if (EventHandler.IdentifierEventMapping["OnLooked"].RunEvent(lookTile.Contents.ID) == EventHandler.EventResult.TerminateAction)
 				{
-
+					return;
 				}
 				if (!(UseActions.TryGetIdentifier(lookTile.Contents.UseAction, out string action) && Behavior.TryGetIdentifiers(lookTile.Contents.Behaviors, out string behavior)))
 				{

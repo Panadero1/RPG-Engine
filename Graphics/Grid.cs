@@ -338,7 +338,7 @@ namespace GameEngine
 				Contents removedContents = startingContents;
 				Coord newCoord = startingContents.Coordinates.Add(direction);
 
-				if (EventHandler.IdentifierEventMapping["OnContentsMove"].RunEvent(id, new object[] { direction }) == EventHandler.EventResult.TerminateAction)
+				if (EventHandler.IdentifierEventMapping["OnContentsMove"].RunEvent(id, new object[] { startingContents, direction }) == EventHandler.EventResult.TerminateAction)
 				{
 				return;
 				}

@@ -13,7 +13,12 @@ namespace GameEngine
 			"explode",
 			"nopick",
 			"nodestroy",
-
+			"nomove",
+			"nolook",
+			"nointeract",
+			"nouse",
+			"noadd",
+			"noremove"
 		};
 
 		// Whether the user is looking at the map or a specific level
