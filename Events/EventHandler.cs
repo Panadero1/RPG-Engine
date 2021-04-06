@@ -29,18 +29,18 @@ namespace GameEngine
 						// Contents target, int damage, bool displayMessage
 						(parameters) =>
 						{
-								Contents target = (Contents)parameters[0];
+							Contents target = (Contents)parameters[0];
 
-								bool displayMessage = (bool)parameters[2];
-								if (target.HasTag("invulnerable"))
+							bool displayMessage = (bool)parameters[2];
+							if (target.HasTag("invulnerable"))
+							{
+								if (displayMessage)
 								{
-									if (displayMessage)
-									{
-										Output.WriteLineTagged("Object is invulnerable", Output.Tag.World);
-									}
-									return EventResult.TerminateAction;
+									Output.WriteLineTagged("Object is invulnerable", Output.Tag.World);
 								}
-								return EventResult.Nothing;
+								return EventResult.TerminateAction;
+							}
+							return EventResult.Nothing;
 						}
 					)
 				},
@@ -51,26 +51,26 @@ namespace GameEngine
 						// Contents target, int damage, bool displayMessage
 						(parameters) =>
 						{
-								Contents contents = (Contents)parameters[0];
+							Contents contents = (Contents)parameters[0];
 
-								bool displayMessage = (bool)parameters[2];
-								if (contents.HasTag("nodestroy"))
+							bool displayMessage = (bool)parameters[2];
+							if (contents.HasTag("nodestroy"))
+							{
+								if (displayMessage)
 								{
-									if (displayMessage)
-									{
-										Output.WriteLineTagged("Object is invulnerable", Output.Tag.World);
-									}
-									return EventResult.TerminateAction;
+									Output.WriteLineTagged("Object is invulnerable", Output.Tag.World);
 								}
-								if (contents.HasTag("explode"))
-								{
-									Behavior.DamageAllAround(contents);
-								}
-								if (contents.ID == World.Player.Contents.ID)
-								{
-									return IdentifierEventMapping["OnPlayerDied"].RunEvent(World.Player.Contents.ID);
-								}
-								return EventResult.Nothing;
+								return EventResult.TerminateAction;
+							}
+							if (contents.HasTag("explode"))
+							{
+								Behavior.DamageAllAround(contents);
+							}
+							if (contents.ID == World.Player.Contents.ID)
+							{
+								return IdentifierEventMapping["OnPlayerDied"].RunEvent(World.Player.Contents.ID);
+							}
+							return EventResult.Nothing;
 						}
 					)
 				},
@@ -81,7 +81,7 @@ namespace GameEngine
 						// No parameters yet
 						(parameters) =>
 						{
-								return EventResult.Nothing;
+							return EventResult.Nothing;
 						}
 					)
 				},
@@ -92,7 +92,7 @@ namespace GameEngine
 						// Coord direction
 						(parameters) =>
 						{
-								return EventResult.Nothing;
+							return EventResult.Nothing;
 						}
 					)
 				},
@@ -103,7 +103,7 @@ namespace GameEngine
 						// Coord direction
 						(parameters) =>
 						{
-								return EventResult.Nothing;
+							return EventResult.Nothing;
 						}
 					)
 				},
@@ -114,7 +114,7 @@ namespace GameEngine
 						// Contents holding
 						(parameters) =>
 						{
-								return EventResult.Nothing;
+							return EventResult.Nothing;
 						}
 					)
 				},
@@ -125,7 +125,7 @@ namespace GameEngine
 						// Contents interactContents
 						(parameters) =>
 						{
-								return EventResult.Nothing;
+							return EventResult.Nothing;
 						}
 					)
 				},
@@ -136,7 +136,17 @@ namespace GameEngine
 						// No params
 						(parameters) =>
 						{
-								return EventResult.Nothing;
+							return EventResult.Nothing;
+						}
+					)
+				},
+				{
+					"OnPlayerMovedNear",
+					new Event
+					(
+						(parameters) =>
+						{
+							return EventResult.Nothing;
 						}
 					)
 				},
@@ -147,7 +157,7 @@ namespace GameEngine
 						// Contents addedContents
 						(parameters) =>
 						{
-								return EventResult.Nothing;
+							return EventResult.Nothing;
 						}
 					)
 				},
@@ -158,7 +168,7 @@ namespace GameEngine
 						// Contents removedContents
 						(parameters) =>
 						{
-								return EventResult.Nothing;
+							return EventResult.Nothing;
 						}
 					)
 				},

@@ -98,8 +98,24 @@ namespace GameEngine
 		{
 			if (CommandInterpretation.InterpretDirection(parameters[0], out Coord addCoord))
 			{
+				Coord[] directions = new Coord[]
+				{
+					new Coord(0, 1),
+					new Coord(0, -1),
+					new Coord(1, 0),
+					new Coord(-1, 0)
+				};
+				foreach (Coord coord in directions)
+				{
+					if (World.LoadedLevel.Grid.GetTileAtCoords(World.Player.Contents.Coordinates.Add(addCoord.Add(coord)), out Tile tileAtCoords))
+					{
+						if (tileAtCoords.Contents != null)
+						{
+							EventHandler.IdentifierEventMapping["OnPlayerMovedNear"].RunEvent(tileAtCoords.Contents.ID);
+						}
+					}
+				}
 				World.LoadedLevel.Grid.MoveContents(World.Player.Contents, addCoord);
-
 			}
 		}
 
