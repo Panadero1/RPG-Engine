@@ -9,6 +9,18 @@ namespace GameEngine
       // Used for unique contents identification
       public static int uniqueIndex = 0;
 
+      public static Dictionary<string, Type> EditableMembers = new Dictionary<string, Type>
+      {
+         { "Name", typeof(string) },
+         { "Visual Character", typeof(char) },
+         { "Transparent", typeof(bool) },
+         { "Durability", typeof(int) },
+         { "Size", typeof(int) },
+         { "Weight", typeof(float) },
+         { "Use Action", typeof(Action<string[], Contents>)},
+         { "Behaviors", typeof(Action<Contents>[]) }
+      };
+
       // The coordinates of the contents
       public Coord Coordinates;
 

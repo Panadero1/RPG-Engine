@@ -1468,8 +1468,8 @@ namespace GameEngine
                     {
                         "Behavior",
                         "Interact",
-                        "Display"
-                        // TODO: Add Edit contents
+                        "Display",
+                        "Edit"
                     };
 
                     if (!CommandInterpretation.InterpretString(resultTypes, out resultType))
@@ -1492,8 +1492,104 @@ namespace GameEngine
                         case "Display":
                             resultInformation = CommandInterpretation.GetUserResponse("Please enter the line of text to display.");
                             break;
+                        case "Edit":
+                            if (!CommandInterpretation.InterpretString(Contents.EditableMembers.Keys.ToArray(), out string editChoice))
+                            {
+                                return;
+                            }
+                            resultInformation = editChoice + " ";
+
+                            Type type = Contents.EditableMembers[editChoice];
+
+                            // Can't use switch statement for type... sad
+                            if (type == typeof(string))
+                            {
+                                resultInformation += CommandInterpretation.GetUserResponse();
+                            }
+                            else if (type == typeof(char))
+                            {
+                                if (!CommandInterpretation.InterpretChar(CommandInterpretation.GetUserResponse("Enter character"), out char charResponse))
+                                {
+                                    return;
+                                }
+                                resultInformation += charResponse.ToString();
+                            }
+                            else if (type == typeof(int))
+                            {
+                                if (!CommandInterpretation.InterpretString(new string[] { "up", "down", "change" }, out string intDecision))
+                                {
+                                    return;
+                                }
+
+                                if (intDecision == "change")
+                                {
+                                    intDecision = CommandInterpretation.GetUserResponse("Enter the number");
+                                    if (!int.TryParse(intDecision, out _))
+                                    {
+                                        return;
+                                    }
+                                }
+
+                                resultInformation += intDecision;
+                            }
+                            else if (type == typeof(float))
+                            {
+                                if (!CommandInterpretation.InterpretString(new string[] { "up", "down", "change" }, out string floatDecision))
+                                {
+                                    return;
+                                }
+
+                                if (floatDecision == "change")
+                                {
+                                    floatDecision = CommandInterpretation.GetUserResponse("Enter the number");
+                                    if (!float.TryParse(floatDecision, out _))
+                                    {
+                                        return;
+                                    }
+                                }
+
+                                resultInformation += floatDecision;
+                            }
+                            else if (type == typeof(bool))
+                            {
+                                if (!CommandInterpretation.InterpretString(new string[] { "invert", "change" }, out string boolDecision))
+                                {
+                                    return;
+                                }
+
+                                
+
+                                if (boolDecision == "change")
+                                {
+                                    resultInformation += CommandInterpretation.InterpretYesNo("What would you like to change it to? (t/f)");
+                                }
+                                else
+                                {
+                                    resultInformation += boolDecision;
+                                }
+                            }
+                            // v Behavior
+                            else if (type == typeof(Action<Contents>[]))
+                            {
+                                if (!CommandInterpretation.InterpretStringMC(Behavior.GetIdentifiers(), out string[] behaviorChoices))
+                                {
+                                    return;
+                                }
+                                resultInformation += string.Join(",", behaviorChoices);
+                            }
+                            else if (type == typeof(Action<string[], Contents>))
+                            {
+                                if (!CommandInterpretation.InterpretString(UseActions.GetIdentifiers(), out string actionChoice))
+                                {
+                                    return;
+                                }
+                                resultInformation += actionChoice;
+                            }
+
+                            break;
                         // v Compiler error if I do not include this
                         default:
+                            Output.WriteLineTagged("Something is messed up with your world file. This part of the code should not have run", Output.Tag.Error);
                             resultInformation = string.Empty;
                             break;
                     }

@@ -100,8 +100,8 @@ namespace GameEngine
       // When it does not come back conclusive, default is "no"
       public static bool InterpretYesNo(string response)
       {
-         string[] validYes = new string[] { "yes", "ok", "okay", "sure", "y", "alright", "yeah", "yep", "true" };
-         string[] validNo = new string[] { "no", "cancel", "nope", "nah", "n", "false" };
+         string[] validYes = new string[] { "yes", "ok", "okay", "sure", "y", "alright", "yeah", "yep", "true", "t" };
+         string[] validNo = new string[] { "no", "cancel", "nope", "nah", "n", "false", "f" };
 
          if (InterpretString(response, validYes, out _))
          {
