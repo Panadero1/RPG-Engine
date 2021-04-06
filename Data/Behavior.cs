@@ -10,21 +10,21 @@ namespace GameEngine
 		// Array of Actions (see below the array of strings that represents the identifiers)
 		public static (Action<Contents> Behavior, string Identifier)[] CustomCommands = new (Action<Contents>, string)[]
 		{
-         (DoesNothing, "DoesNothing"),
-         (Wander, "Wander"),
-         (MonsterVictory, "MonsterVictory"),
-         (AttackClose, "AttackClose"),
-         (AttackMed, "AttackMed"),
-         (AttackFar, "AttackFar"),
-         (MoveTowardsPlayer, "MoveTowardsPlayer"),
-         (Target, "Target"),
-         (MoveAwayFromPlayer, "MoveAwayFromPlayer"),
-         (MoveNorth, "MoveNorth"),
-         (MoveSouth, "MoveSouth"),
-         (MoveEast, "MoveEast"),
-         (MoveWest, "MoveWest"),
-         (DamageAllAround, "DamageAllAround"),
-         (DamageSelf, "DamageSelf")
+			(DoesNothing, "DoesNothing"),
+			(Wander, "Wander"),
+			(MonsterVictory, "MonsterVictory"),
+			(AttackClose, "AttackClose"),
+			(AttackMed, "AttackMed"),
+			(AttackFar, "AttackFar"),
+			(MoveTowardsPlayer, "MoveTowardsPlayer"),
+			(Target, "Target"),
+			(MoveAwayFromPlayer, "MoveAwayFromPlayer"),
+			(MoveNorth, "MoveNorth"),
+			(MoveSouth, "MoveSouth"),
+			(MoveEast, "MoveEast"),
+			(MoveWest, "MoveWest"),
+			(DamageAllAround, "DamageAllAround"),
+			(DamageSelf, "DamageSelf")
 		};
 
 		public static string[] GetIdentifiers()
@@ -124,12 +124,12 @@ namespace GameEngine
 			Random rand = new Random();
 
 			List<Coord> wanderCoords = new List<Coord>()
-         {
-            new Coord(0, 1),
-            new Coord(0, -1),
-            new Coord(1, 0),
-            new Coord(-1, 0)
-         };
+			{
+				new Coord(0, 1),
+				new Coord(0, -1),
+				new Coord(1, 0),
+				new Coord(-1, 0)
+			};
 
 			for (int coordIndex = 0; coordIndex < wanderCoords.Count; coordIndex++)
 			{
@@ -389,10 +389,10 @@ namespace GameEngine
 		{
 			Coord[] damageCoords = new Coord[]
 			{
-            new Coord(1, 0),
-            new Coord(-1, 0),
-            new Coord(0, 1),
-            new Coord(0, -1),
+				new Coord(1, 0),
+				new Coord(-1, 0),
+				new Coord(0, 1),
+				new Coord(0, -1),
 			};
 			foreach (Coord damageCoord in damageCoords)
 			{
