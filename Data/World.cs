@@ -13,7 +13,7 @@ namespace GameEngine
 		private static readonly Coord _zeroZero = new Coord(0, 0);
 
 		// The player is the controllable character. It is set as a default only for the purpose of satisfying a default player for levelEditor
-		public static Player Player = new Player(new Contents("Player", 0, 'A', true, 10, 10, 50, true, 100, new List<Contents>() { }, UseActions.DoesNothing, new Action<Contents>[] { Behavior.DoesNothing }), null, 50);
+		public static Player Player = new Player(new Contents("Player", 0, 'A', true, 10, 10, 50, true, 100, new List<Contents>() { }, UseActions.DoesNothing, new Action<Contents>[] { Behavior.DoesNothing }), null, 5);
 
 		// Tile templates used to make the demo.txt file.. some are used in the tutorial. Not used for level editing whatsoever
 		#region tile definitions
@@ -32,15 +32,13 @@ namespace GameEngine
 
 		public static Tile Chicken = new Tile(Ground, new Contents("chicken", 0, '>', true, 1, 2, 5, UseActions.DoesNothing, new Action<Contents>[] { Behavior.Wander }), _zeroZero);
 
-		public static Tile Person = new Tile(Ground, new Contents("person", 0, 'p', true, 1, 1, 1000, UseActions.Rude, new Action<Contents>[] { Behavior.Wander }), _zeroZero);
-
 		public static Tile Rock = new Tile(Ground, new Contents("rock", 0, 'o', true, 4, 1, 3, UseActions.DoesNothing, new Action<Contents>[] { Behavior.DoesNothing }), _zeroZero);
 
 		public static Tile Lever = new Tile(Ground, new Contents("lever", 0, 'L', true, 10, 234, 5151, UseActions.Lever, new Action<Contents>[] { Behavior.DoesNothing }), _zeroZero);
 
 		public static Tile Target = new Tile(Ground, new Contents("target", 0, '@', true, 2, 1000, 1000, UseActions.DoesNothing, new Action<Contents>[] { Behavior.Target }), _zeroZero);
 
-		public static Tile GunTile = new Tile(Ground, new Contents("gun", 0, 'r', true, 4, 4, 5, UseActions.Gun, new Action<Contents>[] { Behavior.DoesNothing }), _zeroZero);
+		public static Tile GunTile = new Tile(Ground, new Contents("gun", 0, 'r', true, 4, 4, 5, UseActions.Shoot, new Action<Contents>[] { Behavior.DoesNothing }), _zeroZero);
 
 		public static Tile Sign = new Tile(Ground, new Contents("sign", 130, 'S', true, 4, 10000, 100000, UseActions.Dialogue, new Action<Contents>[] { Behavior.DoesNothing }), _zeroZero);
 
@@ -57,7 +55,6 @@ namespace GameEngine
 			{ "Hog", Hog },
 			{ "Plant", Plant },
 			{ "Chicken", Chicken },
-			{ "Person", Person },
 			{ "Rock", Rock },
 			{ "Lever", Lever },
 			{ "Target", Target },
@@ -683,6 +680,10 @@ namespace GameEngine
 		// This runs through and updates every Tile *AND* runs its behavior
 		public static void UpdateWorld()
 		{
+			if (EventHandler.IdentifierEventMapping["OnUpdate"].RunEvent(0) == EventHandler.EventResult.TerminateAction)
+			{
+				return;
+			}
 			Level realLoadedLevel = LoadedLevel;
 			foreach (Level level in WorldMap.LevelMap)
 			{

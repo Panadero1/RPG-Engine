@@ -1594,11 +1594,20 @@ namespace GameEngine
 								}
 								resultInformation += string.Join(",", behaviorChoices);
 							}
+							// v UseAction
 							else if (type == typeof(Action<string[], Contents>))
 							{
 								if (!CommandInterpretation.InterpretString(UseActions.GetIdentifiers(), out string actionChoice))
 								{
 									return;
+								}
+								if (actionChoice == "Dialogue")
+								{
+									if (!World.Dialogue.TryGetValue(resultContentsID, out _))
+									{
+										Output.WriteLineTagged("There is currently no defined dialogue for this contents", Output.Tag.Error);
+										World.Dialogue.Add(resultContentsID, CommandInterpretation.GetUserResponse("Enter the dialogue line here."));
+									}
 								}
 								resultInformation += actionChoice;
 							}

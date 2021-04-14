@@ -12,7 +12,6 @@ namespace GameEngine
 		{
 			(DoesNothing, "DoesNothing"),
 			(Wander, "Wander"),
-			(MonsterVictory, "MonsterVictory"),
 			(AttackClose, "AttackClose"),
 			(AttackMed, "AttackMed"),
 			(AttackFar, "AttackFar"),
@@ -119,6 +118,7 @@ namespace GameEngine
 		{
 
 		}
+		
 		public static void Wander(Contents contents)
 		{
 			Random rand = new Random();
@@ -148,36 +148,7 @@ namespace GameEngine
 
 			World.LoadedLevel.Grid.MoveContents(contents, wanderCoords[rand.Next(0, wanderCoords.Count)], false);
 		}
-		public static void MonsterVictory(Contents contents)
-		{
-			bool chickens = false;
-			foreach (Contents contained in contents.Contained)
-			{
-				if (contained.Name == "chicken")
-				{
-					chickens = true;
-				}
-				else
-				{
-					Output.WriteLineTagged("EW!!! That's so gross!!! >:( that tasted so bad", Output.Tag.Dialogue);
-					contents.Contained.RemoveAt(0);
-				}
-			}
-			if (chickens)
-			{
-				Output.WriteLineTagged("Yummy! Thanks so much! That was delicious :)", Output.Tag.Dialogue);
-				if (contents.Durability == 1)
-				{
-					Output.WriteLineTagged("Monster explodes...", Output.Tag.Dialogue);
-				}
-				else
-				{
-					contents.Contained.RemoveAt(0);
-					Output.WriteLineTagged("> Could you please maybe bring me one more chicken? :(", Output.Tag.Dialogue);
-				}
-				contents.Damage(1, false);
-			}
-		}
+		
 		public static void AttackClose(Contents contents)
 		{
 			if (!(World.GetPlayerLevel(out Level playerLevel) && playerLevel.Equals(World.LoadedLevel)))
@@ -189,6 +160,7 @@ namespace GameEngine
 				World.Player.Contents.Damage(1, false);
 			}
 		}
+		
 		public static void AttackMed(Contents contents)
 		{
 			if (!(World.GetPlayerLevel(out Level playerLevel) && playerLevel.Equals(World.LoadedLevel)))
@@ -200,6 +172,7 @@ namespace GameEngine
 				World.Player.Contents.Damage(1, false);
 			}
 		}
+		
 		public static void AttackFar(Contents contents)
 		{
 			if (!(World.GetPlayerLevel(out Level playerLevel) && playerLevel.Equals(World.LoadedLevel)))
@@ -211,6 +184,7 @@ namespace GameEngine
 				World.Player.Contents.Damage(1, false);
 			}
 		}
+		
 		public static void Target(Contents contents)
 		{
 			if (contents.Durability < 2)
@@ -235,6 +209,7 @@ namespace GameEngine
 				contents.Durability = 2;
 			}
 		}
+		
 		public static void MoveTowardsPlayer(Contents contents)
 		{
 			if (!(World.GetPlayerLevel(out Level playerLevel) && playerLevel.Equals(World.LoadedLevel)))

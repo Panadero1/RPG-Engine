@@ -210,7 +210,7 @@ namespace GameEngine
 					for (int connectionIndex = 0; connectionIndex < EventHandler.IdentifierEventMapping[eventKey].ConnectionList.Count; connectionIndex++)
 					{
 						Connection connection = EventHandler.IdentifierEventMapping[eventKey].ConnectionList[connectionIndex];
-						if (connection.TriggerContentsID == ID)
+						if (connection.TriggerContentsID == ID || connection.ResultContentsID == ID)
 						{
 							EventHandler.IdentifierEventMapping[eventKey].ConnectionList.Remove(connection);
 							// v So that it doesn't skip anything

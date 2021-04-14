@@ -10,12 +10,8 @@ namespace GameEngine
 		public static (Action<string[], Contents> Action, string Identifier)[] CustomCommands = new (Action<string[], Contents>, string)[]
 		{
 			(DoesNothing,"DoesNothing"),
-			(MonsterDialogue,"MonsterDialogue"),
-			(Rude, "Rude"),
 			(Lever, "Lever"),
-			(Tombstone, "Tombstone"),
-			(Boo, "Boo"),
-			(Gun, "Gun"),
+			(Shoot, "Shoot"),
 			(Dialogue, "Dialogue"),
 			(HealPlayer, "HealPlayer"),
 			(PoisonPlayer, "PoisonPlayer")
@@ -74,31 +70,6 @@ namespace GameEngine
 		{
 			Output.WriteLineTagged("The object does nothing.", Output.Tag.World);
 		}
-		public static void MonsterDialogue(string[] parameters, Contents contents)
-		{
-			Output.WriteLineTagged("Hello friend!!! I am very...hungry and need some chickens to eat. Can you bring some? Thanks friend!\nThey look like this!\t>", Output.Tag.Dialogue);
-		}
-		public static void Rude(string[] parameters, Contents contents)
-		{
-			Random rand = new Random();
-			switch (rand.Next(6))
-			{
-				case 0:
-					Output.WriteLineTagged("You're in my way!", Output.Tag.Dialogue);
-					break;
-				case 1:
-					Output.WriteLineTagged("What are you looking at?", Output.Tag.Dialogue);
-					break;
-				case 2:
-					Output.WriteLineTagged("Do I know you?", Output.Tag.Dialogue);
-					break;
-				case 3:
-					Output.WriteLineTagged("Don't bug me!", Output.Tag.Dialogue);
-					break;
-				default:
-					break;
-			}
-		}
 		public static void Lever(string[] parameters, Contents contents)
 		{
 			foreach (Tile tile in World.LoadedLevel.Grid.TileGrid)
@@ -119,17 +90,7 @@ namespace GameEngine
 				}
 			}
 		}
-		public static void Tombstone(string[] parameters, Contents contents)
-		{
-			Random rand = new Random();
-			string[] names = { "Jerry", "Larry", "Bob", "Betsy", "You", "Nobody. We just had too many gravestones :)" };
-			Output.WriteLineTagged("R.I.P " + names[rand.Next(names.Length)], Output.Tag.Text);
-		}
-		public static void Boo(string[] parameters, Contents contents)
-		{
-			Output.WriteLineTagged("Boo! :)", Output.Tag.Dialogue);
-		}
-		public static void Gun(string[] parameters, Contents contents)
+		public static void Shoot(string[] parameters, Contents contents)
 		{
 			if (World.Player.Holding.Name != contents.Name)
 			{

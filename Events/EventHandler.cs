@@ -227,6 +227,16 @@ namespace GameEngine
 						}
 					)
 				},
+				{
+					"OnUpdate",
+					new Event
+					(
+						(parameters) =>
+						{
+							return EventResult.Nothing;
+						}
+					)
+				}
 		};
 	}
 }
