@@ -1483,10 +1483,10 @@ namespace GameEngine
 
 					string[] resultTypes = new string[]
 					{
-								"Behavior",
-								"Interact",
-								"Display",
-								"Edit"
+						"Behavior",
+						"Interact",
+						"Display",
+						"Edit"
 					};
 
 					if (!CommandInterpretation.InterpretString(resultTypes, out resultType))
