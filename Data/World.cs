@@ -743,6 +743,10 @@ namespace GameEngine
 			result = null;
 			foreach (Level level in WorldMap.LevelMap)
 			{
+				if (level == null)
+				{
+					continue;
+				}
 				foreach (Tile tile in level.Grid.TileGrid)
 				{
 					Contents contents = tile.Contents;

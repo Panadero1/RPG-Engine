@@ -60,7 +60,7 @@ namespace GameEngine
 					for (int helpLineIndex = commandParameter; helpLineIndex < commandItem.HelpLines.Length + 1; helpLineIndex++)
 					{
 						string helpLine = commandItem.HelpLines[helpLineIndex - 1];
-						Output.WriteLineToConsole(helpLine);
+						Output.WriteLineTagged(helpLine, Output.Tag.Prompt);
 						responses.Add(CommandInterpretation.GetUserResponse());
 					}
 					commandItem.CustomCommand(responses.ToArray());

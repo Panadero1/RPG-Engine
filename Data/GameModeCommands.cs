@@ -107,7 +107,7 @@ namespace GameEngine
 				};
 				foreach (Coord coord in directions)
 				{
-					if (World.LoadedLevel.Grid.GetTileAtCoords(World.Player.Contents.Coordinates.Add(addCoord.Add(coord)), out Tile tileAtCoords))
+					if (World.LoadedLevel.Grid.GetTileAtCoords(World.Player.Contents.Coordinates.Add(addCoord.Add(coord)), out Tile tileAtCoords, false))
 					{
 						if (tileAtCoords.Contents != null)
 						{
@@ -778,9 +778,19 @@ namespace GameEngine
 			if (levelAtCoords == null)
 			{
 				Output.WriteLineTagged("This level is empty. We are going to create a new one here.", Output.Tag.Error);
+				if (!CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse("Enter a name for this level"), out string levelName))
+				{
+					return;
+				}
+
+				if (!CommandInterpretation.InterpretChar(CommandInterpretation.GetUserResponse("Enter a character (letter, number, or symbol) to represent this level"), out char levelChar))
+				{
+					return;
+				}
+
 				levelAtCoords = new Level(
-					 CommandInterpretation.GetUserResponse("Enter a name for this level"),
-					 CommandInterpretation.GetUserResponse("Enter a character (letter, number, or symbol) to represent this level")[0],
+					 levelName,
+					 levelChar,
 					 new Grid(new Tile[1, 1] { { (Tile)World.Empty.Clone() } }),
 					 levelCoord,
 					 null,
