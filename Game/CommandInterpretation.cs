@@ -318,6 +318,7 @@ namespace GameEngine
 		{
 			Output.WriteLineToConsole("\nContents");
 			result = null;
+			int uniqueID = Contents.UniqueID();
 
 			Dictionary<string, string> preContainerParamMap = new Dictionary<string, string>()
 			{
@@ -338,6 +339,12 @@ namespace GameEngine
 				return false;
 			}
 			preContainerParamMap["Action"] = actionString;
+
+			if (preContainerParamMap["Action"] == "Dialogue")
+			{
+				string dialogue = CommandInterpretation.GetUserResponse("Please enter the line of dialogue for this contents");
+				World.Dialogue.Add(uniqueID, dialogue);
+			}
 
 			Output.WriteLineTagged("Choose a behavior for this contents", Output.Tag.Prompt);
 			do
@@ -376,12 +383,6 @@ namespace GameEngine
 				Output.WriteLineTagged("Action was not found", Output.Tag.Error);
 				return false;
 			}
-			int uniqueID = Contents.UniqueID();
-			if (preContainerParamMap["Action"] == "Dialogue")
-			{
-				string dialogue = CommandInterpretation.GetUserResponse("Please enter the line of dialogue for this contents");
-				World.Dialogue.Add(uniqueID, dialogue);
-			}
 
 			if (!Behavior.TryGetBehaviors(tempBehavior.Split(","), out Action<Contents>[] behavior))
 			{
@@ -393,6 +394,10 @@ namespace GameEngine
 			if (!CommandInterpretation.InterpretStringMC(Editor.AvailableTags, out string[] tags))
 			{
 				return false;
+			}
+			if (tags == null)
+			{
+				tags = new string[] { "" };
 			}
 			#endregion
 

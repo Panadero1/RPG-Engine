@@ -241,7 +241,7 @@ namespace GameEngine
 			if (CommandInterpretation.AskYesNo("Would you like to save the file as a different name?"))
 			{
 				string response = CommandInterpretation.GetUserResponse("Please indicate the name of the file");
-				Path.ChangeExtension(response, ".txt");
+				Path.ChangeExtension(response, ".xml");
 
 				World.SaveToFile(Path.Combine(Game.FilePath, response));
 			}
@@ -273,7 +273,7 @@ namespace GameEngine
 			if (CommandInterpretation.AskYesNo("Would you like to save the file as a different name?"))
 			{
 				string response = CommandInterpretation.GetUserResponse("Please indicate the name of the file");
-				Path.ChangeExtension(response, ".txt");
+				Path.ChangeExtension(response, ".xml");
 
 				World.SaveToFile(Path.Combine(Game.FilePath, response));
 			}
@@ -386,7 +386,7 @@ namespace GameEngine
 					Output.WriteLineTagged("There is nothing on the tile.", Output.Tag.World);
 					return;
 				}
-				if (EventHandler.IdentifierEventMapping["OnLooked"].RunEvent(lookTile.Contents.ID) == EventHandler.EventResult.TerminateAction)
+				if (EventHandler.IdentifierEventMapping["OnLooked"].RunEvent(lookTile.Contents.ID, new object[] { lookTile.Contents }) == EventHandler.EventResult.TerminateAction)
 				{
 					return;
 				}
@@ -403,7 +403,7 @@ namespace GameEngine
 				Output.WriteLineTagged("Container: " + lookTile.Contents.Container, Output.Tag.World);
 
 				Output.WriteLineTagged("Use Action: " + action, Output.Tag.World);
-				Output.WriteLineTagged("Behaviors: " + behavior, Output.Tag.World);
+				Output.WriteLineTagged("Behaviors: " + behavior + "\n", Output.Tag.World);
 
 				World.ContentsIndex.Add(lookTile.Contents);
 			}
@@ -515,7 +515,7 @@ namespace GameEngine
 				return;
 			}
 			string mapName = CommandInterpretation.GetUserResponse("Enter a name for this new map.");
-			Game.FilePath = Path.Combine(fileMouth, Path.ChangeExtension(mapName, ".txt"));
+			Game.FilePath = Path.Combine(fileMouth, Path.ChangeExtension(mapName, ".xml"));
 			World.WorldMap = new Map(new Level[1, 1], mapName);
 		}
 
@@ -1170,12 +1170,16 @@ namespace GameEngine
 				}
 				else if (result == memberNames[11])
 				{
-					List<string> newTags = new List<string>();
-					do
+					Output.WriteLineTagged("Enter as many tags as you like.", Output.Tag.Prompt);
+					if (!CommandInterpretation.InterpretStringMC(Editor.AvailableTags, out string[] tags))
 					{
-						newTags.Add(CommandInterpretation.GetUserResponse("What tag would you like to assign? (case is irrelevant)"));
-					} while (CommandInterpretation.InterpretYesNo("Would you like to add any more?"));
-					contents.Tags = newTags.ToArray();
+						return;
+					}
+					if (tags == null)
+					{
+						tags = new string[] { "" };
+					}
+					contents.Tags = tags;
 				}
 			}
 		}
@@ -1409,6 +1413,11 @@ namespace GameEngine
 						if (!(CommandInterpretation.InterpretAlphaNum(out Coord levelCoord) && World.WorldMap.GetLevelAtCoords(levelCoord, out Level newPlayerLevel)))
 						{
 							return;
+						}
+						if (newPlayerLevel == null)
+						{
+							Game.Com.EvaluateCommand("level " + levelCoord.ToAlphaNum());
+							newPlayerLevel = World.LoadedLevel;
 						}
 						Output.WriteLineToConsole(newPlayerLevel.Grid.GraphicString(false));
 						Output.WriteLineTagged("Enter coordinates of the tile to send player", Output.Tag.Prompt);

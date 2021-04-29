@@ -92,7 +92,7 @@ namespace GameEngine
 		}
 		public static void Shoot(string[] parameters, Contents contents)
 		{
-			if (World.Player.Holding.Name != contents.Name)
+			if (!(World.Player.Holding != null && World.Player.Holding.Name == contents.Name))
 			{
 				Output.WriteLineTagged("You can't fire the weapon while it's on the ground.", Output.Tag.World);
 				return;

@@ -20,7 +20,8 @@ namespace GameEngine
 			{ "Game", (GameEngine, GameModeCommands.EngineCommands) },
 			{ "Tutorial", (Tutorial, GameModeCommands.TutorialCommands)},
 			{ "Level Editor", (LevelEditor, GameModeCommands.EditorCommands) },
-			{ "Exit", (Exit, null) }
+			{ "Show maps folder", (ShowMaps, null)},
+			{ "Exit", (Exit, null) },
 		};
 
 		public static string GameMode;
@@ -269,6 +270,17 @@ namespace GameEngine
 		static void Exit()
 		{
 
+		}
+
+		// For showing the maps folder
+		static void ShowMaps()
+		{
+			if (!World.TryGetMapsFolder(out string folderPath))
+			{
+				return;
+			}
+			
+			Output.WriteLineToConsole("Maps folder path: " + folderPath);
 		}
 
 	}

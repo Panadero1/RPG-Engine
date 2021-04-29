@@ -67,7 +67,7 @@ namespace GameEngine
 		// The function this calls every time the world updates. (only when it is on a tile)
 		public Action<Contents>[] Behaviors;
 
-		public string[] Tags = new string[0];
+		public string[] Tags = new string[1] { "" };
 
 		public Contents(string name, int id, char visualChar, bool transparent, int durability, int size, float weight, Action<string[], Contents> useAction, Action<Contents>[] behaviors)
 		{

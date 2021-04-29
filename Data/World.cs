@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 
 
 namespace GameEngine
@@ -15,7 +16,7 @@ namespace GameEngine
 		// The player is the controllable character. It is set as a default only for the purpose of satisfying a default player for levelEditor
 		public static Player Player = new Player(new Contents("Player", 0, 'A', true, 10, 10, 50, true, 100, new List<Contents>() { }, UseActions.DoesNothing, new Action<Contents>[] { Behavior.DoesNothing }), null, 5);
 
-		// Tile templates used to make the demo.txt file.. some are used in the tutorial. Not used for level editing whatsoever
+		// Tile templates used in tutorial and level editor palette
 		#region tile definitions
 
 		public static Floor Ground = new Floor('.', "ground");
@@ -272,7 +273,7 @@ namespace GameEngine
 			DirectoryInfo directory = new DirectoryInfo(fileMouth);
 
 			Dictionary<string, FileInfo> files = new Dictionary<string, FileInfo>();
-			foreach (FileInfo file in directory.GetFiles("*.txt"))
+			foreach (FileInfo file in directory.GetFiles("*.xml"))
 			{
 				files.Add(file.Name, file);
 			}
@@ -303,378 +304,608 @@ namespace GameEngine
 		}
 
 		// This is where all world file interpretation takes place
-		// <worldFile>.txt -> WorldMap
+		// <worldFile>.xml -> WorldMap
 		public static void LoadFromFile(string filePath)
 		{
 			Output.WriteLineToConsole("Loading file " + filePath + "...");
-			StreamReader sr;
-			try
-			{
-				sr = new StreamReader(filePath);
-			}
-			catch
+			if (!File.Exists(filePath))
 			{
 				Output.WriteLineTagged("File path is incorrect", Output.Tag.Error);
 				return;
 			}
 
-			string[] splitLine = SplitNextLine(sr);
-			string mapName = splitLine[1];
+			XmlReaderSettings readerSettings = new XmlReaderSettings();
 
-			List<Level[]> levelGrid = new List<Level[]>();
-			// each row of levels v
-			for (splitLine = SplitNextLine(sr); splitLine[0] != "}"; splitLine = SplitNextLine(sr))
+			readerSettings.IgnoreWhitespace = true;
+
+			FileStream fileStream = File.OpenRead(filePath);
+
+			using (XmlReader xr = XmlReader.Create(fileStream, readerSettings))
 			{
-				List<Level> levels = new List<Level>();
-				// each level within the given row v
-				for (splitLine = SplitNextLine(sr); splitLine[0] != "}"; splitLine = SplitNextLine(sr))
+				xr.MoveToContent();
+
+				xr.Read();
+
+				xr.MoveToNextAttribute();
+
+				string mapName = xr.Value;
+
+				List<Level[]> levelGrid = new List<Level[]>();
+				// Row of levels
+				while (xr.Read())
 				{
-					if (splitLine[0] == "null")
+					if (xr.NodeType == XmlNodeType.EndElement)
 					{
-						levels.Add(null);
-						continue;
+						break;
 					}
-					List<Tile[]> tileGrid = new List<Tile[]>();
-					// each row of tiles within the given level v
-					for (string[] tileRowLine = SplitNextLine(sr); tileRowLine[0] != "}"; tileRowLine = SplitNextLine(sr))
+					List<Level> levels = new List<Level>();
+					// Level
+					while (xr.Read())
 					{
-						List<Tile> tiles = new List<Tile>();
-						// each tile within the given row v
-						for (tileRowLine = SplitNextLine(sr); tileRowLine[0] != "}"; tileRowLine = SplitNextLine(sr))
+						if (xr.NodeType == XmlNodeType.EndElement)
 						{
-							tileRowLine = SplitNextLine(sr);
-							Floor floor = new Floor(tileRowLine[2][0], tileRowLine[1]);
-							Contents contents = GetAllContents(sr)[0];
-							tileRowLine = SplitNextLine(sr);
-							Coord coordinates = new Coord(int.Parse(tileRowLine[1]), int.Parse(tileRowLine[2]));
-							if (contents != null)
-							{
-								contents.Coordinates = coordinates;
-							}
-
-							tiles.Add(new Tile(floor, contents, coordinates));
-							sr.ReadLine();
+							break;
 						}
-						tileGrid.Add(tiles.ToArray());
-					}
 
-					// Parsing Coord from comma-delimited storage on file
-					Coord levelCoord = new Coord(int.Parse(splitLine[4].Split(",")[0]), int.Parse(splitLine[4].Split(",")[1]));
-					Coord northEntry;
-					Coord eastEntry;
-					Coord southEntry;
-					Coord westEntry;
-					if (splitLine[5] == "null")
-					{
-						northEntry = null;
-					}
-					else
-					{
-						northEntry = new Coord(int.Parse(splitLine[5].Split(",")[0]), int.Parse(splitLine[5].Split(",")[1]));
-					}
+						if (!xr.MoveToNextAttribute())
+						{
+							levels.Add(null);
+							continue;
+						}
 
-					if (splitLine[6] == "null")
-					{
-						eastEntry = null;
-					}
-					else
-					{
-						eastEntry = new Coord(int.Parse(splitLine[6].Split(",")[0]), int.Parse(splitLine[6].Split(",")[1]));
-					}
+						Level level = new Level(null, ' ', null, null, null, null, null, null);
 
-					if (splitLine[7] == "null")
-					{
-						southEntry = null;
-					}
-					else
-					{
-						southEntry = new Coord(int.Parse(splitLine[7].Split(",")[0]), int.Parse(splitLine[7].Split(",")[1]));
-					}
+						level.Name = xr.Value;
 
-					if (splitLine[8] == "null")
-					{
-						westEntry = null;
-					}
-					else
-					{
-						westEntry = new Coord(int.Parse(splitLine[8].Split(",")[0]), int.Parse(splitLine[8].Split(",")[1]));
-					}
+						xr.MoveToNextAttribute();
+						level.VisualChar = xr.Value[0];
 
-					Level levelToAdd = new Level(splitLine[1], splitLine[2][0], new Grid(tileGrid.ToArray()), levelCoord, northEntry, eastEntry, southEntry, westEntry);
-					levels.Add(levelToAdd);
-					if (bool.Parse(splitLine[3]))
-					{
-						LoadedLevel = levelToAdd;
+						xr.MoveToNextAttribute();
+						bool loadedLevel = bool.Parse(xr.Value);
+
+						xr.Read();
+						Coord levelCoord = new Coord(0, 0);
+						xr.MoveToNextAttribute();
+						levelCoord.X = int.Parse(xr.Value);
+						xr.MoveToNextAttribute();
+						levelCoord.Y = int.Parse(xr.Value);
+
+						level.LevelCoord = levelCoord;
+
+						#region NESW entry
+
+						// NorthEntry
+						xr.Read();
+						if (xr.HasAttributes)
+						{
+							xr.MoveToNextAttribute();
+							level.NorthEntry = new Coord(0, 0);
+							// X
+							level.NorthEntry.X = int.Parse(xr.Value);
+							// Y
+							xr.MoveToNextAttribute();
+							level.NorthEntry.Y = int.Parse(xr.Value);
+							xr.Read();
+						}
+
+						// EastEntry
+						xr.Read();
+						if (xr.HasAttributes)
+						{
+							xr.MoveToNextAttribute();
+							level.EastEntry = new Coord(0, 0);
+							// X
+							level.EastEntry.X = int.Parse(xr.Value);
+							// Y
+							xr.MoveToNextAttribute();
+							level.EastEntry.Y = int.Parse(xr.Value);
+							xr.Read();
+						}
+
+						// SouthEntry
+						xr.Read();
+						if (xr.HasAttributes)
+						{
+							xr.MoveToNextAttribute();
+							level.SouthEntry = new Coord(0, 0);
+							// X
+							level.SouthEntry.X = int.Parse(xr.Value);
+							// Y
+							xr.MoveToNextAttribute();
+							level.SouthEntry.Y = int.Parse(xr.Value);
+							xr.Read();
+						}
+
+						// WestEntry
+						xr.Read();
+						if (xr.HasAttributes)
+						{
+							xr.MoveToNextAttribute();
+							level.WestEntry = new Coord(0, 0);
+							// X
+							level.WestEntry.X = int.Parse(xr.Value);
+							// Y
+							xr.MoveToNextAttribute();
+							level.WestEntry.Y = int.Parse(xr.Value);
+							xr.Read();
+						}
+						#endregion
+
+						// Grid
+						xr.Read();
+
+						List<Tile[]> tileGrid = new List<Tile[]>();
+						// each row of tiles within the given level v
+						while (xr.Read())
+						{
+							if (xr.NodeType == XmlNodeType.EndElement)
+							{
+								break;
+							}
+							List<Tile> tiles = new List<Tile>();
+							// each tile within the given row v
+							while (xr.Read())
+							{
+								if (xr.NodeType == XmlNodeType.EndElement)
+								{
+									break;
+								}
+								// Coords of the tile
+								xr.Read();
+								Coord tileCoord = new Coord(0, 0);
+								xr.MoveToNextAttribute();
+								tileCoord.X = int.Parse(xr.Value);
+								xr.MoveToNextAttribute();
+								tileCoord.Y = int.Parse(xr.Value);
+
+								// Floor
+								xr.Read();
+								Floor tileFloor = new Floor(' ', "");
+								xr.MoveToNextAttribute();
+								tileFloor.Name = xr.Value;
+								xr.MoveToNextAttribute();
+								tileFloor.VisualChar = xr.Value[0];
+
+								xr.Read();
+								Contents tileContents = GetAllContents(xr)[0];
+
+								tiles.Add(new Tile(tileFloor, tileContents, tileCoord));
+							}
+							tileGrid.Add(tiles.ToArray());
+						}
+						level.Grid = new Grid(tileGrid.ToArray());
+
+						if (loadedLevel)
+						{
+							World.LoadedLevel = level;
+						}
+						xr.Read();
+						levels.Add(level);
 					}
+					levelGrid.Add(levels.ToArray());
 				}
-				levelGrid.Add(levels.ToArray());
-			}
-			WorldMap = new Map(new Level[levelGrid[0].Length, levelGrid.Count], mapName);
-			for (int y = 0; y < WorldMap.LevelMap.GetLength(1); y++)
-			{
-				for (int x = 0; x < WorldMap.LevelMap.GetLength(0); x++)
+				WorldMap = new Map(new Level[levelGrid[0].Length, levelGrid.Count], mapName);
+				for (int y = 0; y < WorldMap.LevelMap.GetLength(1); y++)
 				{
-					WorldMap.LevelMap[x, y] = levelGrid[y][x];
+					for (int x = 0; x < WorldMap.LevelMap.GetLength(0); x++)
+					{
+						WorldMap.LevelMap[x, y] = levelGrid[y][x];
+					}
 				}
-			}
 
-			sr.ReadLine();
+				xr.Read();
 
-			splitLine = SplitNextLine(sr);
+				xr.MoveToNextAttribute();
+				Player.Strength = int.Parse(xr.Value);
 
-			Coord playerCoords = new Coord(int.Parse(splitLine[0]), int.Parse(splitLine[1]));
+				xr.Read();
+				Coord playerCoords = new Coord(0, 0);
 
-			List<Contents> allContents = GetAllContents(sr);
+				xr.MoveToNextAttribute();
+				playerCoords.X = int.Parse(xr.Value);
 
-			if (!World.LoadedLevel.Grid.GetTileAtCoords(playerCoords, out Tile tile, false))
-			{
-				return;
-			}
+				xr.MoveToNextAttribute();
+				playerCoords.Y = int.Parse(xr.Value);
 
-			Player = new Player(tile.Contents, allContents[0], int.Parse(sr.ReadLine()));
+				xr.Read();
+				Player.Holding = GetAllContents(xr)[0];
 
-			Player.Contents.Coordinates = playerCoords;
+				xr.Read();
 
-			sr.ReadLine();
+				// TileIndex
+				xr.Read();
+				xr.Read();
+				xr.Read();
+				ContentsIndex = GetAllContents(xr);
 
-			ContentsIndex = GetAllContents(sr);
-
-			sr.ReadLine();
-
-			for (splitLine = SplitNextLine(sr); splitLine[0] != "}"; splitLine = SplitNextLine(sr))
-			{
-				string restOfLine = "";
-				for (int splitLineIndex = 1; splitLineIndex < splitLine.Length; splitLineIndex++)
+				int count = ContentsIndex.Count;
+				for (int index = 0; index < count; index++)
 				{
-					restOfLine += splitLine[splitLineIndex] + " ";
+					Contents contentsAtIndex = ContentsIndex[index];
+					if (contentsAtIndex == null)
+					{
+						ContentsIndex.Remove(contentsAtIndex);
+					}
 				}
-				restOfLine.Trim();
-				int id = int.Parse(splitLine[0]);
-				Dialogue.Add(id, restOfLine);
 
-				if (id > Contents.uniqueIndex)
+				// Dialogue
+
+				xr.Read();
+				xr.Read();
+
+				if (xr.Name != "Connections")
 				{
-					Contents.uniqueIndex = id;
+					do
+					{
+						if (xr.NodeType == XmlNodeType.EndElement)
+						{
+							break;
+						}
+						xr.MoveToNextAttribute();
+						int id = int.Parse(xr.Value);
+						xr.MoveToNextAttribute();
+						Dialogue.Add(id, xr.Value);
+
+
+					} while(xr.Read());
+				}
+
+				// Connections
+				xr.Read();
+				xr.Read();
+				while (xr.Name != "Connections")
+				{
+					string currentEvent = xr.Name;
+
+					while (xr.Read())
+					{
+						if (xr.Name != "Connection")
+						{
+							if (xr.Name == currentEvent)
+							{
+								xr.Read();
+							}
+							break;
+						}
+
+						xr.MoveToNextAttribute();
+						int triggerID = int.Parse(xr.Value);
+						xr.MoveToNextAttribute();
+						int resultID = int.Parse(xr.Value);
+						xr.MoveToNextAttribute();
+						string resultType = xr.Value;
+						xr.MoveToNextAttribute();
+						string resultInformation = xr.Value;
+
+						EventHandler.IdentifierEventMapping[currentEvent].ConnectionList.Add(new Connection(triggerID, resultID, resultType, resultInformation));
+					}
 				}
 			}
-			sr.ReadLine();
-
-			for (splitLine = SplitNextLine(sr); splitLine[0] != "}"; splitLine = SplitNextLine(sr))
-			{
-				string currentEvent = splitLine[0];
-				for (splitLine = SplitNextLine(sr); splitLine[0] != "}"; splitLine = SplitNextLine(sr))
-				{
-					EventHandler.IdentifierEventMapping[currentEvent].ConnectionList.Add(new Connection(int.Parse(splitLine[0]), int.Parse(splitLine[1]), splitLine[2], string.Join(' ', splitLine, 3, splitLine.Length - 3)));
-				}
-			}
-
-			sr.Close();
+			fileStream.Close();
 		}
 
 		// This is a child function of the one above. It recursively gets all contents, since a contents can contain a contents. 
 		// This is the only reasonable way to get all contents (thus, the name)
-		private static List<Contents> GetAllContents(StreamReader sr)
+		private static List<Contents> GetAllContents(XmlReader xr)
 		{
-			sr.ReadLine();
 			List<Contents> contentsList = new List<Contents>();
-			for (string[] splitLine = SplitNextLine(sr); splitLine[0] != "}"; splitLine = SplitNextLine(sr))
+			if (!xr.HasAttributes)
 			{
-				if (splitLine[0] == "null")
+				contentsList.Add(null);
+				xr.Read();
+				return contentsList;
+			}
+			while (xr.Name == "Contents")
+			{
+				Contents contents = new Contents("", 0, ' ', true, 1, 1, 1f, UseActions.DoesNothing, new Action<Contents>[] { Behavior.DoesNothing });
+				xr.MoveToNextAttribute();
+				contents.Name = xr.Value;
+
+				xr.MoveToNextAttribute();
+				contents.ID = int.Parse(xr.Value);
+
+				xr.MoveToNextAttribute();
+				contents.VisualChar = xr.Value[0];
+
+				xr.MoveToNextAttribute();
+				contents.Transparent = bool.Parse(xr.Value);
+
+				xr.MoveToNextAttribute();
+				contents.Durability = int.Parse(xr.Value);
+
+				xr.MoveToNextAttribute();
+				contents.Size = int.Parse(xr.Value);
+				
+				xr.MoveToNextAttribute();
+				contents.Weight = float.Parse(xr.Value);
+				
+				xr.MoveToNextAttribute();
+				contents.Container = bool.Parse(xr.Value);
+				
+				xr.MoveToNextAttribute();
+				contents.ContainerSpace = int.Parse(xr.Value);
+				
+				xr.MoveToNextAttribute();
+				UseActions.TryGetAction(xr.Value, out Action<string[], Contents> action);
+				contents.UseAction = action;
+				
+				xr.MoveToNextAttribute();
+				Behavior.TryGetBehaviors(xr.Value.Split(','), out Action<Contents>[] behaviors);
+				contents.Behaviors = behaviors;
+
+				xr.Read();
+				if (xr.HasValue)
 				{
-					contentsList.Add(null);
-					continue;
+					contents.Contained = GetAllContents(xr);
 				}
-				int id = int.Parse(splitLine[1]);
-				if (id > Contents.uniqueIndex)
-				{
-					Contents.uniqueIndex = id;
-				}
-				bool isContainer = bool.Parse(splitLine[7]);
-				if (UseActions.TryGetAction(splitLine[9], out Action<string[], Contents> actionResult) && Behavior.TryGetBehaviors(splitLine[10].Split(","), out Action<Contents>[] behaviorResult))
-				{
-					contentsList.Add(new Contents(
-					name: splitLine[0],
-					id: id,
-					visualChar: splitLine[2][0],
-					transparent: bool.Parse(splitLine[3]),
-					durability: int.Parse(splitLine[4]),
-					size: int.Parse(splitLine[5]),
-					weight: float.Parse(splitLine[6]),
-					container: isContainer,
-					containerSpace: int.Parse(splitLine[8]),
-					useAction: actionResult,
-					behaviors: behaviorResult,
-					contained: (isContainer ? GetAllContents(sr) : null)
-					));
-					if (!isContainer)
-					{
-						sr.ReadLine();
-						sr.ReadLine();
-						sr.ReadLine();
-					}
-					List<string> contentTags = new List<string>();
-					sr.ReadLine();
-					for (splitLine = SplitNextLine(sr); splitLine[0] != "}"; splitLine = SplitNextLine(sr))
-					{
-						contentTags.Add(splitLine[0]);
-					}
-					contentsList[contentsList.Count - 1].Tags = contentTags.ToArray();
-				}
+
+				xr.Read();
+
+				xr.MoveToNextAttribute();
+				contents.Tags = xr.Value.Split(',');
+
+				xr.Read();
+				xr.Read();
+				contentsList.Add(contents);
 			}
 			return contentsList;
 		}
 
-		// Another child function of LoadFromFile. This one just splits the next line returned into an array delimited by spaces
-		// TODO: add custom string?
-		private static string[] SplitNextLine(StreamReader sr)
-		{
-			return sr.ReadLine().Split(" ");
-		}
-
 		// This saves the world map into a file
-		// WorldMap -> <worldFile>.txt
+		// WorldMap -> <worldFile>.xml
 		public static void SaveToFile(string filePath)
 		{
-			StreamWriter sw;
+			XmlWriter xw;
+			XmlWriterSettings xmlSettings = new XmlWriterSettings();
+
+			xmlSettings.Indent = true;
+			xmlSettings.NewLineOnAttributes = true;
+			xmlSettings.IndentChars = "\t";
+
 			try
 			{
-				sw = new StreamWriter(filePath);
+				xw = XmlWriter.Create(filePath, xmlSettings);
 			}
-			catch
+			catch (Exception e)
 			{
+				Output.WriteLineTagged(e.Message, Output.Tag.Error);
 				if (CommandInterpretation.AskYesNo("File path is invalid. Would you like to try again?"))
 				{
 					SaveToFile(CommandInterpretation.GetUserResponse("Enter file path"));
 				}
 				return;
 			}
+			Game.FilePath = filePath;
+
 			Level[,] levelMap = WorldMap.LevelMap;
-			sw.WriteLine("map " + WorldMap.Name + " {");
+			xw.WriteComment("RPG-Engine XML world file");
+			xw.WriteComment("Version No. " + Game.Version);
+			xw.WriteComment(" - - - - - - - - - - - - - - - - - - - - ");
+
+			xw.WriteWhitespace("\n\n");
+			xw.WriteStartElement("World");
+			xw.WriteStartElement("Map");
+			xw.WriteAttributeString("Name", WorldMap.Name);
 			for (int levelY = 0; levelY < levelMap.GetLength(1); levelY++)
 			{
-				sw.WriteLine("row " + levelY + " {");
+				xw.WriteStartElement("Row");
+				xw.WriteAttributeString("Number", levelY.ToString());
 				for (int levelX = 0; levelX < levelMap.GetLength(0); levelX++)
 				{
 					Level level = levelMap[levelX, levelY];
 					if (level == null)
 					{
-						sw.WriteLine("null");
+						xw.WriteStartElement("Level");
+						xw.WriteEndElement();
 						continue;
 					}
 					// v This is on one line
-					sw.WriteLine(
-						"level " + level.Name + " " + level.VisualChar + " " + (level.Equals(LoadedLevel)) +
-						" " + level.LevelCoord.X + "," + level.LevelCoord.Y +
-						" " + (level.NorthEntry == null ? "null" : (level.NorthEntry.X + "," + level.NorthEntry.Y)) +
-						" " + (level.EastEntry == null ? "null" : (level.EastEntry.X + "," + level.EastEntry.Y)) +
-						" " + (level.SouthEntry == null ? "null" : (level.SouthEntry.X + "," + level.SouthEntry.Y)) +
-						" " + (level.WestEntry == null ? "null" : (level.WestEntry.X + "," + level.WestEntry.Y)) +
-						" " + "grid {");
+					xw.WriteStartElement("Level");
+					
+					xw.WriteAttributeString("Name", level.Name);
+					xw.WriteAttributeString("VisualChar", level.VisualChar.ToString());
+					xw.WriteAttributeString("LoadedLevel", level.Equals(LoadedLevel).ToString());
+
+					xw.WriteStartElement("LevelCoord", null);
+
+					xw.WriteAttributeString("X", level.LevelCoord.X.ToString());
+					xw.WriteAttributeString("Y", level.LevelCoord.Y.ToString());
+
+					xw.WriteEndElement();
+					
+					#region entry points
+					xw.WriteStartElement("NorthEntry");
+
+					if (level.NorthEntry != null)
+					{
+						xw.WriteAttributeString("X", level.NorthEntry.X.ToString());
+						xw.WriteAttributeString("Y", level.NorthEntry.Y.ToString());
+					}
+
+					xw.WriteEndElement();
+					
+					xw.WriteStartElement("EastEntry");
+					if (level.EastEntry != null)
+					{
+						xw.WriteAttributeString("X", level.EastEntry.X.ToString());
+						xw.WriteAttributeString("Y", level.EastEntry.Y.ToString());
+					}
+					
+					xw.WriteEndElement();
+
+					xw.WriteStartElement("SouthEntry");
+					if (level.SouthEntry != null)
+					{
+						xw.WriteAttributeString("X", level.SouthEntry.X.ToString());
+						xw.WriteAttributeString("Y", level.SouthEntry.Y.ToString());
+					}
+					
+					xw.WriteEndElement();
+
+					xw.WriteStartElement("WestEntry");
+					if (level.WestEntry != null)
+					{
+						xw.WriteAttributeString("X", level.WestEntry.X.ToString());
+						xw.WriteAttributeString("Y", level.WestEntry.Y.ToString());
+					}
+					
+					xw.WriteEndElement();
+					#endregion
+
+					xw.WriteStartElement("Grid");
+
 					for (int y = 0; y < level.Grid.TileGrid.GetLength(1); y++)
 					{
-						sw.WriteLine("row " + y + " {");
+						xw.WriteStartElement("Row");
+						xw.WriteAttributeString("Number", y.ToString());
 						for (int x = 0; x < level.Grid.TileGrid.GetLength(0); x++)
 						{
 							Tile tileAtCoords = level.Grid.TileGrid[x, y];
-							sw.WriteLine("tile {");
+							xw.WriteStartElement("Tile");
 
-							sw.WriteLine("floor " + tileAtCoords.Floor.Name + " " + tileAtCoords.Floor.VisualChar);
-							sw.WriteLine("contents {");
-							ListAllContents(tileAtCoords.Contents, sw);
-							sw.WriteLine("}");
-							sw.WriteLine("coordinates " + x + " " + y);
+							xw.WriteStartElement("TileCoords");
 
-							sw.WriteLine("}");
+							xw.WriteAttributeString("X", x.ToString());
+							xw.WriteAttributeString("Y", y.ToString());
+							
+							xw.WriteEndElement();
+
+							xw.WriteStartElement("Floor");
+
+							xw.WriteAttributeString("Name", tileAtCoords.Floor.Name);
+							xw.WriteAttributeString("VisualChar", tileAtCoords.Floor.VisualChar.ToString());
+
+							xw.WriteEndElement();
+							
+							ListAllContents(tileAtCoords.Contents, xw);
+
+							xw.WriteEndElement();
+
 						}
-						sw.WriteLine("}");
+						xw.WriteEndElement();
 					}
-					sw.WriteLine("}");
+					xw.WriteEndElement();
+					xw.WriteEndElement();
 				}
-				sw.WriteLine("}");
+				xw.WriteEndElement();
 			}
-			sw.WriteLine("}");
+			xw.WriteEndElement();
 
-			sw.WriteLine("player {");
-			sw.WriteLine(Player.Contents.Coordinates.X + " " + Player.Contents.Coordinates.Y);
-			sw.WriteLine("holding {");
-			ListAllContents(Player.Holding, sw);
-			sw.WriteLine("}");
-			sw.WriteLine(Player.Strength);
-			sw.WriteLine("}");
+			xw.WriteStartElement("Player");
 
-			sw.WriteLine("Tile index {");
+			xw.WriteAttributeString("Strength", Player.Strength.ToString());
+
+			xw.WriteStartElement("Coordinates");
+
+			xw.WriteAttributeString("X", Player.Contents.Coordinates.X.ToString());
+			xw.WriteAttributeString("Y", Player.Contents.Coordinates.Y.ToString());
+
+			xw.WriteEndElement();
+
+			xw.WriteStartElement("Holding");
+
+			ListAllContents(Player.Holding, xw);
+
+			xw.WriteEndElement();
+
+			xw.WriteEndElement();
+
+			xw.WriteStartElement("TileIndex");
 
 			foreach (Contents contents in ContentsIndex)
 			{
+				if (contents == null)
+				{
+					continue;
+				}
 				contents.Container = false;
-				ListAllContents(contents, sw);
+				ListAllContents(contents, xw);
 			}
 
-			sw.WriteLine("}");
+			xw.WriteEndElement();
 
-			sw.WriteLine("Dialogue {");
+			xw.WriteStartElement("Dialogue");
 
 			foreach (int key in Dialogue.Keys)
 			{
-				sw.WriteLine(key + " " + Dialogue[key]);
+				xw.WriteStartElement("Line");
+
+				xw.WriteAttributeString("ID", key.ToString());
+				xw.WriteAttributeString("Dialogue", Dialogue[key]);
+
+				xw.WriteEndElement();
 			}
 
-			sw.WriteLine("}");
+			xw.WriteEndElement();
 
-			sw.WriteLine("Connections {");
+			xw.WriteStartElement("Connections");
 
 			foreach (string key in EventHandler.IdentifierEventMapping.Keys)
 			{
-				sw.WriteLine(key + " {");
+				xw.WriteStartElement(key);
 
 				foreach (Connection connection in EventHandler.IdentifierEventMapping[key].ConnectionList)
 				{
-					sw.WriteLine(connection.TriggerContentsID + " " + connection.ResultContentsID + " " + connection.ResultType + " " + connection.ResultInformation);
+					xw.WriteStartElement("Connection");
+					xw.WriteAttributeString("TriggerContentsID", connection.TriggerContentsID.ToString());
+					xw.WriteAttributeString("ResultContentsID", connection.ResultContentsID.ToString());
+					xw.WriteAttributeString("ResultType", connection.ResultType);
+					xw.WriteAttributeString("ResultInformation", connection.ResultInformation);
+					xw.WriteEndElement();
 				}
 
-				sw.WriteLine("}");
+				xw.WriteEndElement();
 			}
 
-			sw.WriteLine("}");
+			xw.WriteEndElement();
 
-			sw.Close();
+			xw.Close();
+
 			Output.WriteLineToConsole("World file saved successfully as " + Game.FilePath);
+			
 		}
 
 		// This is a child function of the one above. It does the inverse of GetAllContents
-		private static void ListAllContents(Contents contentsAtCoords, StreamWriter sw)
+		private static void ListAllContents(Contents contents, XmlWriter xw)
 		{
-			if (contentsAtCoords == null)
+			xw.WriteStartElement("Contents");
+			if (contents == null)
 			{
-				sw.WriteLine("null");
+				xw.WriteEndElement();
 				return;
 			}
-			sw.Write(contentsAtCoords.Name + " " + contentsAtCoords.ID + " " + contentsAtCoords.VisualChar + " " + contentsAtCoords.Transparent + " " + contentsAtCoords.Durability + " " + contentsAtCoords.Size + " " + contentsAtCoords.Weight + " ");
-			sw.Write(contentsAtCoords.Container + " " + contentsAtCoords.ContainerSpace + " ");
-			if (UseActions.TryGetIdentifier(contentsAtCoords.UseAction, out string actionResult) && Behavior.TryGetIdentifiers(contentsAtCoords.Behaviors, out string behaviorResult))
+
+			xw.WriteAttributeString("Name", contents.Name);
+			xw.WriteAttributeString("ID", contents.ID.ToString());
+			xw.WriteAttributeString("VisualChar", contents.VisualChar.ToString());
+			xw.WriteAttributeString("Transparent", contents.Transparent.ToString());
+			xw.WriteAttributeString("Durability", contents.Durability.ToString());
+			xw.WriteAttributeString("Size", contents.Size.ToString());
+			xw.WriteAttributeString("Weight", contents.Weight.ToString());
+			xw.WriteAttributeString("Container", contents.Container.ToString());
+			xw.WriteAttributeString("ContainerSpace", contents.ContainerSpace.ToString());
+
+
+			if (UseActions.TryGetIdentifier(contents.UseAction, out string actionResult) && Behavior.TryGetIdentifiers(contents.Behaviors, out string behaviorResult))
 			{
-				sw.Write(actionResult + " ");
-				sw.WriteLine(behaviorResult);
+				xw.WriteAttributeString("UseAction", actionResult);
+				xw.WriteAttributeString("Behavior", behaviorResult);
 			}
-			sw.WriteLine("contained {");
-			if (!contentsAtCoords.Container)
+			xw.WriteStartElement("Contained");
+			if (contents.Container)
 			{
-				sw.WriteLine("null");
-			}
-			else
-			{
-				foreach (Contents contained in contentsAtCoords.Contained)
+				foreach (Contents contained in contents.Contained)
 				{
-					ListAllContents(contained, sw);
+					ListAllContents(contained, xw);
 				}
 			}
-			sw.WriteLine("}");
-			sw.WriteLine("tags {");
-			foreach (string tag in contentsAtCoords.Tags)
-			{
-				sw.WriteLine(tag);
-			}
-			sw.WriteLine("}");
+			xw.WriteEndElement();
+			xw.WriteStartElement("Tags");
+
+			xw.WriteAttributeString("Tags", string.Join(',', contents.Tags));
+
+			xw.WriteEndElement();
+			xw.WriteEndElement();
 		}
 
 		// This runs through and updates every Tile *AND* runs its behavior
