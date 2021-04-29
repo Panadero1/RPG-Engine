@@ -699,7 +699,6 @@ namespace GameEngine
 						xw.WriteEndElement();
 						continue;
 					}
-					// v This is on one line
 					xw.WriteStartElement("Level");
 					
 					xw.WriteAttributeString("Name", level.Name);
