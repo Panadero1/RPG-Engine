@@ -1,3 +1,52 @@
+#RPG-Engine
+
+## Welcome
+
+Hello and welcome to the official RPG-Engine website
+
+If you don't already know, RPG-Engine is a text-based, console-run RPG engine with a working level editor
+
+It's also open source! [(check it out)](https://github.com/Panadero1/RPG-Engine)
+
+## Download
+
+Want to skip past everything and just get to the game?
+
+Here's a link to the [releases](https://github.com/Panadero1/RPG-Engine/releases). Just download the .zip of the latest version
+
+**Warning** RPG-Engine is still pre-release and has a few major bugs remaining.
+
+## About RPG-Engine
+
+This engine runs solely through the console, but still carries a lot of capabilities
+
+- Tutorial level built into the game
+- High versatility of game style depending on the world file
+- Level editor with pseudo-programming abilities [More info here](https://github.com/Panadero1/RPG-Engine/wiki/Level-Editor-Tutorial#connections)
+- Modability
+- Ease of sharing
+
+## What does it look like?
+
+All graphics are displayed through the console in a tile-based system. Here is an example from an upcoming demo world
+
+```Example1
+
++ - - - - - - - - - - - - - - - - - - - - - +
+| # # # # # # # # # # # # # # # # # # # ~ ~ |
+| # . . . . . . . . . . B B B + . . . # ~ ~ |
+| # . . . . . . . . . . . B B + . . . . o ~ |
+| # . . . . . . . . . . . . . + . . . . # ~ |
+| . . . . . . . . . . . . . . + . A . . o ~ |
+| # . . . . . . . . . . . . . + . . . . o ~ |
+| # . . . . . . . . . . . . . + . . . . # ~ |
+| # . . . . . . . . . . . . . + . . . . o ~ |
+| # . . . . . . . . . . . . . + . . . # ~ ~ |
+| # # # # # # # # # # # # # # # # # # # ~ ~ |
++ - - - - - - - - - - - - - - - - - - - - - +
+
+```
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/Panadero1/RPG-Engine/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
