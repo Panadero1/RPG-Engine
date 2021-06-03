@@ -112,7 +112,7 @@ namespace GameEngine
 							{
 								(Tile)Empty.Clone(),
 								(Tile)Empty.Clone(),
-								new Tile(Ground, Player.Contents, _zeroZero),
+								new Tile(Ground, (Contents)Player.Contents.Clone(), _zeroZero),
 								(Tile)Empty.Clone(),
 								(Tile)Empty.Clone(),
 								(Tile)Empty.Clone(),

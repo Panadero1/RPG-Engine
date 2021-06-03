@@ -134,13 +134,15 @@ namespace GameEngine
 			World.WorldMap = World.TutorialLevel;
 			World.LoadedLevel = World.WorldMap.LevelMap[0, 0];
 
+			World.Player.Contents = World.LoadedLevel.Grid.TileGrid[2, 2].Contents;
+
 			int index = 0;
 
 			WriteNextLine(lines, ref index);
 
 			for (Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString()); Execute; Output.WriteLineToConsole(World.LoadedLevel.Grid.GraphicString()))
 			{
-				Output.WriteLineTagged("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name), Output.Tag.World);
+				Output.WriteLineTagged("Holding: " + (World.Player.Holding == null ? "Nothing" : World.Player.Holding.Name + " | Health: " + World.Player.Contents.Durability), Output.Tag.World);
 				TutorialProgression(lines, ref index);
 
 				if (Com.EvaluateCommand(CommandInterpretation.GetUserResponse("Enter command:")))
