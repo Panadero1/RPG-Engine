@@ -67,6 +67,7 @@ namespace GameEngine
 			World.ContentsIndex = new List<Contents>();
 
 			Event.currentCallCount = 0;
+			Contents.uniqueIndex = 1;
 		}
 
 		// Gamemode-specific functions
@@ -78,9 +79,6 @@ namespace GameEngine
 			{
 				return;
 			}
-
-			// v This is for testing and designing worlds ONLY IMPLEMENTED FOR PRE-LEVEL EDITOR PURPOSES... if this is still around and the level editor exits, it means I forgot to remove it
-			//World.SaveToFile(_filePath);
 
 			Output.WriteLineToConsole("Type \"exit\" at any time to close the game");
 			Output.WriteLineToConsole("Type \"help\" to view a list of commands");
@@ -234,7 +232,7 @@ namespace GameEngine
 		{
 			Editor.Brush = null;
 			Editor.EditorState = Editor.State.Map;
-			if (CommandInterpretation.InterpretString(CommandInterpretation.GetUserResponse("Would you like to make a \"new\" file or would you like to \"load\" one?"), new string[] { "new", "load" }, out string result))
+			if (CommandInterpretation.InterpretString(new string[] { "new", "load" }, out string result))
 			{
 				Com.EvaluateCommand(result);
 			}

@@ -159,7 +159,7 @@ namespace GameEngine
 								(Tile)Lever.Clone(),
 								new Tile(Ground, new Contents(
 									"chest",
-									Contents.UniqueID(),
+									1,
 									'C',
 									true,
 									10,
@@ -169,9 +169,9 @@ namespace GameEngine
 									100,
 									new List<Contents>()
 									{
-										new Contents("coin", Contents.UniqueID(), 'c', true, 3, 1, 1, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}),
-										new Contents("coin", Contents.UniqueID(), 'c', true, 3, 1, 1, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}),
-										new Contents("coin", Contents.UniqueID(), 'c', true, 3, 1, 1, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing})
+										new Contents("coin", 2, 'c', true, 3, 1, 1, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}),
+										new Contents("coin", 3, 'c', true, 3, 1, 1, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing}),
+										new Contents("coin", 4, 'c', true, 3, 1, 1, UseActions.DoesNothing, new Action<Contents>[] {Behavior.DoesNothing})
 									},
 									UseActions.DoesNothing,
 									new Action<Contents>[] {Behavior.DoesNothing}), _zeroZero),
@@ -385,7 +385,6 @@ namespace GameEngine
 							// Y
 							xr.MoveToNextAttribute();
 							level.NorthEntry.Y = int.Parse(xr.Value);
-							xr.Read();
 						}
 
 						// EastEntry
@@ -399,7 +398,6 @@ namespace GameEngine
 							// Y
 							xr.MoveToNextAttribute();
 							level.EastEntry.Y = int.Parse(xr.Value);
-							xr.Read();
 						}
 
 						// SouthEntry
@@ -413,7 +411,6 @@ namespace GameEngine
 							// Y
 							xr.MoveToNextAttribute();
 							level.SouthEntry.Y = int.Parse(xr.Value);
-							xr.Read();
 						}
 
 						// WestEntry
@@ -427,11 +424,11 @@ namespace GameEngine
 							// Y
 							xr.MoveToNextAttribute();
 							level.WestEntry.Y = int.Parse(xr.Value);
-							xr.Read();
 						}
 						#endregion
 
 						// Grid
+						xr.Read();
 
 						List<Tile[]> tileGrid = new List<Tile[]>();
 						// each row of tiles within the given level v
@@ -599,6 +596,10 @@ namespace GameEngine
 
 				xr.MoveToNextAttribute();
 				contents.ID = int.Parse(xr.Value);
+				if (contents.ID > Contents.uniqueIndex)
+				{
+					Contents.uniqueIndex = contents.ID;
+				}
 
 				xr.MoveToNextAttribute();
 				contents.VisualChar = xr.Value[0];

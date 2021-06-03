@@ -177,7 +177,7 @@ namespace GameEngine
 		{
 			result = null;
 			List<string> results = new List<string>();
-			if (AskYesNo("Would you like to choose none of them?"))
+			if (!AskYesNo("Would you like to choose any of these?"))
 			{
 				return true;
 			}
