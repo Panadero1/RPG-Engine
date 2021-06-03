@@ -32,55 +32,64 @@ All graphics are displayed through the console in a tile-based system. Here is a
 
 ```Example1
 
-+ - - - - - - - - - - - - - - - - - - - - - +
-| # # # # # # # # # # # # # # # # # # # ~ ~ |
-| # . . . . . . . . . . B B B + . . . # ~ ~ |
-| # . . . . . . . . . . . B B + . . . . o ~ |
-| # . . . . . . . . . . . . . + . . . . # ~ |
-| . . . . . . . . . . . . . . + . A . . o ~ |
-| # . . . . . . . . . . . . . + . . . . o ~ |
-| # . . . . . . . . . . . . . + . . . . # ~ |
-| # . . . . . . . . . . . . . + . . . . o ~ |
-| # . . . . . . . . . . . . . + . . . # ~ ~ |
-| # # # # # # # # # # # # # # # # # # # ~ ~ |
-+ - - - - - - - - - - - - - - - - - - - - - +
+    A                   B
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8
+  +-------------------^-------------------+
+A0|         # # # # # # # # # #         ~ |
+ 1| # . . . . . . B B B + . . . #     ~ ~ |
+ 2| # . . . . . . . B B + . . . . # ~     |
+ 3| # . . . . . . . . . + . . . . O       |
+ 4| # . . . . . . . . . + . . . . #       |
+ 5< . . . . . . . . . . + . . A . #       |
+ 6| # . . . . . . . . . + . . . . O ~     |
+ 7| # . . . . . . . . . + . . . . # ~ ~ ~ |
+ 8| # . . . . . . . . . + . . . # #     ~ |
+ 9|             # # # # # # # #           |
+  +---------------------------------------+
 
 ```
 
-## Welcome to GitHub Pages
+This doesn't look like much, but you gather more information from your surroundings.
 
-You can use the [editor on GitHub](https://github.com/Panadero1/RPG-Engine/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+For example, looking at one of the '#' tiles, you will see that it represents a wall.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+The 'A' will typically represent the position of the player
 
-### Markdown
+All these tiles are saved onto a legend that can be recalled at any time
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+You can also interact with, use, and pick up the contents of some specific tiles
 
-```markdown
-Syntax highlighted code block
+You can move around using the 'move' command
 
-# Header 1
-## Header 2
-### Header 3
+##### "This is great and all, but that's a pretty small game"
 
-- Bulleted
-- List
+Sure, but this is just one level here
 
-1. Numbered
-2. List
+Moving off the left edge here will load into the next level on the map
 
-**Bold** and _Italic_ and `Code` text
+```Example2
 
-[Link](url) and ![Image](src)
+Level
+    A
+    0 1 2 3 4 5 6
+  +-------^-------+
+A0| # # # . # # # |
+ 1| # . . . . . # |
+ 2| # . . . . . # |
+ 3| # . . . . . # |
+ 4| # . . . . . # |
+ 5| # . . A . . . >
+ 6| # . . . . . # |
+ 7| # . . . . . # |
+ 8| # & & & & & # |
+ 9|               |
+  +---------------+
+
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+You can move back to the previous room or explore further northward (as shown by the arrows on the edges of the level)
 
-### Jekyll Themes
+This is how the gameplay of this engine usually takes place
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Panadero1/RPG-Engine/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+###### There are many more features apart from moving, including interaction, inventory management, and many other things, but I won't show it here.
+Download it and play around!
