@@ -95,4 +95,5 @@ The best way to know how it works is to download it and play around!
 # Help
 
 [Documentation](https://github.com/Panadero1/RPG-Engine/wiki)
+
 [Discord server](https://discord.com/invite/ah7TKgQQ5J)
