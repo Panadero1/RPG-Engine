@@ -89,5 +89,10 @@ You can move back to the previous room or explore further northward (as shown by
 
 This is how the gameplay of this engine usually takes place
 
-###### There are many more features apart from moving, including interaction, inventory management, and many other things, but I won't show it here.
+##### There are many more features apart from moving, including interaction, inventory management, and many other things, but I won't show it here.
 The best way to know how it works is to download it and play around!
+
+# Help
+
+[Documentation](https://github.com/Panadero1/RPG-Engine/wiki)
+[Discord server](https://discord.com/invite/ah7TKgQQ5J)
