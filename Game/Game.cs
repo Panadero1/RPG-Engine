@@ -11,7 +11,7 @@ namespace GameEngine
 		public static bool Execute = true;
 		public static string FilePath;
 
-		public const string Version = "v0.6.3";
+		public const string Version = "v0.6.4";
 
 		public static Dictionary<string, (Action action, CommandChoices commands)> GameModes = new Dictionary<string, (Action, CommandChoices)>() 
 		{

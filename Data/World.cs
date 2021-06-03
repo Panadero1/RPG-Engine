@@ -432,7 +432,6 @@ namespace GameEngine
 						#endregion
 
 						// Grid
-						xr.Read();
 
 						List<Tile[]> tileGrid = new List<Tile[]>();
 						// each row of tiles within the given level v
@@ -515,7 +514,6 @@ namespace GameEngine
 				// TileIndex
 				xr.Read();
 				xr.Read();
-				xr.Read();
 				ContentsIndex = GetAllContents(xr);
 
 				int count = ContentsIndex.Count;
@@ -530,7 +528,6 @@ namespace GameEngine
 
 				// Dialogue
 
-				xr.Read();
 				xr.Read();
 
 				if (xr.Name != "Connections")
@@ -552,8 +549,7 @@ namespace GameEngine
 
 				// Connections
 				xr.Read();
-				xr.Read();
-				while (xr.Name != "Connections")
+				while (xr.NodeType != XmlNodeType.EndElement)
 				{
 					string currentEvent = xr.Name;
 
