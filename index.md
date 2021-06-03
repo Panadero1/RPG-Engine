@@ -59,8 +59,6 @@ All these tiles are saved onto a legend that can be recalled at any time
 
 You can also interact with, use, and pick up the contents of some specific tiles
 
-You can move around using the 'move' command
-
 ##### "This is great and all, but that's a pretty small game"
 
 Sure, but this is just one level here
@@ -92,4 +90,4 @@ You can move back to the previous room or explore further northward (as shown by
 This is how the gameplay of this engine usually takes place
 
 ###### There are many more features apart from moving, including interaction, inventory management, and many other things, but I won't show it here.
-Download it and play around!
+The best way to know how it works is to download it and play around!
