@@ -97,3 +97,11 @@ The best way to know how it works is to download it and play around!
 [Documentation](https://github.com/Panadero1/RPG-Engine/wiki)
 
 [Discord server](https://discord.com/invite/ah7TKgQQ5J)
+
+# Contact
+
+If you have any suggestions or bugs, put them in the discord server or post them here on the [Issues](https://github.com/Panadero1/RPG-Engine/issues) page
+
+For business-related inquiries:
+
+[Email](mailto:jacob.anderson.wa.us@gmail.com)
